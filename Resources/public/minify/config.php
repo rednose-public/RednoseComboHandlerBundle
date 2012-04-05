@@ -24,6 +24,7 @@ if (isset($_GET['f']) && isset($_GET['base'])) {
     $_GET['debug'] = '1';
     $_GET['f'] = substr($_GET['f'], 0, -1);
 }
+
 // patch end
 
 /**

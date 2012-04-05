@@ -82,6 +82,7 @@ function _parseContent(content, normalize) {
     if (typeof(headRegEx[1]) == 'string') {
         head.setContent(headRegEx[1]);
         
+        content = content.replace(/<head>([\s\S]*?)<\/head>/, '');
         inject = (head.get('innerHTML'));
     }
 

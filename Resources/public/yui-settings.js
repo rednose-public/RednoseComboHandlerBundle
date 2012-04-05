@@ -1,4 +1,3 @@
-
 var yuiPublicPath = {
     getPath: function(yui) {
         var fileName = 'yui-settings';
@@ -49,10 +48,10 @@ YUI_config = {
     },
     
     groups: {
-        /*yui2: {
+        yui2: {
             base: '',
             combine: true,
-            comboBase: 'bundles/libbityui/minify/?base=/js/vendor/yui2/&f[]=',
+            comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=/yui2in3/&f[]=',
             root: '',
             patterns: {
                 "yui2-": {
@@ -64,7 +63,7 @@ YUI_config = {
                     }
                 }
             }
-        },*/
+        },
         
         gallery: {
             base: '',
@@ -85,7 +84,9 @@ YUI_config = {
 if (typeof(libbitYuiRequired) != 'undefined') {
     YUI(YUI_config).use(libbitYuiRequired, function(Y) {
         Y.on("domready", function() {
-            libbitYuiInit(Y);
+            document.Y = Y;
+            
+            libbitYuiInit(document.Y);
         });
     });
 }
