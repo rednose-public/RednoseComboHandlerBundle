@@ -41,7 +41,7 @@ var yuiPublicPath = {
 YUI_config = {
     debug: false,
     combine: true,
-    comboBase: yuiPublicPath.getPath() + '/minify/?base=' + yuiPublicPath.getPathYui() + '/&f[]=',
+    comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=' + yuiPublicPath.getPathYui() + '/&f[]=',
     root: '',
     filter: { 
 	        'searchExp': "s&",
@@ -69,7 +69,7 @@ YUI_config = {
         gallery: {
             base: '',
             combine: true,
-            comboBase: yuiPublicPath.getPath() + '/minify/?base=/js/vendor/lib/&f[]=',
+            comboBase: yuiPublicPath.getPath() + '/minify/?base=/gallery/&f[]=',
             root: '',
             patterns: {
                 "gallery-": {

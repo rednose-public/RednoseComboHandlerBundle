@@ -230,8 +230,15 @@ class Minify_CSS_UriRewriter {
                 break;
             }
         }
+        
         // strip doc root
-        $path = substr($path, strlen($realDocRoot));
+        
+        if (!isset($_GET['public'])) {
+            $_GET['public'] = '';
+        }
+        
+        $pathReplace = substr($path, 0, strrpos($path, $_GET['base']));
+        $path = $_GET['public'] . str_replace($pathReplace, '', $path);
         
         self::$debugText .= "docroot stripped   : {$path}\n";
         
@@ -241,6 +248,7 @@ class Minify_CSS_UriRewriter {
 
         // remove /./ and /../ where possible
         $uri = str_replace('/./', '/', $uri);
+        
         // inspired by patch from Oleg Cherniy
         do {
             $uri = preg_replace('@/[^/]+/\\.\\./@', '/', $uri, 1, $changed);
