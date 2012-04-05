@@ -72,8 +72,15 @@ YUI_config = {
             root: '',
             patterns: {
                 "gallery-": {
-                    configFn: function(me) {
-                        me.path = me.name + '/js/' + me.name + '.js'
+                    configFn: function(me) {                                                
+                        if(/-skin/.test(me.name)) {
+                            me.name = me.name.replace('-skin', '');
+                            me.path = me.name + '/assets/' + me.name + '.js'
+                            me.type = 'css';
+                            me.path = me.path.replace(/\.js/, '.css');
+                        } else {
+                            me.path = me.name + '/js/' + me.name + '.js'
+                        }
                     }
                 }
             }
