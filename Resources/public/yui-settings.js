@@ -68,7 +68,7 @@ YUI_config = {
         gallery: {
             base: '',
             combine: true,
-            comboBase: yuiPublicPath.getPath() + '/minify/?base=/gallery/&f[]=',
+            comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=/gallery/&f[]=',
             root: '',
             patterns: {
                 "gallery-": {

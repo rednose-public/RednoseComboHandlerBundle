@@ -1,0 +1,80 @@
+.dialog_message {
+    padding: 25px 25px 25px 75px;
+}
+
+.dialog_error {
+}
+
+.dialog_path {
+    padding-top: 4px;
+    font-size: 8pt;
+    float: right;
+}
+
+.dialog_message_icon {
+    float: left;
+
+    margin-top: 10px;
+    margin-left: 20px;
+
+    height: 48px;
+    width: 48px;
+
+    background-image: url('info.png');
+}
+
+.dialog_warning_icon {
+    float: left;
+
+    margin-top: 10px;
+    margin-left: 20px;
+
+    height: 48px;
+    width: 48px;
+
+    background-image: url('warning.png');
+}
+
+
+.dialog_error_icon {
+    float: left;
+
+    margin-top: 10px;
+    margin-left: 20px;
+
+    height: 48px;
+    width: 48px;
+
+    background-image: url('error.png');
+}
+
+.dialog_prompt_icon, .dialog_confirm_icon {
+    float: left;
+
+    margin-top: 10px;
+    margin-left: 20px;
+
+    height: 48px;
+    width: 48px;
+
+    background-image: url('question.png');
+}
+
+.dialog_message > fieldset > legend {
+    width: 100%;
+    text-align: left;
+    padding-left: 40px;
+    padding-bottom: 18px;
+}
+
+.dialog_message > fieldset > label {
+    float: left;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+.dialog_message > fieldset > input {
+    float: left;
+    width: 80%;
+    margin-left: 40px;
+}
