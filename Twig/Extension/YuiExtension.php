@@ -33,7 +33,7 @@ class YuiExtension extends \Twig_Extension
         $controller = $this->getRoute();
         $controllerObject = new $controller;
         $controllerAction = $this->getRoute(true);
-                
+        
         $controller = substr($controller, strrpos($controller, "\\") + 1);
         
         if ($yuiLoader) {
@@ -44,7 +44,7 @@ class YuiExtension extends \Twig_Extension
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower('LibbitYuiBundle'));
             
             $href[] = $publicPath . '/yui' . $version . '/yui/yui-min.js';
-            $href[] = $publicPath . '/yui-settings.js?path=' . $publicPath;
+            $href[] = $publicPath . '/yui-settings.js?locale=' . $this->container->get('session')->getLocale();
         }
         
         $href[] = $this->request->getBaseUrl() . '/javascript/' . $controller . '.js?section=' . $controllerAction;

@@ -1,16 +1,20 @@
 var yuiPublicPath = {
-    getPath: function(yui) {
+    getPath: function(yui, element) {
         var fileName = 'yui-settings';
         var path = '';
 
         if (yui) {
-            fileName = '/yui/yui'; 
-        }        
+            fileName = '/yui/yui';
+        }
 
         var scriptElement = document.getElementsByTagName('script');
         
         for (var offset = 0; offset < scriptElement.length; offset++) {
             if (scriptElement[offset].src.indexOf(fileName) > -1) {
+                
+                if (element != null) {
+                    return scriptElement[offset];
+                }
                 
                 path = scriptElement[offset].src.substring(
                     0,
@@ -33,8 +37,16 @@ var yuiPublicPath = {
     
     getPathYui: function() {
         return yuiPublicPath.getPath(true).replace(yuiPublicPath.getPath(), '/');
-    }
+    },
     
+    getLocale: function() {
+        var element = yuiPublicPath.getPath(false, true);
+        var locale = element.src;
+        
+        locale = locale.substring(locale.indexOf('locale=') + 'locale='.length);
+        
+        return locale;
+    }
 }
 
 YUI_config = {
@@ -42,7 +54,8 @@ YUI_config = {
     combine: true,
     comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=' + yuiPublicPath.getPathYui() + '/&f[]=',
     root: '',
-    filter: { 
+    lang: yuiPublicPath.getLocale(),
+    filter: {
 	        'searchExp': "s&",
 	        'replaceStr': "s&f[]="
     },
@@ -72,7 +85,7 @@ YUI_config = {
             root: '',
             patterns: {
                 "gallery-": {
-                    configFn: function(me) {                                                
+                    configFn: function(me) {
                         if(/-skin/.test(me.name)) {
                             me.name = me.name.replace('-skin', '');
                             me.path = me.name + '/assets/' + me.name + '.js'
