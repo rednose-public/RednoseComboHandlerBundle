@@ -85,7 +85,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
          * @param string title (dialog title)
          * @param integer height
          * @param integer width
-         * @param string content (innerHTML, or null)
+         * @param mixed content (innerHTML, node, or null)
          * @param string uri (remote uri to load utilizing the gallary-dispatcher)
          * @param object buttons ([{title: 'name', callback: function(panel, node), callbackClose: true} , {...}])
          */
@@ -97,6 +97,8 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             
             if (typeof(content) == 'string') {
                 dialogNode.set('innerHTML', content);
+            } else if (typeof(content) == 'object') {
+                dialogNode.append(content);
             } else if (typeof(uri) == 'string') {
                 var dialogDispatcher = Y.Node.create('<div>Loading...</div>');
                 
