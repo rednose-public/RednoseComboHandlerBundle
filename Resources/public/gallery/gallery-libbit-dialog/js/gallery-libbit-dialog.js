@@ -97,7 +97,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             
             if (typeof(content) == 'string') {
                 dialogNode.set('innerHTML', content);
-            } else if (typeof(content) == 'object') {
+            } else if (typeof(content) == 'object' && content !== null) {
                 dialogNode.append(content);
             } else if (typeof(uri) == 'string') {
                 var dialogDispatcher = Y.Node.create('<div>Loading...</div>');
