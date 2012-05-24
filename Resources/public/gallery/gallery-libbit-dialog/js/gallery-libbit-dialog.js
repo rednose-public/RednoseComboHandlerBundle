@@ -6,13 +6,17 @@ YUI.add('gallery-libbit-dialog', function(Y) {
         callbackCancel: null,
         wHandleCollection: [],
         
-        Message: function(message, warningMode, callback) {
+        Message: function(message, warningMode, callback, headerTitle) {
             if (typeof warningMode == 'undefined') { warningMode = false; }
             if (typeof callback == 'undefined') { callback = function() {} }
             
             this.callback = callback;
             
-            this.Panel('message', message);
+            if (headerTitle == null) {
+                headerTitle = 'Message';
+            }
+            
+            this.Panel('message', message, headerTitle);
             
             if (warningMode == true) {
                 this.Panel.MessageNode
@@ -22,7 +26,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             }
         },
         
-        Prompt: function(title, fieldName, initialValue, callback, callbackCancel)
+        Prompt: function(title, fieldName, initialValue, callback, callbackCancel, headerTitle)
         {
             if (typeof callback == 'undefined') { callback = function() {} }
             if (typeof callbackCancel == 'undefined') { callbackCancel = function() { } }
@@ -30,7 +34,11 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             this.callback = callback;
             this.callbackCancel = callbackCancel;
             
-            this.Panel('prompt', '...');
+            if (headerTitle == null) {
+                headerTitle = 'Question';
+            }
+            
+            this.Panel('prompt', '...', headerTitle);
             
             this.Panel.MessageNode.set(
                 'innerHTML',
@@ -64,10 +72,10 @@ YUI.add('gallery-libbit-dialog', function(Y) {
                 '<div class="dialog_error">' + err.message + '</div>' +
                 '<div class="dialog_path">Source: ' + err.path + '</div>'
             
-            this.Panel('error', errHTML);
+            this.Panel('error', errHTML, 'Error');
         },
         
-        Confirm: function(message, callback, callbackCancel)
+        Confirm: function(message, callback, callbackCancel, headerTitle)
         {
             if (typeof callback == 'undefined') { callback = function() {} }
             if (typeof callbackCancel == 'undefined') { callbackCancel = function() { } }
@@ -75,7 +83,11 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             this.callback = callback;
             this.callbackCancel = callbackCancel;
             
-            this.Panel('confirm', message);
+            if (headerTitle == null) {
+                headerTitle = 'Question'
+            }
+            
+            this.Panel('confirm', message, headerTitle);
         },
         
         /**
@@ -177,7 +189,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             });
         },
         
-        Panel: function(type, message)
+        Panel: function(type, message, headerTitle)
         {
             var messageNode = Y.Node.create('<div class="dialogMessage" />');
             
@@ -188,7 +200,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
 
             this.Panel.panelObject = new Y.Panel({
                 srcNode: messageNode,
-                headerContent: 'Message',
+                headerContent: headerTitle,
                 zIndex: Y.all('*').size(),
                 width: 490, centered: true, modal: true, visible: false, render: true,
             });
