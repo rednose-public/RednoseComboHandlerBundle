@@ -2,8 +2,8 @@
 
 namespace Libbit\YuiBundle\Twig\Extension;
 
-use Libbit\RologenBundle\Exception\Exception;
 use Symfony\Bundle\AsseticBundle\Templating\AsseticHelper;
+use Libbit\YuiBundle\Exception\Exception;
 
 class YuiExtension extends \Twig_Extension
 {
