@@ -39,7 +39,7 @@ class YuiExtension extends \Twig_Extension
         if ($yuiLoader) {
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower($bundle));
             
-            $href[] = $publicPath . '/js/yui.js?section=' . $controllerAction;
+            $href[] = $publicPath . '/js/yui.js?path=' . strtolower(str_replace('Controller', '', $controller)) . '-' . $controllerAction;
 
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower('LibbitYuiBundle'));
 
