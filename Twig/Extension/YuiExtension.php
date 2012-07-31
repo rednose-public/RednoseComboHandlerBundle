@@ -2,7 +2,6 @@
 
 namespace Libbit\YuiBundle\Twig\Extension;
 
-use Symfony\Bundle\AsseticBundle\Templating\AsseticHelper;
 use Libbit\YuiBundle\Exception\Exception;
 
 class YuiExtension extends \Twig_Extension
@@ -15,7 +14,7 @@ class YuiExtension extends \Twig_Extension
     {
         $this->container = $container;
     }
-    
+
     public function getFunctions()
     {
         return array(
@@ -30,15 +29,14 @@ class YuiExtension extends \Twig_Extension
 
         $this->request = $this->container->get('request');
 
-        $controller = $this->getRoute();
-        $controllerObject = new $controller;
+        $controllerRoute = $this->getRoute();
         $controllerAction = $this->getRoute(true);
 
-        $controller = substr($controller, strrpos($controller, "\\") + 1);
+        $controller = substr($controllerRoute, strrpos($controllerRoute, "\\") + 1);
 
         if ($yuiLoader) {
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower($bundle));
-            
+
             $href[] = $publicPath . '/js/yui.js?path=' . strtolower(str_replace('Controller', '', $controller)) . '-' . $controllerAction;
 
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower('LibbitYuiBundle'));
@@ -56,9 +54,6 @@ class YuiExtension extends \Twig_Extension
         $this->storeVariable($context, $controller, $controllerAction, $bundle);
 
         return $buffer;
-    }
-
-    private function yuiComponentLoader($components) {
     }
 
     private function storeVariable($context, $controller, $controllerAction, $bundle)

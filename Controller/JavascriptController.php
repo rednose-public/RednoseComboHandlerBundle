@@ -12,15 +12,15 @@ class JavascriptController extends Controller
         $session = $this->get('session');
         $controller = substr($file, 0, strpos($file, 'Controller'));
         $section = strtolower($this->get('request')->get('section'));
-        
+
         $bundleName = $session->get('YuiResource-BundleName');
         $twigContext = $session->get('YuiResource-' . $controller . 'Controller-' . $section);
-        
-        if(in_array($this->get('kernel')->getEnvironment(), array('test', 'dev')) === false) {
+
+        if (in_array($this->get('kernel')->getEnvironment(), array('test', 'dev')) === false) {
             $session->remove('YuiResource-' . $controller . 'Controller-' . $section);
             $session->remove('YuiResource-BundleName');
         }
-        
+
         $response = new Response(null, 200, array(
             'Content-Type' => 'text/javascript',
         ));
@@ -28,15 +28,15 @@ class JavascriptController extends Controller
         $javascriptPath = $this->get('kernel')->getBundles();
         $javascriptPath = $javascriptPath[$bundleName]->getPath();
         $javascriptPath = $javascriptPath . '/Resources/views/' . $controller . '/';
-        
+
         if (file_exists($javascriptPath . $section . '.js.twig') !== false) {
             return $this->render($bundleName . ':' . $controller . ':' . $section . '.js.twig', $twigContext, $response);
         }
-        
+
         if (file_exists($javascriptPath . strtolower($controller) . '.js.twig') !== false) {
             return $this->render($bundleName . ':' . $controller . ':' . strtolower($controller) . '.js.twig', $twigContext, $response);
         }
-        
+
         return $response;
     }
 }
