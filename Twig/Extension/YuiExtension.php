@@ -4,17 +4,28 @@ namespace Libbit\YuiBundle\Twig\Extension;
 
 use Libbit\YuiBundle\Exception\Exception;
 
+/**
+ * Inserts the YUI JavaScript files into the header.
+ */
 class YuiExtension extends \Twig_Extension
 {
     protected $dom;
     protected $container;
     protected $request;
 
+    /**
+     * Constructor.
+     * 
+     * @param type $container The service container
+     */
     public function __construct($container)
     {
         $this->container = $container;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions()
     {
         return array(
@@ -22,6 +33,15 @@ class YuiExtension extends \Twig_Extension
        );
     }
 
+    /**
+     * Returns a JavaScript string that can be injected into an HTML header
+     * 
+     * @param array  $context   The Twig context, passed manually
+     * @param string $bundle    The name of the bundle, passed manually
+     * @param bool   $yuiLoader Wether to include the YUI seed files
+     *
+     * @return string The JavaScript inclusion string
+     */
     public function yuiLoader($context, $bundle, $version, $yuiLoader)
     {
         $href = array();
@@ -62,6 +82,7 @@ class YuiExtension extends \Twig_Extension
         $session = $this->container->get('session');
 
         foreach ($context as $key => $value) {
+            print $value;
             if (gettype($value) == 'object' && get_class($value) != 'Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables') {
                 $variable[$key] = $value;
             }
@@ -70,6 +91,7 @@ class YuiExtension extends \Twig_Extension
                 $variable[$key] = $value;
             }
         }
+        exit;   
 
         $session->set('YuiResource-' . $controller . '-' . strtolower($controllerAction), $variable);
         $session->set('YuiResource-BundleName', $bundle);
@@ -77,23 +99,24 @@ class YuiExtension extends \Twig_Extension
 
     private function getRoute($action = false)
     {
-        $routeAttributes = $this->request->attributes;
-        $routeAttributes = $routeAttributes->all();
+        $routeAttributes = $this->request->attributes->all();
+
         $route = explode("::", $routeAttributes['_controller']);
 
-        if (count($route) > 1) {
-            if ($action) {
-                $route = str_replace('Action', '', $route[1]);
-            } else {
-                $route = $route[0];
-            }
-        } else {
+        if (count($route) < 2) {
             throw new Exception('Route controller path not correct.');
         }
 
-        return $route;
+        if ($action) {
+            return str_replace('Action', '', $route[1]);
+        }
+
+        return $route[0];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'yui';
