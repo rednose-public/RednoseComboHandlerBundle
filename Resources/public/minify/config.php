@@ -8,7 +8,7 @@
 // LibbitYui patch
 include('logger.php');
 
-if (isset($_GET['f']) && isset($_GET['base'])) {
+/*if (isset($_GET['f']) && isset($_GET['base'])) {
     $f = $_GET['f'];
 
     $_GET['f'] = '';
@@ -23,8 +23,9 @@ if (isset($_GET['f']) && isset($_GET['base'])) {
     
     $_GET['debug'] = '1';
     $_GET['f'] = substr($_GET['f'], 0, -1);
-}
+}*/
 
+//$GET['b'] = 'Library/WebServer/Documents/docgen-standard/vendor/libbit/yui-bundle/Libbit/YuiBundle/Resources/public';
 // patch end
 
 /**

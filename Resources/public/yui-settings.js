@@ -52,13 +52,18 @@ var yuiPublicPath = {
 YUI_config = {
     debug: false,
     combine: true,
-    comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=' + yuiPublicPath.getPathYui() + '/&f[]=',
+    //comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=' + yuiPublicPath.getPathYui() + '/&f[]=',
+    comboBase : yuiPublicPath.getPath() + 'minify/?b=docgen-standard/web/bundles/libbityui/yui3.6&f=',
     root: '',
     lang: yuiPublicPath.getLocale(),
-    filter: {
-	        'searchExp': "s&",
-	        'replaceStr': "s&f[]="
-    },
+    	filter : {
+	'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&', 
+        'replaceStr': '$1,'
+	},
+        ////filter: {
+	       // 'searchExp': "s&",
+	        //'replaceStr': "s&f[]="
+    //},
     
     groups: {
         yui2: {

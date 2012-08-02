@@ -233,13 +233,15 @@ class Minify_CSS_UriRewriter {
         
         // strip doc root
         
-        if (!isset($_GET['public'])) {
-            $_GET['public'] = '';
-        }
+        //if (!isset($_GET['public'])) {
+        //    $_GET['public'] = '';
+        //}
         
-        $pathReplace = substr($path, 0, strrpos($path, $_GET['base']));
-        $path = $_GET['public'] . str_replace($pathReplace, '', $path);
+        //$pathReplace = substr($path, 0, strrpos($path, $_GET['base']));
+        //$path = $_GET['public'] . str_replace($pathReplace, '', $path);
         
+        $path = substr($path, strlen($realDocRoot));
+
         self::$debugText .= "docroot stripped   : {$path}\n";
         
         // fix to root-relative URI
