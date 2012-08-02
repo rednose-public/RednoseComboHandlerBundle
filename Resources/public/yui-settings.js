@@ -66,9 +66,14 @@ YUI_config = {
         yui2: {
             combine: true,
             // TODO: set dynamically
-            comboBase : 'http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=yui2-layout/yui2-layout-min.js,',
+            comboBase : 'http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
             // TODO: set dynamically
             root: 'yui2in3/',
+            // FIXME: quickfix
+            filter : {
+                'searchExp': ',f=yui2in3/yui2-dragdrop/yui2-dragdrop-min.js',
+                'replaceStr': '&f=yui2in3/yui2-dragdrop/yui2-dragdrop-min.js'
+            },
             patterns: {
                 "yui2-": {
                     configFn: function(me) {
