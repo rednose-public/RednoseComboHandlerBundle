@@ -82,7 +82,6 @@ class YuiExtension extends \Twig_Extension
         $session = $this->container->get('session');
 
         foreach ($context as $key => $value) {
-            print $value;
             if (gettype($value) == 'object' && get_class($value) != 'Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables') {
                 $variable[$key] = $value;
             }
@@ -91,7 +90,6 @@ class YuiExtension extends \Twig_Extension
                 $variable[$key] = $value;
             }
         }
-        exit;   
 
         $session->set('YuiResource-' . $controller . '-' . strtolower($controllerAction), $variable);
         $session->set('YuiResource-BundleName', $bundle);
