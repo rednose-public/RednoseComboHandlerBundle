@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
+
 /**
  * Creates the bundle-specific service container.
  */
@@ -35,6 +36,14 @@ class LibbitYuiExtension extends Extension
         // Make the configuration parameters available to the container.
         foreach ($config as $k => $v) {
             $container->setParameter($this->getAlias().'.'.$k, $v);
+        }
+
+        $version = (string) $container->getParameter('libbit_yui.version');
+
+        if (file_exists(__DIR__.'/../Resources/public/yui'.$version) === false) {
+            throw new InvalidConfigurationException(
+                sprintf('Configured libbit_yui version %s is not available.', $version)
+            );
         }
     }
 }

@@ -33,8 +33,12 @@ class LibbitYuiExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testVersionNotAvailable()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $loader = new LibbitYuiExtension();
+        $container = new ContainerBuilder();
+        $config = array();
+
+        $config['version'] = 'INVALID_VERSION';
+
+        $loader->load(array($config), $container);
     }
 }

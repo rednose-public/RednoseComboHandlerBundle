@@ -42,7 +42,7 @@ class YuiExtension extends \Twig_Extension
      *
      * @return string The JavaScript inclusion string
      */
-    public function yuiLoader($context, $bundle, $version, $yuiLoader)
+    public function yuiLoader($context, $bundle, $yuiLoader)
     {
         $href = array();
         $buffer = '';
@@ -61,7 +61,7 @@ class YuiExtension extends \Twig_Extension
 
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower('LibbitYuiBundle'));
 
-            $href[] = $publicPath . '/yui' . $version . '/yui/yui-min.js';
+            $href[] = $publicPath . '/yui' . (string) $this->container->getParameter('libbit_yui.version') . '/yui/yui-min.js';
             $href[] = $publicPath . '/yui-settings.js?locale=' . $this->container->get('session')->getLocale();
         }
 
@@ -74,6 +74,11 @@ class YuiExtension extends \Twig_Extension
         $this->storeVariable($context, $controller, $controllerAction, $bundle);
 
         return $buffer;
+    }
+
+    protected function getPath()
+    {
+        return $this->container->get('kernel')->getBundle('LibbitYuiBundle')->getPath();
     }
 
     private function storeVariable($context, $controller, $controllerAction, $bundle)
