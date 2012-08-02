@@ -50,33 +50,34 @@ var yuiPublicPath = {
 }
 
 YUI_config = {
-    debug: false,
+    debug: true,
     combine: true,
-    //comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=' + yuiPublicPath.getPathYui() + '/&f[]=',
-    comboBase : yuiPublicPath.getPath() + 'minify/?b=docgen-standard/web/bundles/libbityui/yui3.6&f=',
-    root: '',
+    // TODO: set dynamically
+    comboBase : 'http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
+    // TODO: set dynamically
+    root: 'yui3.6/',
     lang: yuiPublicPath.getLocale(),
-    	filter : {
-	'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&', 
+    filter : {
+        'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&', 
         'replaceStr': '$1,'
-	},
-        ////filter: {
-	       // 'searchExp': "s&",
-	        //'replaceStr': "s&f[]="
-    //},
+    },
     
     groups: {
         yui2: {
-            base: '',
             combine: true,
-            comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=/yui2in3/&f[]=',
-            root: '',
+            // TODO: set dynamically
+            comboBase : 'http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=yui2-layout/yui2-layout-min.js,',
+            // TODO: set dynamically
+            root: 'yui2in3/',
             patterns: {
                 "yui2-": {
                     configFn: function(me) {
                         if(/-skin|reset|fonts|grids|base/.test(me.name)) {
-                            me.type = 'css';
-                            me.path = me.path.replace(/\.js/, '.css');
+                            //me.type = 'css';
+                            //me.path = me.path.replace(/\.js/, '.css');
+                                                                me.type = 'css';
+                                    me.path = me.path.replace(/\.js/, '.css');
+                                    me.path = me.path.replace(/\/yui2-skin/, '/assets/skins/sam/yui2-skin');
                         }
                     }
                 }
@@ -86,8 +87,10 @@ YUI_config = {
         gallery: {
             base: '',
             combine: true,
-            comboBase: yuiPublicPath.getPath() + '/minify/?public=' + yuiPublicPath.getPath() + '&base=/gallery/&f[]=',
-            root: '',
+            // TODO: set dynamically
+            comboBase : 'http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
+            // TODO: set dynamically
+            root: 'gallery/',
             patterns: {
                 "gallery-": {
                     configFn: function(me) {
