@@ -8,4 +8,7 @@
         <default key="_controller">LibbitYuiBundle:Core:combo</default>
     </route>
 
+    <route id="libbit_yui_settings" pattern="/settings">
+        <default key="_controller">LibbitYuiBundle:Core:settings</default>
+    </route>
 </routes>

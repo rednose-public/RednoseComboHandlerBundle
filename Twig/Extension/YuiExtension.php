@@ -62,7 +62,10 @@ class YuiExtension extends \Twig_Extension
             $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower('LibbitYuiBundle'));
 
             $href[] = $publicPath . '/yui' . (string) $this->container->getParameter('libbit_yui.version') . '/yui/yui-min.js';
-            $href[] = $publicPath . '/yui-settings.js?locale=' . $this->container->get('session')->getLocale();
+            // FIXME
+            $href[] = $this->request->getBasePath() . '/app_dev.php/yui/settings';
+
+            //$href[] = $publicPath . '/yui-settings.js?locale=' . $this->container->get('session')->getLocale();
         }
 
         $href[] = $this->request->getBaseUrl() . '/javascript/' . $controller . '.js?section=' . $controllerAction;

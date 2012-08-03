@@ -93,4 +93,13 @@ class CoreController extends Controller
 
         return new Response($response['content'], $response['statusCode'], $response['headers']);
     }
+
+    public function settingsAction()
+    {
+        $response = new Response(null, 200, array(
+            'Content-type' => 'application/x-javascript',
+        ));
+
+        return $this->render('LibbitYuiBundle:Core:settings.js.twig', array(), $response);
+    }
 }

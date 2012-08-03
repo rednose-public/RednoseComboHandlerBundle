@@ -1,0 +1,52 @@
+YUI_config = {
+    debug: true,
+    combine: true,
+    // TODO: set dynamically
+    comboBase : 'http://localhost/docgen-standard/web/app.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
+    // TODO: set dynamically
+    root: 'yui3.6/',
+    lang: '{{ app.session.locale }}',
+    filter : {
+        'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)', 
+        'replaceStr': '$1,'
+    },
+    
+    groups: {
+        yui2: {
+            combine: true,
+            // TODO: set dynamically
+            root: 'yui2in3/',
+            patterns: {
+                "yui2-": {
+                    configFn: function(me) {
+                        if(/-skin|reset|fonts|grids|base/.test(me.name)) {
+                            me.type = 'css';
+                            me.path = me.path.replace(/\.js/, '.css');
+                            me.path = me.path.replace(/\/yui2-skin/, '/assets/skins/sam/yui2-skin');
+                        }
+                    }
+                }
+            }
+        },
+        
+        gallery: {
+            combine: true,
+            // TODO: set dynamically
+            root: 'gallery/',
+            patterns: {
+                "gallery-": {
+                    configFn: function(me) {
+                        if(/-skin/.test(me.name)) {
+                            me.name = me.name.replace('-skin', '');
+                            me.path = me.name + '/assets/' + me.name + '.js'
+                            me.type = 'css';
+                            me.path = me.path.replace(/\.js/, '.css');
+                        } else {
+                            me.path = me.name + '/js/' + me.name + '.js'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
