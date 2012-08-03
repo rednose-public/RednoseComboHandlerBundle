@@ -1,23 +1,19 @@
 YUI_config = {
-    debug: true,
     combine: true,
-    // TODO: set dynamically
-    comboBase : 'http://localhost/docgen-standard/web/app.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
-    // TODO: set dynamically
-    root: 'yui3.6/',
+    comboBase : '{{ path('libbit_yui_combo') }}?b={{ base_uri }}&f=',
+    root: 'yui{{ version }}/',
     lang: '{{ app.session.locale }}',
     filter : {
-        'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)', 
+        'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)',
         'replaceStr': '$1,'
     },
     
     groups: {
         yui2: {
             combine: true,
-            // TODO: set dynamically
             root: 'yui2in3/',
             patterns: {
-                "yui2-": {
+                'yui2-': {
                     configFn: function(me) {
                         if(/-skin|reset|fonts|grids|base/.test(me.name)) {
                             me.type = 'css';
@@ -31,10 +27,9 @@ YUI_config = {
         
         gallery: {
             combine: true,
-            // TODO: set dynamically
             root: 'gallery/',
             patterns: {
-                "gallery-": {
+                'gallery-': {
                     configFn: function(me) {
                         if(/-skin/.test(me.name)) {
                             me.name = me.name.replace('-skin', '');
@@ -50,3 +45,7 @@ YUI_config = {
         }
     }
 }
+        
+{% for key, group in groups %}
+YUI_config.groups['{{ key }}'] = {{ group|json_encode|raw }}
+{% endfor %} 

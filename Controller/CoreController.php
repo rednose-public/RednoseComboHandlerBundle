@@ -14,6 +14,7 @@ namespace Libbit\YuiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Assetic\Asset\FileAsset;
+use Libbit\YuiBundle\Exception\Exception;
 
 /**
  * Wrapper for the minifier
@@ -28,89 +29,73 @@ class CoreController extends Controller
     public function comboAction()
     {
         if (in_array($this->container->getParameter('kernel.environment'), array('test', 'dev'))) {
-            //$min_serveOptions['debug'] = true;
+            $serveOptions['debug'] = true;
         }
 
-        $min_serveOptions['quiet'] = true;
+        $serveOptions['quiet'] = true;
 
-
-        $min_errorLogger = false;
-        $min_allowDebugFlag = true;
-        $min_cacheFileLocking = true;
-        $min_symlinks = array();
-        $min_uploaderHoursBehind = 0;
-        $min_libPath = dirname('/Library/WebServer/Documents/docgen-standard/vendor/oyatel/minify/min/index.php') . '/lib';
+        $errorLogger = false;
+        $allowDebugFlag = true;
+        $cacheFileLocking = true;
+        $symlinks = array();
+        $uploaderHoursBehind = 0;
         ini_set('zlib.output_compression', '0');
 
-        define('MINIFY_MIN_DIR', dirname('/Library/WebServer/Documents/docgen-standard/vendor/oyatel/minify/min/index.php'));
-        set_include_path($min_libPath . PATH_SEPARATOR . get_include_path());
+        \Minify::$uploaderHoursBehind = $uploaderHoursBehind;
+        \Minify::setCache('', $cacheFileLocking);
 
-        require 'Minify.php';
+        $serveOptions['minifierOptions']['text/css']['symlinks'] = $symlinks;
 
-        \Minify::$uploaderHoursBehind = $min_uploaderHoursBehind;
-        \Minify::setCache(
-                isset($min_cachePath) ? $min_cachePath : ''
-                , $min_cacheFileLocking
-        );
-
-        $min_serveOptions['minifierOptions']['text/css']['symlinks'] = $min_symlinks;
-        // auto-add targets to allowDirs
-        foreach ($min_symlinks as $uri => $target) {
-            $min_serveOptions['minApp']['allowDirs'][] = $target;
+        // Auto-add targets to allowDirs
+        foreach ($symlinks as $target) {
+            $serveOptions['minApp']['allowDirs'][] = $target;
         }
 
-        if ($min_allowDebugFlag) {
-            require_once 'Minify/DebugDetector.php';
-            $min_serveOptions['debug'] = \Minify_DebugDetector::shouldDebugRequest($_COOKIE, $_GET, $_SERVER['REQUEST_URI']);
+        if ($allowDebugFlag) {
+            $serveOptions['debug'] = \Minify_DebugDetector::shouldDebugRequest($_COOKIE, $_GET, $_SERVER['REQUEST_URI']);
         }
 
-        if ($min_errorLogger) {
-            require_once 'Minify/Logger.php';
-            if (true === $min_errorLogger) {
-                require_once 'FirePHP.php';
-                $min_errorLogger = FirePHP::getInstance(true);
+        if ($errorLogger) {
+            if (true === $errorLogger) {
+                $errorLogger = FirePHP::getInstance(true);
             }
-            Minify_Logger::setLogger($min_errorLogger);
+
+            Minify_Logger::setLogger($errorLogger);
         }
 
-        // check for URI versioning
-        if (preg_match('/&\\d/', $_SERVER['QUERY_STRING'])) {
-            $min_serveOptions['maxAge'] = 31536000;
-        }
-        if (isset($_GET['g'])) {
-            // well need groups config
-            $min_serveOptions['minApp']['groups'] = (require MINIFY_MIN_DIR . '/groupsConfig.php');
+        if (!isset($_GET['f'])) {
+            throw new Exception('No files requested.');
         }
 
-        if (isset($_GET['f']) || isset($_GET['g'])) {
-            require 'Minify/Controller/MinApp.php';
-
-            $min_serveController = new \Minify_Controller_MinApp();
-            $response = (\Minify::serve($min_serveController, $min_serveOptions));
-        } else {
-            header("Location: /");
-            exit();
-        }
+        $serveController = new \Minify_Controller_MinApp();
+        $response = \Minify::serve($serveController, $serveOptions);
 
         return new Response($response['content'], $response['statusCode'], $response['headers']);
     }
 
     /**
-     * Generates the YUI_config JavaScript object for the configured version.
+     * Generates the YUI_config JavaScript object for the configured YUI version.
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function settingsAction()
+    public function configAction()
     {
         $response = new Response(null, 200, array(
             'Content-type' => 'application/x-javascript',
         ));
 
-        return $this->render('LibbitYuiBundle:Core:settings.js.twig', array(), $response);
+        // FIXME: Load from service container
+        $groups = json_decode(file_get_contents('/Library/WebServer/Documents/docgen-standard/vendor/libbit/docgen-bundle/Libbit/DocgenBundle/Resources/public/yui/config.json'), true);
+
+        return $this->render('LibbitYuiBundle:Core:config.js.twig', array(
+            'version' => (string) $this->container->getParameter('libbit_yui.version'),
+            'base_uri' => substr($this->get('templating.helper.assets')->getUrl('bundles/libbityui'), 1), // Strip the leading '/'
+            'groups' => $groups,
+        ), $response);
     }
 
     /**
-     * Returns the YUI seed file for the configured version.
+     * Returns the YUI seed file for the configured YUI version.
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */

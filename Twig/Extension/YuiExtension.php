@@ -56,8 +56,8 @@ class YuiExtension extends \Twig_Extension
         $buffer = '';
 
         if ($yuiLoader) {
+            $href[] = $this->router->generate('libbit_yui_config');
             $href[] = $this->router->generate('libbit_yui_seed');
-            $href[] = $this->router->generate('libbit_yui_settings');
         }
 
         $this->request = $this->container->get('request');
