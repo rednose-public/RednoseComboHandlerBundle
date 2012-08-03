@@ -49,12 +49,11 @@ var yuiPublicPath = {
     }
 }
 
-
 YUI_config = {
     debug: true,
     combine: true,
     // TODO: set dynamically
-    comboBase : 'http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
+    comboBase : 'http://localhost/docgen-standard/web/app.php/yui/combo?b=docgen-standard/web/bundles/libbityui&f=',
     // TODO: set dynamically
     root: 'yui3.6/',
     lang: yuiPublicPath.getLocale(),
@@ -99,22 +98,10 @@ YUI_config = {
                     }
                 }
             }
-        }/*,
-        
-        "template":{
-            "base":"http://localhost/docgen-standard/web/app_dev.php/yui/combo?b=docgen-standard/web/bundles/libbitdocgen/yui&f=",
-            "modules":{
-                "template-app":{
-                    "path":"template/js/app.js",
-                    "requires":['gallery-libbit-dialog', 'cssreset', 'cssbase', 'cssfonts', 'cssgrids', 'node-menunav']
-                }
-            }
-        }*/
-
+        }
     }
 }
 
-/*
 if (typeof(libbitYuiRequired) != 'undefined') {
     YUI(YUI_config).use(libbitYuiRequired, function(Y) {
         Y.on("domready", function() {
@@ -124,4 +111,4 @@ if (typeof(libbitYuiRequired) != 'undefined') {
         });
     });
 }
-*/
+
