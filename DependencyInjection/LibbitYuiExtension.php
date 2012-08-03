@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 
 /**
@@ -45,5 +47,14 @@ class LibbitYuiExtension extends Extension
                 sprintf('Configured libbit_yui version %s is not available.', $version)
             );
         }
+
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
+        $serviceFiles = array('twig');
+
+        foreach ($serviceFiles as $basename) {
+            $loader->load(sprintf('%s.xml', $basename));
+        }
+
     }
 }

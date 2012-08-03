@@ -8,7 +8,11 @@
         <default key="_controller">LibbitYuiBundle:Core:combo</default>
     </route>
 
-    <route id="libbit_yui_settings" pattern="/settings">
+    <route id="libbit_yui_settings" pattern="/settings.js">
         <default key="_controller">LibbitYuiBundle:Core:settings</default>
+    </route>
+
+    <route id="libbit_yui_seed" pattern="/yui-min.js">
+        <default key="_controller">LibbitYuiBundle:Core:seed</default>
     </route>
 </routes>

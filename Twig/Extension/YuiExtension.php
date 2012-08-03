@@ -2,6 +2,8 @@
 
 namespace Libbit\YuiBundle\Twig\Extension;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Libbit\YuiBundle\Exception\Exception;
 
 /**
@@ -10,17 +12,23 @@ use Libbit\YuiBundle\Exception\Exception;
 class YuiExtension extends \Twig_Extension
 {
     protected $dom;
+
     protected $container;
+
+    protected $router;
+
     protected $request;
 
     /**
-     * Constructor.
+     * Constructor
      * 
-     * @param type $container The service container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container Service container
+     * @param \Symfony\Component\Routing\RouterInterface                $router    Router component
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container, RouterInterface $router)
     {
         $this->container = $container;
+        $this->router = $router;
     }
 
     /**
@@ -47,26 +55,17 @@ class YuiExtension extends \Twig_Extension
         $href = array();
         $buffer = '';
 
+        if ($yuiLoader) {
+            $href[] = $this->router->generate('libbit_yui_seed');
+            $href[] = $this->router->generate('libbit_yui_settings');
+        }
+
         $this->request = $this->container->get('request');
 
         $controllerRoute = $this->getRoute();
         $controllerAction = $this->getRoute(true);
 
         $controller = substr($controllerRoute, strrpos($controllerRoute, "\\") + 1);
-
-        if ($yuiLoader) {
-            $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower($bundle));
-
-            //$href[] = $publicPath . '/js/yui.js?path=' . strtolower(str_replace('Controller', '', $controller)) . '-' . $controllerAction;
-
-            $publicPath = $this->request->getBasePath() . '/bundles/' . preg_replace('/bundle$/', '', strtolower('LibbitYuiBundle'));
-
-            $href[] = $publicPath . '/yui' . (string) $this->container->getParameter('libbit_yui.version') . '/yui/yui-min.js';
-            // FIXME
-            $href[] = $this->request->getBasePath() . '/app_dev.php/yui/settings';
-
-            //$href[] = $publicPath . '/yui-settings.js?locale=' . $this->container->get('session')->getLocale();
-        }
 
         $href[] = $this->request->getBaseUrl() . '/javascript/' . $controller . '.js?section=' . $controllerAction;
 

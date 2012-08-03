@@ -13,6 +13,7 @@ namespace Libbit\YuiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Assetic\Asset\FileAsset;
 
 /**
  * Wrapper for the minifier
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CoreController extends Controller
 {
     /**
-     * Minify
+     * Minify a request of JavaScript/CSS files
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -94,6 +95,11 @@ class CoreController extends Controller
         return new Response($response['content'], $response['statusCode'], $response['headers']);
     }
 
+    /**
+     * Generates the YUI_config JavaScript object for the configured version.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function settingsAction()
     {
         $response = new Response(null, 200, array(
@@ -101,5 +107,19 @@ class CoreController extends Controller
         ));
 
         return $this->render('LibbitYuiBundle:Core:settings.js.twig', array(), $response);
+    }
+
+    /**
+     * Returns the YUI seed file for the configured version.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function seedAction()
+    {
+        $seedAsset = new FileAsset('bundles/libbityui/yui'.(string) $this->container->getParameter('libbit_yui.version').'/yui/yui-min.js');
+
+        return new Response($seedAsset->dump(), 200, array(
+            'Content-type' => 'application/x-javascript',
+        ));
     }
 }
