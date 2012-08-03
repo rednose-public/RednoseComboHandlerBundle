@@ -90,17 +90,6 @@ YUI.add('gallery-libbit-dialog', function(Y) {
             this.Panel('confirm', message, headerTitle);
         },
         
-        /**
-         * Render a window.
-         *
-         * @param string windowHandle
-         * @param string title (dialog title)
-         * @param integer height
-         * @param integer width
-         * @param mixed content (innerHTML, node, or null)
-         * @param string uri (remote uri to load utilizing the gallary-dispatcher)
-         * @param object buttons ([{title: 'name', callback: function(panel, node), callbackClose: true} , {...}])
-         */
         Window: function(windowHandle, title, height, width, content, uri, buttons)
         {
             var dialogNode = Y.Node.create('<div id="dialogWindow_' + windowHandle + '" class="dialogWindow" />');
@@ -119,7 +108,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
                 new Y.Dispatcher ({
                     node: dialogDispatcher,
                     ioConfig: {
-                        method: 'GET',
+                        method: 'GET'
                     }
                 }).set('uri',  uri);
             }
@@ -129,7 +118,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
                 headerContent: title,
                 width: width, height: height,
                 zIndex: parseInt(Y.all('*').size()),
-                centered: true, modal: true, visible: false, render: true,
+                centered: true, modal: true, visible: false, render: true
             });
             this.Window.panelObject.plug(Y.Plugin.Drag);
             
@@ -202,7 +191,7 @@ YUI.add('gallery-libbit-dialog', function(Y) {
                 srcNode: messageNode,
                 headerContent: headerTitle,
                 zIndex: Y.all('*').size(),
-                width: 490, centered: true, modal: true, visible: false, render: true,
+                width: 490, centered: true, modal: true, visible: false, render: true
             });
             this.Panel.panelObject.plug(Y.Plugin.Drag);
             this.Panel.MessageNode = messageNode.one('div.dialog_message');
