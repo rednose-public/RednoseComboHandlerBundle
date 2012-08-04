@@ -13,7 +13,6 @@ namespace Libbit\YuiBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Helper class for the Minifier
@@ -51,25 +50,17 @@ class MinifyHelper extends Helper
         $minUrl = $this->container->get('router')->generate('libbit_yui_minify');
 
         if ($basePath !== null) {
-            $parameters['b'] = $this->getFullUrl($basePath);
+            $parameters[] = 'b='.$this->getFullUrl($basePath);
         } else {
             foreach ($paths as &$path) {
                 $path = $this->getFullUrl($path);
             }
         }
 
-        $parameters['f'] = implode(',', $paths);
+        $parameters[] = 'f='.implode(',', $paths);
 
-        //$url = $minUrl.'?'.implode('&', $parameters);
+        $url = $minUrl.'?'.implode('&', $parameters);
 
-//        $request = Request::create($minUrl, 'GET',  array('name' => 'Fabien'));
-        $request = Request::create('http://test.com/foo', 'GET', array('bar' => 'baz'));
-
-        var_dump($request->getQueryString());
-        exit;
-
-        print $request->getUri();
-        exit;
         return $url;
     }
 
