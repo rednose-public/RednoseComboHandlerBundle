@@ -1,6 +1,9 @@
 YUI_config = {
+{% if app.environment == 'dev' %}
+    debug: true,
+{% endif %}
     combine: true,
-    comboBase : '{{ path('libbit_yui_combo') }}?b={{ base_uri }}&f=',
+    comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url }}&f=',
     root: 'yui{{ version }}/',
     lang: '{{ app.session.locale }}',
     filter : {

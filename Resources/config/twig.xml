@@ -4,7 +4,10 @@
         <service id="libbit_yui.twig.extension.yui" class="Libbit\YuiBundle\Twig\Extension\YuiExtension" public="false">
             <tag name="twig.extension"/>
             <argument type="service" id="service_container"/>
-            <argument type="service" id="router"/>
+        </service>
+        <service id="libbit_yui.twig.extension.minify" class="Libbit\YuiBundle\Twig\Extension\MinifyExtension" public="false">
+            <tag name="twig.extension"/>
+            <argument type="service" id="service_container"/>
         </service>
     </services>
 </container>

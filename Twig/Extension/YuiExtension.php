@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the LibbitYuiBundle package.
+ *
+ * (c) RedNose <info@rednose.nl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Libbit\YuiBundle\Twig\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -15,20 +24,16 @@ class YuiExtension extends \Twig_Extension
 
     protected $container;
 
-    protected $router;
-
     protected $request;
 
     /**
      * Constructor
      * 
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container Service container
-     * @param \Symfony\Component\Routing\RouterInterface                $router    Router component
      */
-    public function __construct(ContainerInterface $container, RouterInterface $router)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->router = $router;
     }
 
     /**
@@ -56,8 +61,8 @@ class YuiExtension extends \Twig_Extension
         $buffer = '';
 
         if ($yuiLoader) {
-            $href[] = $this->router->generate('libbit_yui_config');
-            $href[] = $this->router->generate('libbit_yui_seed');
+            $href[] = $this->container->get('router')->generate('libbit_yui_config');
+            $href[] = $this->container->get('router')->generate('libbit_yui_seed');
         }
 
         $this->request = $this->container->get('request');
