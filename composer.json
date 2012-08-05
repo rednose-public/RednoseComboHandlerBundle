@@ -29,6 +29,7 @@
         "symfony/symfony": "2.0.*",
         "symfony/framework-bundle": "2.0.*",
         "symfony/security-bundle": "2.0.*",
+        "friendsofsymfony/jsrouting-bundle": "dev-master",
         "oyatel/minify": "dev-master"
     },
     "autoload": {
