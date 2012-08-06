@@ -15,24 +15,32 @@ namespace Libbit\YuiBundle\Config;
  * YuiConfig class
  *
  * @author Marc Bontje <marc@rednose.nl>
+ * @author Sven Hagemann <sven@rednose.nl>
  */
 class YuiConfig
 {
-    protected $base;
-
     protected $modules;
+    protected $json;
 
-    public function __construct($base, $modules)
+    public function __construct($json)
     {
-        $this->base = $base;
-        $this->modules = $modules;
+        $this->json = $json;
     }
 
-    public function getConfig()
+    public function getConfig($container)
     {
+        $json = '';
+        $locator = $container->get('file_locator');
+        
+        foreach ($this->json as $file) {
+            $file = $locator->locate($file);
+            
+            $json .= file_get_contents($file);
+        }
+        
         return array('template' => array(
-            'base' => 'http://localhost/docgen-standard/web/app.php/yui/combo?b='.$this->base.'&f=',
-            'modules' => $this->modules,
+            'json' => $json,
+            'base' => ltrim($container->get('templating.helper.assets')->getUrl('bundles/libbityui'), '/'),
         ));
     }
 }

@@ -27,14 +27,16 @@ class YuiController extends Controller
      */
     public function configAction()
     {
+        $config = $this->get('libbit_yui.config');
+        $config = $config->getConfig($this);
+        
         $response = new Response(null, 200, array(
             'Content-type' => 'application/x-javascript',
         ));
 
-        // FIXME: Load from service container
-        $groups = json_decode(file_get_contents('/Library/WebServer/Documents/docgen-standard/vendor/libbit/docgen-bundle/Libbit/DocgenBundle/Resources/public/yui/config.json'), true);
+        $groups = json_decode($config['template']['json'], true);
         $version = (string) $this->container->getParameter('libbit_yui.version');
-        $baseUrl = ltrim($this->get('templating.helper.assets')->getUrl('bundles/libbityui'), '/');
+        $baseUrl = $config['template']['base'];
 
         return $this->render('LibbitYuiBundle:Core:config.js.twig', array(
             'groups' => $groups,

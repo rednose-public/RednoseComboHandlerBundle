@@ -50,7 +50,7 @@ class LibbitYuiExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        $serviceFiles = array('templating', 'twig');
+        $serviceFiles = array('services', 'templating', 'twig');
 
         foreach ($serviceFiles as $basename) {
             $loader->load(sprintf('%s.xml', $basename));

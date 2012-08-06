@@ -3,6 +3,9 @@
 namespace Libbit\YuiBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+use Libbit\YuiBundle\DependencyInjection\Compiler\ConfigCompilerPass;
 
 /**
  * @author Marc Bontje <marc@rednose.nl>
@@ -15,5 +18,12 @@ class LibbitYuiBundle extends Bundle
      *
      * @var string
      */
-    const VERSION = '1.0.x-dev';
+    const VERSION = '1.1.x-dev';
+
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+ 
+        $container->addCompilerPass(new ConfigCompilerPass);
+    }
 }
