@@ -93,7 +93,7 @@ YUI_config = {
                             me.type = 'css';
                             me.path = me.path.replace(/\.js/, '.css');
                         } else {
-                            me.path = me.name + '/js/' + me.name + '.js'
+                            me.path = me.name.replace('-min', '') + '.js'
                         }
                     }
                 }
