@@ -34,13 +34,10 @@ YUI_config = {
             patterns: {
                 'gallery-': {
                     configFn: function(me) {
-                        if(/-skin/.test(me.name)) {
-                            me.name = me.name.replace('-skin', '');
-                            me.path = me.name + '/assets/' + me.name + '.js'
+                        if (/-skin/.test(me.name)) {
                             me.type = 'css';
                             me.path = me.path.replace(/\.js/, '.css');
-                        } else {
-                            me.path = me.name + '/js/' + me.name + '.js'
+                            me.path = me.path.substring(0, me.path.lastIndexOf('/')) + '/css' + me.path.substring(me.path.lastIndexOf('/'));
                         }
                     }
                 }
