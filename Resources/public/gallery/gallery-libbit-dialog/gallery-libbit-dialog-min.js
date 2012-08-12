@@ -26,7 +26,7 @@ YUI.add('gallery-libbit-dialog', function (Y) {
             }
         },
 
-        Prompt: function (title, fieldName, initialValue, callback, callbackCancel, headerTitle) {
+        Prompt: function (title, fieldName, initialValue, callback, callbackCancel, headerTitle, buttonTitle) {
             if (typeof callback === 'undefined') { callback = function () {}; }
             if (typeof callbackCancel === 'undefined') { callbackCancel = function () {}; }
 
@@ -35,6 +35,10 @@ YUI.add('gallery-libbit-dialog', function (Y) {
 
             if (headerTitle === null) {
                 headerTitle = 'Question';
+            }
+
+            if (Y.Lang.isUndefined(buttonTitle)) {
+                buttonTitle = 'Confirm';
             }
 
             this.Panel('prompt', '...', headerTitle);
@@ -72,7 +76,8 @@ YUI.add('gallery-libbit-dialog', function (Y) {
             this.Panel('error', errHTML, 'Error');
         },
 
-        Confirm: function (message, callback, callbackCancel, headerTitle) {
+        Confirm: function (message, callback, callbackCancel, headerTitle, buttonTitle, warningMode) {
+            if (typeof warningMode === 'undefined') { warningMode = false; }
             if (typeof callback === 'undefined') { callback = function () {}; }
             if (typeof callbackCancel === 'undefined') { callbackCancel = function () {}; }
 
@@ -83,7 +88,18 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                 headerTitle = 'Question';
             }
 
-            this.Panel('confirm', message, headerTitle);
+            if (Y.Lang.isUndefined(buttonTitle)) {
+                buttonTitle = 'Confirm';
+            }
+
+            this.Panel('confirm', message, headerTitle, buttonTitle);
+
+            if (warningMode === true) {
+                this.Panel.MessageNode
+                    .get('parentNode').one('div.dialog_confirm_icon')
+                    .removeClass('dialog_confirm_icon')
+                    .addClass('dialog_warning_icon');
+            }
         },
 
         Window: function (windowHandle, title, height, width, content, uri, buttons) {
@@ -180,8 +196,12 @@ YUI.add('gallery-libbit-dialog', function (Y) {
             });
         },
 
-        Panel: function (type, message, headerTitle) {
+        Panel: function (type, message, headerTitle, buttonTitle) {
             var messageNode = Y.Node.create('<div class="dialogMessage" />');
+
+            if (Y.Lang.isUndefined(buttonTitle)) {
+                buttonTitle = 'Confirm';
+            }
 
             messageNode.appendChild(Y.Node.create('<div class="dialog_' + type + '_icon" />'));
             messageNode.appendChild(Y.Node.create('<div class="dialog_message">' + message + '</div>'));
@@ -198,13 +218,24 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                 visible: false,
                 render: true
             });
-            this.Panel.panelObject.plug(Y.Plugin.Drag);
+
             this.Panel.MessageNode = messageNode.one('div.dialog_message');
+
+            this.Panel.panelObject.addButton({
+                value  : 'Cancel',
+                section: Y.WidgetStdMod.FOOTER,
+                action : function (e) {
+                    Y.LibbitDialog.Panel.panelObject.hide();
+
+                    Y.LibbitDialog.callbackCancel();
+                }
+            });
 
             if (type === 'confirm' || type === 'prompt') {
                 this.Panel.panelObject.addButton({
-                    value  : 'Confirm',
+                    value  : buttonTitle,
                     section: Y.WidgetStdMod.FOOTER,
+                    isDefault: true,
                     action : function (e) {
                         Y.LibbitDialog.Panel.panelObject.hide();
 
@@ -215,16 +246,6 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                         } else {
                             Y.LibbitDialog.callback();
                         }
-                    }
-                });
-
-                this.Panel.panelObject.addButton({
-                    value  : 'Cancel',
-                    section: Y.WidgetStdMod.FOOTER,
-                    action : function (e) {
-                        Y.LibbitDialog.Panel.panelObject.hide();
-
-                        Y.LibbitDialog.callbackCancel();
                     }
                 });
             }
