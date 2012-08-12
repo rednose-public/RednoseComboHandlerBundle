@@ -197,7 +197,8 @@ YUI.add('gallery-libbit-dialog', function (Y) {
         },
 
         Panel: function (type, message, headerTitle, buttonTitle) {
-            var messageNode = Y.Node.create('<div class="dialogMessage" />');
+            var messageNode = Y.Node.create('<div class="dialogMessage" />'),
+                buttons;
 
             if (Y.Lang.isUndefined(buttonTitle)) {
                 buttonTitle = 'Confirm';
@@ -208,31 +209,20 @@ YUI.add('gallery-libbit-dialog', function (Y) {
 
             Y.one('body').appendChild(messageNode);
 
-            this.Panel.panelObject = new Y.Panel({
-                srcNode: messageNode,
-                headerContent: headerTitle,
-                zIndex: Y.all('*').size(),
-                width: 490,
-                centered: true,
-                modal: true,
-                visible: false,
-                render: true
-            });
+            buttons = [
+                {
+                    value  : 'Cancel',
+                    section: Y.WidgetStdMod.FOOTER,
+                    action : function (e) {
+                        Y.LibbitDialog.Panel.panelObject.hide();
 
-            this.Panel.MessageNode = messageNode.one('div.dialog_message');
-
-            this.Panel.panelObject.addButton({
-                value  : 'Cancel',
-                section: Y.WidgetStdMod.FOOTER,
-                action : function (e) {
-                    Y.LibbitDialog.Panel.panelObject.hide();
-
-                    Y.LibbitDialog.callbackCancel();
+                        Y.LibbitDialog.callbackCancel();
+                    }
                 }
-            });
+            ];
 
             if (type === 'confirm' || type === 'prompt') {
-                this.Panel.panelObject.addButton({
+                buttons.push({
                     value  : buttonTitle,
                     section: Y.WidgetStdMod.FOOTER,
                     isDefault: true,
@@ -249,6 +239,20 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                     }
                 });
             }
+
+            this.Panel.panelObject = new Y.Panel({
+                srcNode: messageNode,
+                headerContent: headerTitle,
+                zIndex: Y.all('*').size(),
+                width: 490,
+                centered: true,
+                modal: true,
+                visible: false,
+                render: true,
+                buttons: buttons
+            });
+
+            this.Panel.MessageNode = messageNode.one('div.dialog_message');
 
             this.Panel.panelObject.show();
             this.Panel.panelObject.on('visibleChange', function () {
