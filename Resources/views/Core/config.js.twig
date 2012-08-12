@@ -34,6 +34,7 @@ YUI_config = {
             patterns: {
                 'gallery-': {
                     configFn: function(me) {
+                        {# TODO: Also load core-css files #}
                         if (/-skin/.test(me.name)) {
                             me.type = 'css';
                             me.path = me.path.replace(/\.js/, '.css');

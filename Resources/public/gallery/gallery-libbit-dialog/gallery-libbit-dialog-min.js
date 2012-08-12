@@ -263,4 +263,4 @@ YUI.add('gallery-libbit-dialog', function (Y) {
         }
     };
 
-}, '1.0', { requires: ['node', 'dd', 'dd-plugin', 'json-parse', 'panel', 'gallery-dispatcher'] });
+}, '1.0', { requires: ['node', 'dd', 'dd-plugin', 'json-parse', 'panel', 'gallery-dispatcher'], skinnable: true });
