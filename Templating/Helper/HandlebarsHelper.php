@@ -42,7 +42,7 @@ class HandlebarsHelper extends Helper
      */
     public function getObject($path, $name)
     {
-        $object = $name.' = {};';
+        $object = 'var '.$name.' = {};';
         $glob   = new GlobAsset($path);
 
         foreach ($glob as $js) {
