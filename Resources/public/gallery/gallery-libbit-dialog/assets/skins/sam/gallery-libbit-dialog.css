@@ -1,8 +1,8 @@
 .dialog_message {
-    padding: 25px 25px 25px 75px;
-}
-
-.dialog_error {
+    /*max-height: 400px;*/
+    overflow-y: auto;
+    min-height: 48px;
+    padding: 15px;
 }
 
 .dialog_path {
@@ -13,50 +13,37 @@
 
 .dialog_message_icon {
     float: left;
-
-    margin-top: 10px;
-    margin-left: 20px;
-
+    margin-top: 15px;
+    margin-left: 15px;
     height: 48px;
     width: 48px;
-
     background-image: url('info.png');
 }
 
 .dialog_warning_icon {
     float: left;
-
-    margin-top: 10px;
-    margin-left: 20px;
-
+    margin-top: 15px;
+    margin-left: 15px;
     height: 48px;
     width: 48px;
-
     background-image: url('warning.png');
 }
 
-
 .dialog_error_icon {
     float: left;
-
-    margin-top: 10px;
-    margin-left: 20px;
-
+    margin-top: 15px;
+    margin-left: 15px;
     height: 48px;
     width: 48px;
-
     background-image: url('error.png');
 }
 
 .dialog_prompt_icon, .dialog_confirm_icon {
     float: left;
-
-    margin-top: 10px;
-    margin-left: 20px;
-
+    margin-top: 15px;
+    margin-left: 15px;
     height: 48px;
     width: 48px;
-
     background-image: url('question.png');
 }
 
