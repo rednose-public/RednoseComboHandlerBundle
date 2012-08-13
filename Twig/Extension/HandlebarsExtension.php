@@ -14,13 +14,13 @@ namespace Libbit\YuiBundle\Twig\Extension;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Generates a Minfiy URL.
+ * Packs Handlerbars templates into a JavaScript Object.
  */
-class MinifyExtension extends \Twig_Extension
+class HandlebarsExtension extends \Twig_Extension
 {
     private $container;
 
-    /**
+   /**
      * Constructor
      * 
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container Service container
@@ -36,21 +36,21 @@ class MinifyExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'minify' => new \Twig_Function_Method($this, 'getMinifyUrl'),
+            'handlebars' => new \Twig_Function_Method($this, 'getObject', array('is_safe' => array('all'))),
         );
     }
 
     /**
-     * Returns a formatted URL for the Minifier.
+     * Returns a JavaScript Object with Handlebars templates.
      *
-     * @param string|array $paths    One or more paths
-     * @param string       $basePath An optional basepath to prepend to all assets
+     * @param string $path One or more paths (supports wildcards)
+     * @param string $name The JavaScript objectname
      *
-     * @return string A public path
+     * @return string The JavaScript Object
      */
-    public function getMinifyUrl($paths, $basePath = null)
+    public function getObject($path, $name)
     {
-        return $this->container->get('libbit_yui.templating.helper.minify')->getUrl($paths, $basePath);
+        return $this->container->get('libbit_yui.templating.helper.handlebars')->getObject($path, $name);
     }
 
     /**
@@ -58,6 +58,6 @@ class MinifyExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'minify';
+        return 'handlebars';
     }
 }

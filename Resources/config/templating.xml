@@ -5,5 +5,9 @@
             <tag name="templating.helper" alias="minify"/>
             <argument type="service" id="service_container"/>
         </service>
+        <service id="libbit_yui.templating.helper.handlebars" class="Libbit\YuiBundle\Templating\Helper\HandlebarsHelper">
+            <tag name="templating.helper" alias="handlebars"/>
+            <argument type="service" id="service_container"/>
+        </service>
     </services>
 </container>

@@ -27,20 +27,20 @@ class YuiController extends Controller
      */
     public function configAction()
     {
-        $config = $this->get('libbit_yui.config');
-        $config = $config->getConfig($this);
-        
+        $configuration = $this->get('libbit_yui.config');
+        $yuiConfig = $configuration->getConfig($this);
+
         $response = new Response(null, 200, array(
             'Content-type' => 'application/x-javascript',
         ));
 
-        $groups = json_decode($config['template']['json'], true);
+        $groups = json_decode($yuiConfig['template']['json'], true);
         $version = (string) $this->container->getParameter('libbit_yui.version');
-        $baseUrl = $config['template']['base'];
+        $baseUrl = $yuiConfig['template']['base'];
 
         return $this->render('LibbitYuiBundle:Core:config.js.twig', array(
-            'groups' => $groups,
-            'version' => $version,
+            'groups'   => $groups,
+            'version'  => $version,
             'base_url' => $baseUrl,
         ), $response);
     }

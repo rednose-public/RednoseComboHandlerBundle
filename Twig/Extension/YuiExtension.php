@@ -12,7 +12,6 @@
 namespace Libbit\YuiBundle\Twig\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Libbit\YuiBundle\Exception\Exception;
 
 /**

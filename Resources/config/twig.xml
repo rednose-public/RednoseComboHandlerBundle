@@ -9,5 +9,9 @@
             <tag name="twig.extension"/>
             <argument type="service" id="service_container"/>
         </service>
+        <service id="libbit_yui.twig.extension.handlebars" class="Libbit\YuiBundle\Twig\Extension\HandlebarsExtension" public="false">
+            <tag name="twig.extension"/>
+            <argument type="service" id="service_container"/>
+        </service>
     </services>
 </container>
