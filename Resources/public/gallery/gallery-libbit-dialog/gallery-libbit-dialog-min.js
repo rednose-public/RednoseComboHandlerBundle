@@ -103,7 +103,7 @@ YUI.add('gallery-libbit-dialog', function (Y) {
         },
 
         Window: function (windowHandle, title, height, width, content, uri, buttons) {
-            var container = Y.Node.create('<div/>'),
+            var container = Y.Node.create('<div class="libbit-dialog-window" />'),
                 body      = Y.Node.create('<div class="yui3-widget-bd"></div>'),
                 dialogDispatcher;
 
@@ -237,7 +237,7 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                 srcNode: bodyNode,
                 headerContent: headerTitle,
                 zIndex: Y.all('*').size(),
-                width: 560,
+                width: 500,
                 centered: true,
                 modal: true,
                 visible: false,
