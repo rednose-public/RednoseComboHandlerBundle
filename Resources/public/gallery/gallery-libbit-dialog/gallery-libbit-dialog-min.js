@@ -103,19 +103,20 @@ YUI.add('gallery-libbit-dialog', function (Y) {
         },
 
         Window: function (windowHandle, title, height, width, content, uri, buttons) {
-            var dialogNode = Y.Node.create('<div id="dialogWindow_' + windowHandle + '" class="dialogWindow" />'),
+            var container = Y.Node.create('<div/>'),
+                body      = Y.Node.create('<div class="yui3-widget-bd"></div>'),
                 dialogDispatcher;
 
-            Y.one('body').appendChild(dialogNode);
+            container.append(body);
 
             if (typeof (content) === 'string') {
-                dialogNode.set('innerHTML', content);
+                body.setHTML(content);
             } else if (typeof (content) === 'object' && content !== null) {
-                dialogNode.append(content);
+                body.setContent(content);
             } else if (typeof (uri) === 'string') {
-                dialogDispatcher = Y.Node.create('<div>Loading...</div>');
+                dialogDispatcher = Y.Node.create('<div class="libbit-dialog-window-wrapper">Loading...</div>');
 
-                dialogNode.appendChild(dialogDispatcher);
+                body.appendChild(dialogDispatcher);
 
                 new Y.Dispatcher({
                     node: dialogDispatcher,
@@ -126,7 +127,7 @@ YUI.add('gallery-libbit-dialog', function (Y) {
             }
 
             this.Window.panelObject = new Y.Panel({
-                srcNode: dialogNode,
+                srcNode: container,
                 headerContent: title,
                 width: width,
                 height: height,
@@ -134,17 +135,18 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                 centered: true,
                 modal: true,
                 visible: false,
-                render: true
+                render: true,
+                buttons: buttons
             });
-            this.Window.panelObject.plug(Y.Plugin.Drag);
 
-            this.wHandleCollection[windowHandle] = this.Window.panelObject;
+            //this.wHandleCollection[windowHandle] = this.Window.panelObject;
 
-            for (i in buttons) {
+            /*for (i in buttons) {
                 var skipCallback = false;
 
                 this.Window.panelObject.addButton({
                     value     : buttons[i].title,
+                    isDefault : buttons[i].isDefault,
                     section   : Y.WidgetStdMod.FOOTER,
                     classNames: ['dButton_' + i],
                     action    : function (e) {
@@ -163,51 +165,42 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                                 if (skipCallback === false) {
                                     buttons[parseInt(currentClass[x].replace('dButton_', ''), 10)].callback(
                                         Y.LibbitDialog.wHandleCollection[windowHandle],
-                                        dialogNode
+                                        container
                                     );
                                 }
                             }
                         }
                     }
                 });
-            }
-
-            if (dialogNode.all('.yui3-widget-ft').size() > 0) {
-                dialogNode.one('.yui3-widget-ft')
-                    .setStyle('position', 'absolute')
-                    .setStyle('bottom', '2px')
-                    .setStyle('width', (width - 20) + 'px');
-            }
+            }*/
 
             this.Window.panelObject.show();
-            this.Window.panelObject.on('visibleChange', function () {
-                dialogNode.get('parentNode').remove();
-
+            /*this.Window.panelObject.on('visibleChange', function () {
                 for (i in buttons) {
                     if (typeof (buttons[i].callbackClose) === 'boolean') {
                         if (buttons[i].callbackClose === true) {
                             buttons[i].callback(
                                 Y.LibbitDialog.wHandleCollection[windowHandle],
-                                dialogNode
+                                container
                             );
                         }
                     }
                 }
-            });
+            });*/
+
+            return this.Window.panelObject;
         },
 
         Panel: function (type, message, headerTitle, buttonTitle) {
-            var messageNode = Y.Node.create('<div class="dialogMessage" />'),
+            var bodyNode = Y.Node.create('<div/>'),
                 buttons;
 
             if (Y.Lang.isUndefined(buttonTitle)) {
                 buttonTitle = 'Confirm';
             }
 
-            messageNode.appendChild(Y.Node.create('<div class="dialog_' + type + '_icon" />'));
-            messageNode.appendChild(Y.Node.create('<div class="dialog_message">' + message + '</div>'));
-
-            Y.one('body').appendChild(messageNode);
+            bodyNode.appendChild(Y.Node.create('<div class="dialog_' + type + '_icon" />'));
+            bodyNode.appendChild(Y.Node.create('<div class="yui3-widget-bd">' + message + '</div>'));
 
             buttons = [
                 {
@@ -241,10 +234,10 @@ YUI.add('gallery-libbit-dialog', function (Y) {
             }
 
             this.Panel.panelObject = new Y.Panel({
-                srcNode: messageNode,
+                srcNode: bodyNode,
                 headerContent: headerTitle,
                 zIndex: Y.all('*').size(),
-                width: 490,
+                width: 560,
                 centered: true,
                 modal: true,
                 visible: false,
@@ -252,14 +245,15 @@ YUI.add('gallery-libbit-dialog', function (Y) {
                 buttons: buttons
             });
 
-            this.Panel.MessageNode = messageNode.one('div.dialog_message');
+            this.Panel.MessageNode = bodyNode.one('div.yui3-widget-bd');
+            this.Panel.MessageNode.setStyle('max-height', '400px');
 
             this.Panel.panelObject.show();
-            this.Panel.panelObject.on('visibleChange', function () {
+            /*this.Panel.panelObject.on('visibleChange', function () {
                 if ((type === 'error' || type === 'message' || type === 'warning') && typeof (this.callback) === 'function') {
                     this.callback();
                 }
-            });
+            });*/
         }
     };
 
