@@ -38,6 +38,13 @@ class YuiController extends Controller
         $version = (string) $this->container->getParameter('libbit_yui.version');
         $baseUrl = $yuiConfig['template']['base'];
 
+        foreach (array_keys($groups) as $key) {
+            $groups[$key]['base'] = 'http://localhost'.$this->container->get('router')->generate('libbit_yui_minify').'?b='.
+                // XXX: Quickfix
+                str_replace('libbityui', 'libbitdocgen/yui/template/js', $baseUrl).
+                '&f=';
+        }
+
         return $this->render('LibbitYuiBundle:Core:config.js.twig', array(
             'groups'   => $groups,
             'version'  => $version,

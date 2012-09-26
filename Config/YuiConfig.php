@@ -31,13 +31,13 @@ class YuiConfig
     {
         $json = '';
         $locator = $container->get('file_locator');
-        
+
         foreach ($this->json as $file) {
             $file = $locator->locate($file);
-            
+
             $json .= file_get_contents($file);
         }
-        
+
         return array('template' => array(
             'json' => $json,
             'base' => ltrim($container->get('templating.helper.assets')->getUrl('bundles/libbityui'), '/'),

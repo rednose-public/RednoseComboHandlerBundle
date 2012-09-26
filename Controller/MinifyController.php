@@ -59,7 +59,7 @@ class MinifyController extends Controller
     {
         return array(
             'quiet' => true,
-            'debug' => $this->container->getParameter('kernel.environment') === 'dev',
+            'debug' => true, //$this->container->getParameter('kernel.environment') === 'dev',
         );
     }
 }
