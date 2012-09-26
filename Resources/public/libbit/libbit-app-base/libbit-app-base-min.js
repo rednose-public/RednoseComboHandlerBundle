@@ -47,7 +47,9 @@ App = Y.Base.create('libbit-app', Y.App, [], {
                 srcNode      : view.get('container'),
                 centered     : true,
                 modal        : true,
-                render       : true
+                render       : true,
+                width        : 1024,
+                height       : 576
             }));
         } else {
             // Insert view into the DOM.

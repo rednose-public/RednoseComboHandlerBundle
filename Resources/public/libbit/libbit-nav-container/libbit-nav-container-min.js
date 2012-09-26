@@ -23,4 +23,4 @@ NavContainer = Y.Base.create('nav', Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons])
 // -- Namespace ----------------------------------------------------------------
 Y.namespace('Libbit').NavContainer = NavContainer;
 
-}, '3.6.0' ,{requires:['widget', 'widget-std-mod', 'widget-buttons']});
+}, '3.6.0' ,{requires:['widget', 'widget-stdmod', 'widget-buttons']});
