@@ -38,7 +38,7 @@ class YuiExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFilters()
     {
         return array(
             'yui' => new \Twig_Filter_Method($this, 'yuiLoader', array('is_safe' => array('all')))
