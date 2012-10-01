@@ -5,7 +5,7 @@ YUI_config = {
     combine: true,
     comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url }}&f=',
     root: 'yui{{ version }}/',
-    lang: '{{ app.session.locale }}',
+    lang: '{{ app.request.locale }}',
     filter : {
         'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)',
         'replaceStr': '$1,'
