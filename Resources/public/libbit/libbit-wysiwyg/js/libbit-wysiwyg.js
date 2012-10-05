@@ -1,4 +1,4 @@
-YUI.add('gallery-libbit-wysiwyg', function(Y) {
+YUI.add('libbit-wysiwyg', function(Y) {
 
     Y.LibbitWYSIWYG = {
         
@@ -25,7 +25,7 @@ YUI.add('gallery-libbit-wysiwyg', function(Y) {
         },
 
         embed: function(parentNode, wysiwygId) {
-            var ckEditorUrl = '/gallery/gallery-libbit-wysiwyg/ckeditor/ckeditor.js';
+            var ckEditorUrl = '/libbit/libbit-wysiwyg/ckeditor/ckeditor.js';
             var headEl = Y.one('head');
 
             if (typeof(yuiPublicPath) != 'undefined') {
