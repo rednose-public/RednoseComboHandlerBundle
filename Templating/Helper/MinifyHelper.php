@@ -23,7 +23,7 @@ class MinifyHelper extends Helper
 
    /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container Service container
      */
     public function __construct(ContainerInterface $container)

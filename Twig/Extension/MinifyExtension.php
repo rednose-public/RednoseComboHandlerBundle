@@ -22,7 +22,7 @@ class MinifyExtension extends \Twig_Extension
 
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container Service container
      */
     public function __construct(ContainerInterface $container)

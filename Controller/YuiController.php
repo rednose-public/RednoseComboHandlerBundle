@@ -22,7 +22,7 @@ class YuiController extends Controller
 {
     /**
      * Generates the YUI_config JavaScript object for the configured YUI version.
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function configAction()
@@ -54,7 +54,7 @@ class YuiController extends Controller
 
     /**
      * Returns the YUI seed file for the configured YUI version.
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function seedAction()

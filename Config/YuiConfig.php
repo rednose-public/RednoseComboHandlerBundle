@@ -11,6 +11,8 @@
 
 namespace Libbit\YuiBundle\Config;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * YuiConfig class
  *
@@ -20,14 +22,27 @@ namespace Libbit\YuiBundle\Config;
 class YuiConfig
 {
     protected $modules;
+
     protected $json;
 
+    /**
+     * Constructor
+     *
+     * @param string $json The JSON string to parse for config metadata
+     */
     public function __construct($json)
     {
         $this->json = $json;
     }
 
-    public function getConfig($container)
+    /**
+     * Process the JSON config
+     *
+     * @param ContainerInterface $container Service container
+     *
+     * @return array Config parameters
+     */
+    public function getConfig(ContainerInterface $container)
     {
         $json = '';
         $locator = $container->get('file_locator');

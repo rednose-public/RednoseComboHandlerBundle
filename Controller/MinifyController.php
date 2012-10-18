@@ -22,8 +22,8 @@ class MinifyController extends Controller
 {
     /**
      * Minify a request of JavaScript/CSS files
-     * 
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @return Response
      */
     public function serveAction()
     {
@@ -59,7 +59,7 @@ class MinifyController extends Controller
     {
         return array(
             'quiet' => true,
-            'debug' => true, //$this->container->getParameter('kernel.environment') === 'dev',
+            'debug' => false,
         );
     }
 }
