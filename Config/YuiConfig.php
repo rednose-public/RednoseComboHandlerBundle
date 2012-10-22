@@ -11,7 +11,7 @@
 
 namespace Libbit\YuiBundle\Config;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * YuiConfig class
@@ -38,14 +38,14 @@ class YuiConfig
     /**
      * Process the JSON config
      *
-     * @param ContainerInterface $container Service container
+     * @param Controller $controller The controller to wrap
      *
      * @return array Config parameters
      */
-    public function getConfig(ContainerInterface $container)
+    public function getConfig(Controller $controller)
     {
         $json = '';
-        $locator = $container->get('file_locator');
+        $locator = $controller->get('file_locator');
 
         foreach ($this->json as $file) {
             $file = $locator->locate($file);
@@ -55,7 +55,7 @@ class YuiConfig
 
         return array('template' => array(
             'json' => $json,
-            'base' => ltrim($container->get('templating.helper.assets')->getUrl('bundles/libbityui'), '/'),
+            'base' => ltrim($controller->get('templating.helper.assets')->getUrl('bundles/libbityui'), '/'),
         ));
     }
 }
