@@ -45,7 +45,7 @@ class YuiController extends Controller
                 '&f=';
         }
 
-        return $this->render('LibbitYuiBundle:Core:config.js.twig', array(
+        return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
             'groups'   => $groups,
             'version'  => $version,
             'base_url' => $baseUrl,

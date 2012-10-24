@@ -9,9 +9,9 @@ obtain a copy of the Licence at:
 http://www.osor.eu/eupl
 
 Unless required by applicable law or agreed to in writing, software
-distributed under the Licence is distributed on an "AS IS" basis, WITHOUT 
+distributed under the Licence is distributed on an "AS IS" basis, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-Licence for the specific language governing permissions and limitations 
+Licence for the specific language governing permissions and limitations
 under the Licence.
 */
 YUI.add('libbit-app-base', function(Y) {
@@ -22,6 +22,24 @@ var App;
 Provides support for modal views.
 **/
 App = Y.Base.create('libbit-app', Y.App, [], {
+
+    /**
+     * Dismisses the currently active modal view, and returns to it's parent view,
+     * assumed the parent view has the property 'preverved'
+     */
+    dismissModalView: function () {
+        var view     = this.get('activeView'),
+            viewInfo = this.getViewInfo(view);
+
+        if (!viewInfo.parent || !viewInfo.modal) {
+            return;
+        }
+
+        this.showView(viewInfo.parent, {}, {
+            update: false,
+            render: false
+        });
+    },
 
     _attachView: function (view, prepend) {
         if (!view) {
@@ -68,7 +86,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
         if (this.getViewInfo(this.get('activeView')).modal && viewInfo.preserve) {
             return;
         }
-        
+
         // Destroy this view's panel if this view is modal.
         if (viewInfo.modal) {
             view.get('_panelNode').destroy();
@@ -102,7 +120,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
         if (this.getViewInfo(e.newVal).modal) {
             e.options.transition = false;
         }
-        
+
         if (e.prevVal) {
             if (this.getViewInfo(e.prevVal).modal) {
                 e.options.transition = false;
