@@ -19,13 +19,31 @@ YUI.add('libbit-app-base', function(Y) {
 var App;
 
 /**
-Provides support for modal views.
+Extension of the original Y.App, to provide support for modal views.
 **/
 App = Y.Base.create('libbit-app', Y.App, [], {
 
     /**
-     * Dismisses the currently active modal view, and returns to it's parent view,
-     * assumed the parent view has the property 'preverved'
+     * Override the superclass method to check if this view needs to be lazyloaded first.
+     */
+    showView: function (view, config, options, callback) {
+        var self     = this,
+            args     = arguments,
+            viewInfo = this.getViewInfo(view);
+
+        if (viewInfo.lazyload) {
+            // Attach to the global Y object, this needs to be set (var Y = YUI();).
+            Y.use(viewInfo.lazyload, function () {
+                App.superclass.showView.apply(self, args);
+            });
+        } else {
+            App.superclass.showView.apply(self, args);
+        }
+    },
+
+    /**
+     * Dismisses the currently active modal view and returns to it's parent view,
+     * assuming the parent view has the property 'preserved' set to 'true'
      */
     dismissModalView: function () {
         var view     = this.get('activeView'),
@@ -116,18 +134,21 @@ App = Y.Base.create('libbit-app', Y.App, [], {
     },
 
     _afterActiveViewChange: function (e) {
+        var newView  = e.newVal,
+            prevView = e.prevVal;
+
         // TODO: Add modal transition
-        if (this.getViewInfo(e.newVal).modal) {
+        if (this.getViewInfo(newView).modal) {
             e.options.transition = false;
         }
 
-        if (e.prevVal) {
-            if (this.getViewInfo(e.prevVal).modal) {
+        if (prevView) {
+            if (this.getViewInfo(prevView).modal) {
                 e.options.transition = false;
             }
         }
 
-        this._uiSetActiveView(e.newVal, e.prevVal, e.options);
+        this._uiSetActiveView(newView, prevView, e.options);
     }
 });
 
