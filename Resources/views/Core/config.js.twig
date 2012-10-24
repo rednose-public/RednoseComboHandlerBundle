@@ -10,7 +10,7 @@ YUI_config = {
         'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)',
         'replaceStr': '$1,'
     },
-    
+
     groups: {
         yui2: {
             combine: true,
@@ -27,7 +27,7 @@ YUI_config = {
                 }
             }
         },
-        
+
         gallery: {
             combine: true,
             root: 'gallery/',
@@ -62,7 +62,12 @@ YUI_config = {
         }
     }
 }
-        
+
 {% for key, group in groups %}
 YUI_config.groups['{{ key }}'] = {{ group|json_encode|raw }}
-{% endfor %} 
+{% endfor %}
+
+{# Global YAHOO object, fixes multiple instances of YAHOO treeview #}
+var YAHOO; YUI().use('yui2-treeview', function(Y) { YAHOO = Y.YUI2; });
+{# Global YUI object, to allow lazyloading #}
+var Y = YUI();
