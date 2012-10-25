@@ -41,7 +41,7 @@ class YuiController extends Controller
         foreach (array_keys($groups) as $key) {
             $groups[$key]['base'] = $this->container->get('router')->generate('libbit_yui_minify').'?b='.
                 // XXX: Quickfix
-                str_replace('libbityui', 'libbitdocgen/yui/template/js', $baseUrl).
+                str_replace('libbityui', 'docgenadmin/yui/template/js', $baseUrl).
                 '&f=';
         }
 
