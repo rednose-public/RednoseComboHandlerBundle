@@ -18,6 +18,7 @@ YUI.add('libbit-app-base', function(Y) {
 
 var App;
 
+var mapp = {};
 /**
 Extension of the original Y.App, to provide support for modal views.
 **/
@@ -42,8 +43,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
     },
 
     /**
-     * Dismisses the currently active modal view and returns to it's parent view,
-     * assuming the parent view has the property 'preserved' set to 'true'
+     * Dismisses the currently active modal view and returns to it's parent view.
      */
     dismissModalView: function () {
         var view     = this.get('activeView'),
@@ -53,104 +53,66 @@ App = Y.Base.create('libbit-app', Y.App, [], {
             return;
         }
 
-        this.showView(viewInfo.parent, {}, {
-            update: false,
-            render: false
-        });
-    },
-
-    _attachView: function (view, prepend) {
-        if (!view) {
-            return;
-        }
-
-        var viewInfo      = this.getViewInfo(view),
-            viewContainer = this.get('viewContainer');
-
-        view.addTarget(this);
-        viewInfo && (viewInfo.instance = view);
-
-        // TODO: Attach events here for persevered Views?
-        // See related TODO in `_detachView`.
-
-        // TODO: Actually render the view here so that it gets "attached" before
-        // it gets rendered?
-
-        // TODO: Implement preserve for modal views.
-        if (viewInfo.modal) {
-            // TODO: Custom extension package
-            view.set('_panelNode', new Y.Libbit.Panel({
-                srcNode      : view.get('container'),
-                centered     : true,
-                modal        : true,
-                render       : true,
-                width        : 1024,
-                height       : 576,
-                // TODO: Implementing stacking correctly
-                zIndex       : Y.all('*').size()
-            }));
-        } else {
-            // Insert view into the DOM.
-            viewContainer[prepend ? 'prepend' : 'append'](view.get('container'));
-        }
-    },
-
-    _detachView: function (view) {
-        if (!view) {
-            return;
-        }
-
-        var viewInfo = this.getViewInfo(view) || {};
-
-        // Don't detach this view if the new view is modal.
-        if (this.getViewInfo(this.get('activeView')).modal && viewInfo.preserve) {
-            return;
-        }
-
-        // Destroy this view's panel if this view is modal.
-        if (viewInfo.modal) {
-            view.get('_panelNode').destroy();
-        }
-
-        if (viewInfo.preserve) {
-            view.remove();
-            // TODO: Detach events here for preserved Views? It is possible that
-            // some event subscriptions are made on elements other than the
-            // View's `container`.
-        } else {
-            view.destroy({remove: true});
-
-            // TODO: The following should probably happen automagically from
-            // `destroy()` being called! Possibly `removeTarget()` as well.
-
-            // Remove from view to view-info map.
-            delete this._viewInfoMap[Y.stamp(view, true)];
-
-            // Remove from view-info instance property.
-            if (view === viewInfo.instance) {
-                delete viewInfo.instance;
-            }
-        }
-
-        view.removeTarget(this);
+        // Set the active view to this view's parent, and trigger an activeViewChange.
+        this._set('activeView', this.createView(viewInfo.parent));
     },
 
     _afterActiveViewChange: function (e) {
         var newView  = e.newVal,
-            prevView = e.prevVal;
+            oldView = e.prevVal;
 
-        // TODO: Add modal transition
-        if (this.getViewInfo(newView).modal) {
-            e.options.transition = false;
-        }
+        if (this.getViewInfo(newView).modal && !oldView) {
+                // if new is child, render panel
+                var panel = new Y.Libbit.Panel({
+                    srcNode      : newView.get('container'),
+                    centered     : true,
+                    modal        : true,
+                    render       : true,
+                    width        : 1024,
+                    height       : 576,
+                    // TODO: Implementing stacking correctly
+                    zIndex       : Y.all('*').size()
+                });
+                mapp[this.getViewInfo(newView).type] = panel;
+        } else if (this.getViewInfo(newView).modal && !this.getViewInfo(oldView).modal) {
+                // if new is child, render panel
+                var panel = new Y.Libbit.Panel({
+                    srcNode      : newView.get('container'),
+                    centered     : true,
+                    modal        : true,
+                    render       : true,
+                    width        : 1024,
+                    height       : 576,
+                    // TODO: Implementing stacking correctly
+                    zIndex       : Y.all('*').size()
+                });
+                mapp[this.getViewInfo(newView).type] = panel;
+        } else if (!this.getViewInfo(newView).modal && this.getViewInfo(oldView).modal) {
+                mapp[this.getViewInfo(oldView).type].destroy();
+                oldView.destroy({remove: true});
 
-        if (prevView) {
-            if (this.getViewInfo(prevView).modal) {
-                e.options.transition = false;
+        } else if (this.getViewInfo(newView).modal && this.getViewInfo(oldView).modal) {
+            if (this._isChildView(newView, oldView)) {
+                // if new is child, render panel
+                var panel = new Y.Libbit.Panel({
+                    srcNode      : newView.get('container'),
+                    centered     : true,
+                    modal        : true,
+                    render       : true,
+                    width        : 1024,
+                    height       : 576,
+                    // TODO: Implementing stacking correctly
+                    zIndex       : Y.all('*').size()
+                });
+                mapp[this.getViewInfo(newView).type] = panel;
+            } else {
+            // else destroy child (old)
+                mapp[this.getViewInfo(oldView).type].destroy();
+                oldView.destroy({remove: true});
             }
+        } else {
+            this._uiSetActiveView(newView, oldView, e.options);
         }
-
-        this._uiSetActiveView(newView, prevView, e.options);
     }
 });
 
