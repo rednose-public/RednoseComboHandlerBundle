@@ -18,11 +18,12 @@ YUI.add('libbit-app-base', function(Y) {
 
 var App;
 
-var mapp = {};
 /**
 Extension of the original Y.App, to provide support for modal views.
 **/
 App = Y.Base.create('libbit-app', Y.App, [], {
+
+    _modalViewInfoMap: {},
 
     /**
      * Override the superclass method to check if this view needs to be lazyloaded first.
@@ -58,59 +59,36 @@ App = Y.Base.create('libbit-app', Y.App, [], {
     },
 
     _afterActiveViewChange: function (e) {
-        var newView  = e.newVal,
-            oldView = e.prevVal;
+        var newView      = e.newVal,
+            oldView      = e.prevVal,
+            // If oldView doesn't exist, always conside it to be a child
+            isChild      = oldView ? this._isChildView(newView, oldView) : true,
+            newViewModal = this.getViewInfo(newView).modal,
+            oldViewModal = false;
 
-        if (this.getViewInfo(newView).modal && !oldView) {
-                // if new is child, render panel
-                var panel = new Y.Libbit.Panel({
-                    srcNode      : newView.get('container'),
-                    centered     : true,
-                    modal        : true,
-                    render       : true,
-                    width        : 1024,
-                    height       : 576,
-                    // TODO: Implementing stacking correctly
-                    zIndex       : Y.all('*').size()
-                });
-                mapp[this.getViewInfo(newView).type] = panel;
-        } else if (this.getViewInfo(newView).modal && !this.getViewInfo(oldView).modal) {
-                // if new is child, render panel
-                var panel = new Y.Libbit.Panel({
-                    srcNode      : newView.get('container'),
-                    centered     : true,
-                    modal        : true,
-                    render       : true,
-                    width        : 1024,
-                    height       : 576,
-                    // TODO: Implementing stacking correctly
-                    zIndex       : Y.all('*').size()
-                });
-                mapp[this.getViewInfo(newView).type] = panel;
-        } else if (!this.getViewInfo(newView).modal && this.getViewInfo(oldView).modal) {
-                mapp[this.getViewInfo(oldView).type].destroy();
-                oldView.destroy({remove: true});
+        // If there's no oldView, modal should be false
+        if (oldView) {
+            oldViewModal = this.getViewInfo(oldView).modal;
+        }
 
-        } else if (this.getViewInfo(newView).modal && this.getViewInfo(oldView).modal) {
-            if (this._isChildView(newView, oldView)) {
-                // if new is child, render panel
-                var panel = new Y.Libbit.Panel({
-                    srcNode      : newView.get('container'),
-                    centered     : true,
-                    modal        : true,
-                    render       : true,
-                    width        : 1024,
-                    height       : 576,
-                    // TODO: Implementing stacking correctly
-                    zIndex       : Y.all('*').size()
-                });
-                mapp[this.getViewInfo(newView).type] = panel;
-            } else {
-            // else destroy child (old)
-                mapp[this.getViewInfo(oldView).type].destroy();
-                oldView.destroy({remove: true});
-            }
+        // The new view is modal, and it's a child view, render a new panel
+        if (newViewModal && isChild) {
+            this._modalViewInfoMap[this.getViewInfo(newView).type] = new Y.Libbit.Panel({
+                srcNode      : newView.get('container'),
+                centered     : true,
+                modal        : true,
+                render       : true,
+                width        : 1024,
+                height       : 576,
+                zIndex       : Y.all('*').size()
+            });
+
+        // The old view was modal, and the new one is not a child, means we're going back into
+        // the hierarchy. Destroy the modal view.
+        } else if (oldViewModal && !isChild) {
+            this._modalViewInfoMap[this.getViewInfo(oldView).type].destroy();
         } else {
+            // No modal views involved, process as usual
             this._uiSetActiveView(newView, oldView, e.options);
         }
     }
