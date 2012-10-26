@@ -85,7 +85,9 @@ App = Y.Base.create('libbit-app', Y.App, [], {
                 modal        : true,
                 render       : true,
                 width        : 1024,
-                height       : 576
+                height       : 576,
+                // TODO: Implementing stacking correctly
+                zIndex       : Y.all('*').size()
             }));
         } else {
             // Insert view into the DOM.

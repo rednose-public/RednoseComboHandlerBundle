@@ -59,7 +59,7 @@ class MinifyController extends Controller
     {
         return array(
             'quiet' => true,
-            'debug' => false,
+            'debug' => true,
         );
     }
 }
