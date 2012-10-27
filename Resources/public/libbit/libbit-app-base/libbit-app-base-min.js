@@ -61,7 +61,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
     _afterActiveViewChange: function (e) {
         var newView      = e.newVal,
             oldView      = e.prevVal,
-            // If oldView doesn't exist, always conside it to be a child
+            // If oldView doesn't exist, always consider it to be a child
             isChild      = oldView ? this._isChildView(newView, oldView) : true,
             newViewModal = this.getViewInfo(newView).modal,
             oldViewModal = false;
