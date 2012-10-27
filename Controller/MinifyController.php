@@ -13,6 +13,8 @@ namespace Libbit\YuiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+
+use Libbit\YuiBundle\Logger\MinifyLogger;
 use Libbit\YuiBundle\Exception\Exception;
 
 /**
@@ -27,7 +29,7 @@ class MinifyController extends Controller
      */
     public function serveAction()
     {
-        $errorLogger = false;
+        $errorLogger = true;
         $cacheFileLocking = true;
         $uploaderHoursBehind = 0;
 
@@ -36,10 +38,10 @@ class MinifyController extends Controller
 
         if ($errorLogger) {
             if (true === $errorLogger) {
-                $errorLogger = FirePHP::getInstance(true);
+                $errorLogger = MinifyLogger::getInstance(true);
             }
 
-            Minify_Logger::setLogger($errorLogger);
+            \Minify_Logger::setLogger($errorLogger);
         }
 
         if ($this->get('request')->get('f') === null) {

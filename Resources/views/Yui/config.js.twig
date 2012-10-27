@@ -53,7 +53,10 @@ YUI_config = {
                 'libbit-': {
                     configFn: function(me) {
                         if (/-skin/.test(me.name)) {
+                            me.type = 'css';
                             me.path = me.path.replace(/\.js/, '.css');
+                            me.path = me.path.replace('-skin', '');
+                            me.path = me.path.replace('-min', '');
                             me.path = me.path.substring(0, me.path.lastIndexOf('/')) + '/css' + me.path.substring(me.path.lastIndexOf('/'));
                         }
                     }
