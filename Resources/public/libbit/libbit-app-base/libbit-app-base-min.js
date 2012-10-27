@@ -23,6 +23,9 @@ Extension of the original Y.App, to provide support for modal views.
 **/
 App = Y.Base.create('libbit-app', Y.App, [], {
 
+    /**
+     * Stores the Panel instances to manage the active modal views.
+     */
     _modalViewInfoMap: {},
 
     /**
@@ -58,6 +61,9 @@ App = Y.Base.create('libbit-app', Y.App, [], {
         this._set('activeView', this.createView(viewInfo.parent));
     },
 
+    /**
+     * Hook into the view change, to handle modal views.
+     */
     _afterActiveViewChange: function (e) {
         var newView      = e.newVal,
             oldView      = e.prevVal,
@@ -80,7 +86,9 @@ App = Y.Base.create('libbit-app', Y.App, [], {
                 render       : true,
                 width        : 1024,
                 height       : 576,
-                zIndex       : Y.all('*').size()
+                zIndex       : Y.all('*').size(),
+                // Disable the default hide on ESC keypress, the panel needs to be dismissed by the App.
+                hideOn       : []
             });
 
         // The old view was modal, and the new one is not a child, means we're going back into
