@@ -199,8 +199,11 @@ YUI.add('libbit-dialog', function (Y) {
                 buttonTitle = 'Confirm';
             }
 
-            bodyNode.appendChild(Y.Node.create('<div class="dialog_' + type + '_icon" />'));
-            bodyNode.appendChild(Y.Node.create('<div class="yui3-widget-bd">' + message + '</div>'));
+            bodyNode.appendChild(Y.Node.create('<div class="yui3-widget-bd">' +
+                                               '<div class="icon dialog_' + type + '_icon"></div>' +
+                                               '<div>' + message + '</div>' +
+                                               '</div>'
+            ));
 
             buttons = [
                 {
@@ -247,6 +250,8 @@ YUI.add('libbit-dialog', function (Y) {
 
             this.Panel.MessageNode = bodyNode.one('div.yui3-widget-bd');
             this.Panel.MessageNode.setStyle('max-height', '400px');
+
+            this.Panel.panelObject.get('boundingBox').addClass('libbit-dialog');
 
             this.Panel.panelObject.show();
             /*this.Panel.panelObject.on('visibleChange', function () {

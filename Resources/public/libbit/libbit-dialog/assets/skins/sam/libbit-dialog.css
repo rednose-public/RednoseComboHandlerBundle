@@ -1,5 +1,16 @@
+.libbit-dialog .yui3-widget-bd {
+    max-height: 400px;
+    min-height: 48px;
+}
+
+.libbit-dialog .icon {
+    float: left;
+    margin-right: 15px;
+    height: 48px;
+    width: 48px;
+}
+
 .dialog_message {
-    /*max-height: 400px;*/
     overflow-y: auto;
     min-height: 48px;
     padding: 15px;
@@ -12,38 +23,18 @@
 }
 
 .dialog_message_icon {
-    float: left;
-    margin-top: 15px;
-    margin-left: 15px;
-    height: 48px;
-    width: 48px;
     background-image: url('info.png');
 }
 
 .dialog_warning_icon {
-    float: left;
-    margin-top: 15px;
-    margin-left: 15px;
-    height: 48px;
-    width: 48px;
     background-image: url('warning.png');
 }
 
 .dialog_error_icon {
-    float: left;
-    margin-top: 15px;
-    margin-left: 15px;
-    height: 48px;
-    width: 48px;
     background-image: url('error.png');
 }
 
 .dialog_prompt_icon, .dialog_confirm_icon {
-    float: left;
-    margin-top: 15px;
-    margin-left: 15px;
-    height: 48px;
-    width: 48px;
     background-image: url('question.png');
 }
 
