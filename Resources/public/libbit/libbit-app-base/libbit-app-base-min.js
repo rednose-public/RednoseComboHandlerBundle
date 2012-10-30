@@ -50,7 +50,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
      * Dismisses the currently active modal view and returns to it's parent view.
      */
     dismissModalView: function () {
-        var view     = this.get('activeView'),
+/*        var view     = this.get('activeView'),
             viewInfo = this.getViewInfo(view);
 
         if (!viewInfo.parent || !viewInfo.modal) {
@@ -58,7 +58,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
         }
 
         // Set the active view to this view's parent, and trigger an activeViewChange.
-        this._set('activeView', this.createView(viewInfo.parent));
+        this._set('activeView', this.createView(viewInfo.parent));*/
     },
 
     /**
@@ -72,29 +72,96 @@ App = Y.Base.create('libbit-app', Y.App, [], {
             newViewModal = this.getViewInfo(newView).modal,
             oldViewModal = false;
 
-        // If there's no oldView, modal should be false
-        if (oldView) {
-            oldViewModal = this.getViewInfo(oldView).modal;
-        }
 
-        // The new view is modal, and it's a child view, render a new panel
-        if (newViewModal && isChild) {
-            this._modalViewInfoMap[this.getViewInfo(newView).type] = new Y.Libbit.Panel({
-                srcNode      : newView.get('container'),
-                centered     : true,
-                modal        : true,
-                render       : true,
-                width        : 1024,
-                height       : 576,
-                zIndex       : Y.all('*').size(),
-                // Disable the default hide on ESC keypress, the panel needs to be dismissed by the App.
-                hideOn       : []
-            });
+        var options = e.options;
+            options || (options = {});
+            // If there's no oldView, modal should be false
+            if (oldView) {
+                oldViewModal = this.getViewInfo(oldView).modal;
+            }
+
+            // The new view is modal, and it's a child view, render a new panel
+            if (newViewModal && isChild) {
+            var callback = options.callback,
+                isChild  = this._isChildView(newView, oldView),
+                isParent = !isChild && this._isParentView(newView, oldView),
+                prepend  = !!options.prepend || isParent;
+
+                  if (newView === oldView) {
+                        return callback && callback.call(this, newView);
+                    }
+
+                var viewInfo = this.getViewInfo(newView);
+                newView.addTarget(this);
+                viewInfo && (viewInfo.instance = newView);
+
+                this._modalViewInfoMap[this.getViewInfo(newView).type] = new Y.Libbit.Panel({
+                    srcNode      : newView.get('container'),
+                    centered     : true,
+                    modal        : true,
+                    render       : true,
+                    width        : 1024,
+                    height       : 576,
+                    zIndex       : Y.all('*').size(),
+                    // Disable the default hide on ESC keypress, the panel needs to be dismissed by the App.
+                    hideOn       : []
+                });
+
+                //detach
+                if (oldView) {
+                    var viewInfo = this.getViewInfo(oldView) || {};
+                    //oldView.remove();
+
+                    //oldView.destroy({remove: true});
+
+                    // Remove from view to view-info map.
+                    delete this._viewInfoMap[Y.stamp(oldView, true)];
+
+                    // Remove from view-info instance property.
+                    //if (oldView === viewInfo.instance) {
+                    //    delete viewInfo.instance;
+                    //}
+
+                    oldView.removeTarget(this);
+                }
+
+
+
+            callback && callback.call(this, newView);
 
         // The old view was modal, and the new one is not a child, means we're going back into
         // the hierarchy. Destroy the modal view.
         } else if (oldViewModal && !isChild) {
+            var callback = options.callback,
+                isChild  = this._isChildView(newView, oldView),
+                isParent = !isChild && this._isParentView(newView, oldView),
+                prepend  = !!options.prepend || isParent;
+
+            if (newView === oldView) {
+                return callback && callback.call(this, newView);
+            }
+
+            var viewInfo = this.getViewInfo(newView);
+            newView.addTarget(this);
+            viewInfo && (viewInfo.instance = newView);
+            console.log(newView);
+
+            //  detach
+            var viewInfo = this.getViewInfo(oldView) || {};
+
             this._modalViewInfoMap[this.getViewInfo(oldView).type].destroy();
+            oldView.destroy({remove: true});
+
+            // Remove from view to view-info map.
+            delete this._viewInfoMap[Y.stamp(oldView, true)];
+
+            // Remove from view-info instance property.
+            if (oldView === viewInfo.instance) {
+                delete viewInfo.instance;
+            }
+
+            oldView.removeTarget(this);
+            callback && callback.call(this, newView);
         } else {
             // No modal views involved, process as usual
             this._uiSetActiveView(newView, oldView, e.options);
