@@ -23,4 +23,4 @@ DataTable = Y.Base.create('dataTable', Y.DataTable.Base, [ Y.DataTable.Scrollabl
 // -- Namespace ----------------------------------------------------------------
 Y.namespace('Libbit').DataTable = DataTable;
 
-}, '3.6.0' , {requires:['datatable-base', 'datatable-scroll', 'datatable-sort']});
+}, '3.6.0' , {requires:['datatable-base', 'datatable-scroll', 'datatable-sort'], skinnable: true});
