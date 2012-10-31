@@ -144,7 +144,6 @@ App = Y.Base.create('libbit-app', Y.App, [], {
             var viewInfo = this.getViewInfo(newView);
             newView.addTarget(this);
             viewInfo && (viewInfo.instance = newView);
-            console.log(newView);
 
             //  detach
             var viewInfo = this.getViewInfo(oldView) || {};
