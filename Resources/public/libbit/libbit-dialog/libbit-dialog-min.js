@@ -29,7 +29,7 @@ function Dialog(config) {
 Dialog.NAME = "dialog";
 
 /*
- * The attribute configuration for the Spinner widget. Attributes can be
+ * The attribute configuration for the Dialog widget. Attributes can be
  * defined with default values, get/set functions and validator functions
  * as with any other class extending Base.
  */
@@ -49,14 +49,20 @@ Y.extend(Dialog, Y.Widget, {
     wHandleCollection: [],
 
     initializer: function () {
+        // Bind the error attribute change event
         this.after('errorChange', this._setError, this);
     },
 
+    /**
+     * Gets triggered after the 'error' attribute changes. Renders an
+     * error message at a given property path.
+     */
     _setError: function (e) {
         var error = e.newVal,
             bb    = this.panel.panelObject.get('boundingBox'),
             input;
 
+        // Remove any previous error message
         bb.all('.control-group').each(function (node) {
             if (node.hasClass('error')) {
                 node.removeClass('error');
@@ -65,6 +71,7 @@ Y.extend(Dialog, Y.Widget, {
             node.all('.help-block').remove();
         });
 
+        // Append the message node at the given path
         input = bb.one('[data-path=' + error.path + ']');
         input.ancestor('.control-group').addClass('error');
         input.get('parentNode').append('<span class="help-block">' + error.message + '</span>');
