@@ -48,10 +48,12 @@ YUI_config = {
 
         libbit: {
             combine: true,
-            root: 'libbit/',
+            root: 'libbit/build/',
             patterns: {
                 'libbit-': {
                     configFn: function(me) {
+                        // TODO: Create a better way to specify debugging across all groups
+                        me.path = me.path.replace('-min', '-debug');
                         if (/-skin/.test(me.name)) {
                             me.type = 'css';
                             me.path = me.path.replace(/\.js/, '.css');
