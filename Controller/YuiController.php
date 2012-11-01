@@ -45,10 +45,15 @@ class YuiController extends Controller
                 '&f=';
         }
 
+        // FIXME: Temporary testing
+        $baseUrlTest = str_replace('libbityui', 'docgenadmin/js', $baseUrl);
+
         return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
             'groups'   => $groups,
             'version'  => $version,
             'base_url' => $baseUrl,
+            // FIXME: Temporary testing
+            'base_url_test' => $baseUrlTest
         ), $response);
     }
 

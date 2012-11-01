@@ -64,6 +64,28 @@ YUI_config = {
                     }
                 }
             }
+        },
+
+        // TODO: Specify this mapping dynamically somehow
+        docgenadmin: {
+            combine: true,
+            comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url_test }}&f=',
+            root: 'docgenadmin/build/',
+            patterns: {
+                'docgenadmin-': {
+                    configFn: function(me) {
+                        // TODO: Create a better way to specify debugging across all groups
+                        me.path = me.path.replace('-min', '-debug');
+                        if (/-skin/.test(me.name)) {
+                            me.type = 'css';
+                            me.path = me.path.replace(/\.js/, '.css');
+                            me.path = me.path.replace('-skin', '');
+                            me.path = me.path.replace('-min', '');
+                            me.path = me.path.substring(0, me.path.lastIndexOf('/')) + '/css' + me.path.substring(me.path.lastIndexOf('/'));
+                        }
+                    }
+                }
+            }
         }
     }
 }
