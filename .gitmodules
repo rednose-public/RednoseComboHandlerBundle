@@ -7,3 +7,6 @@
 [submodule "Resources/public/2in3"]
 	path = Resources/public/2in3
 	url = https://github.com/yui/2in3
+[submodule "Resources/public/yui3-libbit"]
+	path = Resources/public/yui3-libbit
+	url = git@gitorious.rednose.nl:yui/yui3-libbit.git
