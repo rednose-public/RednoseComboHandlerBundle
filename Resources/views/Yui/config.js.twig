@@ -1,4 +1,5 @@
 YUI_config = {
+{# This doesn't really work, see comment on libbit group #}
 {% if app.environment == 'dev' %}
     debug: true,
 {% endif %}
@@ -30,7 +31,7 @@ YUI_config = {
 
         gallery: {
             combine: true,
-            root: 'gallery/',
+            root: 'yui3-gallery/build/',
             patterns: {
                 'gallery-': {
                     configFn: function(me) {
