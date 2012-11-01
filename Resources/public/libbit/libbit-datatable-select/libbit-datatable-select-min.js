@@ -77,8 +77,7 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
         var table = this.get('host'),
             node    = e.newVal,
             oldNode = e.prevVal,
-            model,
-            id;
+            model;
 
         // Cancel if the selection did not change.
         if (node === oldNode) {

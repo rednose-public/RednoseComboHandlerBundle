@@ -41,9 +41,6 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
         '.template-grid-name': {
             click: 'edit'
         },
-        '.template-grid-icon-container': {
-            click: 'select'
-        },
         '.edit': {
             blur: 'close',
             keypress: 'enterUpdate'
@@ -65,7 +62,7 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
             model     = this.get('model'),
             content;
 
-        content = this.template(model.toJSON());
+        content = this.template(model.getAttrs());
 
         container.setContent(content);
 
@@ -149,19 +146,10 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
                 Y.one('#template-context').remove();
             });
         });
-    },
-
-    select: function (e) {
-        // Remove earlier selections
-        Y.all('.template_list_item_selected').removeClass('template_list_item_selected');
-        e.currentTarget.addClass('template_list_item_selected');
-
-        // Fires the select event and passes along the needed information.
-        Y.fire('template:select', { model: this.get('model') });
     }
 });
 
-Grid = Y.Base.create('grid', Y.Widget, [], {
+Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
     initializer: function (config) {
         var data = config.data;
     },
@@ -198,4 +186,4 @@ Grid = Y.Base.create('grid', Y.Widget, [], {
 // -- Namespace ----------------------------------------------------------------
 Y.namespace('Libbit').Grid = Grid;
 
-}, '3.6.0' , {requires:['handlebars', 'model-list', 'view'], skinnable: true});
+}, '3.6.0' , {requires:['libbit-grid-select', 'handlebars', 'model-list', 'view'], skinnable: true});

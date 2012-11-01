@@ -1,6 +1,5 @@
 /* Template grid item */
 .template-grid-container {
-    cursor: pointer;
     float: left;
     display: block;
     width: 246px;
