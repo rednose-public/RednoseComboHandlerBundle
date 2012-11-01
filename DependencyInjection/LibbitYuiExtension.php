@@ -42,11 +42,12 @@ class LibbitYuiExtension extends Extension
 
         $version = (string) $container->getParameter('libbit_yui.version');
 
-        if (file_exists(__DIR__.'/../Resources/public/yui'.$version) === false) {
+        // FIXME: YUI versions are deprecated (this means fixing the unit tests as well).
+        /*if (file_exists(__DIR__.'/../Resources/public/yui'.$version) === false) {
             throw new InvalidConfigurationException(
                 sprintf('Configured libbit_yui version %s is not available.', $version)
             );
-        }
+        }*/
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 

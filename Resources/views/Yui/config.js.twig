@@ -4,7 +4,7 @@ YUI_config = {
 {% endif %}
     combine: true,
     comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url }}&f=',
-    root: 'yui{{ version }}/',
+    root: 'yui3/build/',
     lang: '{{ app.request.locale }}',
     filter : {
         'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)',

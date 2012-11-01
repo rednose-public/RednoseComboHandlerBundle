@@ -21,7 +21,7 @@ use Assetic\Asset\FileAsset;
 class YuiController extends Controller
 {
     /**
-     * Generates the YUI_config JavaScript object for the configured YUI version.
+     * Generates the YUI_config JavaScript object.
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -35,7 +35,6 @@ class YuiController extends Controller
         ));
 
         $groups = json_decode($yuiConfig['template']['json'], true);
-        $version = (string) $this->container->getParameter('libbit_yui.version');
         $baseUrl = $yuiConfig['template']['base'];
 
         foreach (array_keys($groups) as $key) {
@@ -50,7 +49,6 @@ class YuiController extends Controller
 
         return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
             'groups'   => $groups,
-            'version'  => $version,
             'base_url' => $baseUrl,
             // FIXME: Temporary testing
             'base_url_test' => $baseUrlTest
@@ -64,7 +62,7 @@ class YuiController extends Controller
      */
     public function seedAction()
     {
-        $seedAsset = new FileAsset('bundles/libbityui/yui'.(string) $this->container->getParameter('libbit_yui.version').'/yui/yui-min.js');
+        $seedAsset = new FileAsset('bundles/libbityui/yui3/build/yui/yui-min.js');
 
         return new Response($seedAsset->dump(), 200, array(
             'Content-type' => 'application/x-javascript',
