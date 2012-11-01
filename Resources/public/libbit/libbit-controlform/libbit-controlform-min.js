@@ -7,17 +7,22 @@ ControlForm = Y.Base.create('controlForm', Y.Base, [], {
     {
         var self = this;
 
-        formsModel.each(function(form) {
-            self.renderForm(form);
+        formsModel.each(function(formItem) {
+            self.renderForm(formItem);
         });
     },
 
-    renderForm: function(form)
+    renderForm: function(formItem)
     {
+        var container = this.get('formContainer');
+        var form = formItem.get('controlForm')
         var controls = form.get('controlCollection');
+
         var formElement = Y.Node.create('<fieldset>');
         var legend = Y.Node.create('<legend>');
         var list = Y.Node.create('<ol>');
+
+        legend.set('innerHTML', form.get('caption'));
 
         formElement.append(legend);
         formElement.append(list);
@@ -40,13 +45,17 @@ ControlForm = Y.Base.create('controlForm', Y.Base, [], {
             list.append(controlContainer);
         });
 
-        // TODO: left or right?
-        this.get('leftContainer').append(formElement);
+        var directionClassName = container.getAttribute('class') + '_' + formItem.get('direction');
+
+        if (container.one('.' + directionClassName) != null) {
+            container.one('.' + directionClassName).append(formElement);
+        } else {
+            container.append(formElement);
+        }
     },
 }, {
     ATTRS: {
-        leftContainer: { value: '' },
-        rightContainer: { value: '' },
+        formContainer: { value: '' },
     }
 });
 
