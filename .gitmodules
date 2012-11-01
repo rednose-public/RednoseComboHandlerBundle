@@ -1,0 +1,3 @@
+[submodule "Resources/public/yui3"]
+	path = Resources/public/yui3
+	url = https://github.com/yui/yui3.git
