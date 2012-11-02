@@ -1,8 +1,4 @@
 YUI_config = {
-{# This doesn't really work, see comment on libbit group #}
-{% if app.environment == 'dev' %}
-    debug: true,
-{% endif %}
     combine: true,
     comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url }}&f=',
     root: 'yui3/build/',
@@ -19,10 +15,13 @@ YUI_config = {
             patterns: {
                 'yui2-': {
                     configFn: function(me) {
-                        if(/-skin|reset|fonts|grids|base/.test(me.name)) {
+                        if (/-skin|reset|fonts|grids|base/.test(me.name)) {
                             me.type = 'css';
                             me.path = me.path.replace(/\.js/, '.css');
-                            me.path = me.path.replace(/\/yui2-skin/, '/assets/skins/sam/yui2-skin');
+                            // this makes skins in builds earlier than
+                            // 2.6.0 work as long as combine is false
+                            me.path = me.path.replace(/\/yui2-skin/,
+                                             '/assets/skins/sam/yui2-skin');
                         }
                     }
                 }
@@ -32,38 +31,16 @@ YUI_config = {
         gallery: {
             combine: true,
             root: 'yui3-gallery/build/',
-            patterns: {
-                'gallery-': {
-                    configFn: function(me) {
-                        if (/-skin/.test(me.name)) {
-                            me.type = 'css';
-                            me.name = me.name.replace('-skin', '');
-                            me.path = me.name + '/assets/' + me.name + '.js';
-                            me.path = me.path.replace(/\.js/, '.css');
-                            me.path = me.path.substring(0, me.path.lastIndexOf('/')) + me.path.substring(me.path.lastIndexOf('/'));
-                        }
-                    }
-                }
-            }
+            patterns: { 'gallery-': { },
+                        'lang/gallery-': {},
+                        'gallerycss-': { type: 'css' } }
         },
 
         libbit: {
             combine: true,
             root: 'yui3-libbit/build/',
             patterns: {
-                'libbit-': {
-                    configFn: function(me) {
-                        // TODO: Create a better way to specify debugging across all groups
-                        me.path = me.path.replace('-min', '-debug');
-                        if (/-skin/.test(me.name)) {
-                            me.type = 'css';
-                            me.path = me.path.replace(/\.js/, '.css');
-                            me.path = me.path.replace('-skin', '');
-                            me.path = me.path.replace('-min', '');
-                            me.path = me.path.substring(0, me.path.lastIndexOf('/')) + '/css' + me.path.substring(me.path.lastIndexOf('/'));
-                        }
-                    }
-                }
+                'libbit-': {}
             }
         },
 
@@ -73,27 +50,11 @@ YUI_config = {
             comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url_test }}&f=',
             root: 'docgenadmin/build/',
             patterns: {
-                'docgenadmin-': {
-                    configFn: function(me) {
-                        // TODO: Create a better way to specify debugging across all groups
-                        me.path = me.path.replace('-min', '-debug');
-                        if (/-skin/.test(me.name)) {
-                            me.type = 'css';
-                            me.path = me.path.replace(/\.js/, '.css');
-                            me.path = me.path.replace('-skin', '');
-                            me.path = me.path.replace('-min', '');
-                            me.path = me.path.substring(0, me.path.lastIndexOf('/')) + '/css' + me.path.substring(me.path.lastIndexOf('/'));
-                        }
-                    }
-                }
+                'docgenadmin-': {}
             }
         }
     }
 }
-
-{% for key, group in groups %}
-YUI_config.groups['{{ key }}'] = {{ group|json_encode|raw }}
-{% endfor %}
 
 {# Global YAHOO object, fixes multiple instances of YAHOO treeview #}
 var YAHOO; YUI().use('yui2-treeview', function(Y) { YAHOO = Y.YUI2; });
