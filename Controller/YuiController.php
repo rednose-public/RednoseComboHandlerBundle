@@ -34,21 +34,11 @@ class YuiController extends Controller
             'Content-type' => 'application/x-javascript',
         ));
 
-        $groups = json_decode($yuiConfig['template']['json'], true);
         $baseUrl = $yuiConfig['template']['base'];
-
-        foreach (array_keys($groups) as $key) {
-            $groups[$key]['base'] = $this->container->get('router')->generate('libbit_yui_minify').'?b='.
-                // XXX: Quickfix
-                str_replace('libbityui', 'docgenadmin/yui/template/js', $baseUrl).
-                '&f=';
-        }
-
         // FIXME: Temporary testing
         $baseUrlTest = str_replace('libbityui', 'docgenadmin/js', $baseUrl);
 
         return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
-            'groups'   => $groups,
             'base_url' => $baseUrl,
             // FIXME: Temporary testing
             'base_url_test' => $baseUrlTest

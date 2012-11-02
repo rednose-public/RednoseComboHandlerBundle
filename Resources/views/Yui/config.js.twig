@@ -37,6 +37,7 @@ YUI_config = {
         },
 
         libbit: {
+            filter: 'debug',
             combine: true,
             root: 'yui3-libbit/build/',
             patterns: {
@@ -46,6 +47,7 @@ YUI_config = {
 
         // TODO: Specify this mapping dynamically somehow
         docgenadmin: {
+            filter: 'debug',
             combine: true,
             comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url_test }}&f=',
             root: 'docgenadmin/build/',
