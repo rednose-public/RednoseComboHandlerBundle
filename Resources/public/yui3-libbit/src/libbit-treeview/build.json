@@ -1,0 +1,10 @@
+{
+    "name": "libbit-treeview",
+    "builds": {
+        "libbit-treeview": {
+            "jsfiles": [
+                "libbit-treeview.js"
+            ]
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "libbit-grid-select" : {
+        "requires": [
+            "libbit-grid"
+        ]
+    }
+}

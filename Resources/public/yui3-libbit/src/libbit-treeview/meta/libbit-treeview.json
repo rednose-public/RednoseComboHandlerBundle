@@ -1,0 +1,11 @@
+{
+    "libbit-treeview" : {
+        "requires": [
+            "anim",
+            "libbit-treeview-anim",
+            "widget",
+            "yui2-treeview"
+        ],
+        "skinnable": true
+    }
+}

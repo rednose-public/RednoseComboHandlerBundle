@@ -1,0 +1,8 @@
+{
+    "gallery-treeble" : {
+        "requires": [
+            "datasource"
+        ],
+        "skinnable": true
+    }
+}

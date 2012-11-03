@@ -1,0 +1,12 @@
+{
+    "name": "gallery-treeble",
+    "builds": {
+        "gallery-treeble": {
+            "jsfiles": [
+                "TreebleDataSource.js",
+                "TreebleParser.js",
+                "Treeble.js"
+            ]
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "libbit-treeview-anim",
+    "builds": {
+        "libbit-treeview-anim": {
+            "jsfiles": [
+                "libbit-treeview-anim.js"
+            ]
+        }
+    }
+}
