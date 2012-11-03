@@ -31,16 +31,30 @@ YUI_config = {
         gallery: {
             combine: true,
             root: 'yui3-gallery/build/',
-            patterns: { 'gallery-': { },
-                        'lang/gallery-': {},
-                        'gallerycss-': { type: 'css' } }
+            patterns: {
+                'gallery-': {
+                    {% if app.environment == 'dev' %}
+                    configFn: function(me) {
+                        me.path = me.path.replace('-min', '-debug');
+                    }
+                    {% endif %}
+                },
+                'lang/gallery-': {},
+                'gallerycss-': { type: 'css' }
+            }
         },
 
         libbit: {
             combine: true,
             root: 'yui3-libbit/build/',
             patterns: {
-                'libbit-': {}
+                'libbit-': {
+                    {% if app.environment == 'dev' %}
+                    configFn: function(me) {
+                        me.path = me.path.replace('-min', '-debug');
+                    }
+                    {% endif %}
+                }
             }
         },
 
@@ -51,7 +65,13 @@ YUI_config = {
             comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url_test }}&f=',
             root: 'docgenadmin/build/',
             patterns: {
-                'docgenadmin-': {}
+                'docgenadmin': {
+                    {% if app.environment == 'dev' %}
+                    configFn: function(me) {
+                        me.path = me.path.replace('-min', '-debug');
+                    }
+                    {% endif %}
+                }
             }
         }
     }

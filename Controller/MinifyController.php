@@ -61,6 +61,7 @@ class MinifyController extends Controller
     {
         return array(
             'quiet' => true,
+            // TODO: Don't minify when in prod, just combine.
             'debug' => true,
         );
     }
