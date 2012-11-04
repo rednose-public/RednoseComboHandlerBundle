@@ -3,6 +3,7 @@
         "requires": [
             "anim",
             "libbit-treeview-anim",
+            "libbit-treeview-select",
             "model",
             "widget",
             "yui2-treeview"

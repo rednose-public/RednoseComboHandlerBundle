@@ -52,6 +52,7 @@ Nav.prototype = {
             body.append(c);
         });
 
+        container.addClass('lol');
         panel = new Y.Libbit.NavContainer({
             headerContent: header,
             bodyContent  : body,

@@ -44,18 +44,20 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
     },
 
     /**
-     * Handles the row click event, and updates the selectedRow attribute,
+     * Handles the click event, and updates the selectedRow attribute,
      * which fires an event on change.
      */
     _handleClick: function (e) {
         var target = e.target;
 
-        if (e.target.ancestor('.yui3-datatable-data tr')) {
+        if (target.ancestor('.yui3-datatable-data tr')) {
             // This is a table row, update the selection.
             this.set('selectedRow', target.ancestor('.yui3-datatable-data tr'));
-        } else if (e.target.ancestor('.yui3-datatable-columns')) {
+
+        } else if (target.ancestor('.yui3-datatable-columns')) {
             // This is a table column, ignore.
             return false;
+
         } else {
             // Clicked outside the rows, reset the selection.
             this.set('selectedRow', null);
@@ -103,7 +105,7 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
             model = this._getModelFromTableRow(node);
         }
 
-        // Fires the select event from the host passes along the needed information.
+        // Fires the select event from the host and passes along the needed information.
         table.fire('select', { model: model });
 
         return true;

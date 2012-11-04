@@ -1,25 +1,29 @@
 var TreeView;
 
-// TODO: Cursor default
-// TODO: Triangle icon
 // TODO: Bind model events
-// TODO: Style odd/even
-// TODO: Full model name in tooltip
+// TODO: Table support, style odd/even
 // TODO: Fix overflow CSS for Firefox
 // TODO: Implement sorting
-TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
+// TODO: Document data input
+// TODO: Add scrollable
+// TODO: Disable text selection within treenodes
+TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbit.TreeView.Selectable ], {
 
     renderUI: function () {
-        var self      = this,
-            data      = this.get('data'),
-            src       = this.get('srcNode'),
-            container = Y.Node.create('<div></div>'),
-            uniqueID  = new Date().getTime(),
+        var self       = this,
+            contentBox = this.get('contentBox'),
+            data       = this.get('data'),
+            src        = this.get('srcNode'),
+            width      = this.get('width'),
+            height     = this.get('height'),
+            container  = Y.Node.create('<div class="libbit-treeview-content"></div>'),
+            sID        = Y.stamp(container),
             nodes;
 
-        container.set('id', uniqueID);
-        container.addClass('libbit-treeview-content');
+        contentBox.setStyle('width', width);
+        contentBox.setStyle('height', height);
 
+        container.set('id', sID);
         src.append(container);
 
         tree = new YAHOO.widget.TreeView(container.get('id'), data);
@@ -27,8 +31,9 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
 
         this.set('tree', tree);
 
+        // XXX: Hide the tree while postprocessing?
         this._attachData();
-        this._renderIcons();
+        this._enhanceCells();
     },
 
     bindUI: function () {
@@ -40,10 +45,20 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
 
         // Forward tree events so extensions and plugins can subscribe to them.
         tree.subscribe('collapseComplete', function (node) {
+            var el = self._getTableElement(node).one('.ygtvtp, .ygtvtph, .ygtvlp, .ygtvtlh');
+
+            // Update the icon.
+            self._setCollapsedIcon(el);
+
             self.fire('collapseComplete', { node: node });
         });
 
         tree.subscribe('expandComplete', function (node) {
+            var el = self._getTableElement(node).one('.ygtvtm, .ygtvtmh, .ygtvlm, .ygtvlmh');
+
+            // Update the icon.
+            self._setExpandedIcon(el);
+
             self.fire('expandComplete', { node: node });
         });
 
@@ -61,7 +76,7 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
 
             // Rebind the click event.
             table.on('click', function (e) {
-                var el = e.target.get('parentNode');
+                var el = e.target.get('parentNode').get('parentNode');
 
                 // Check if an expand/collapse icon was clicked.
                 if (el.hasClass('ygtvtp') ||
@@ -151,9 +166,7 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
 
         tree.expandAll();
 
-        nodes = tree.getNodesBy(function () {
-            return true;
-        });
+        nodes = tree.getNodesBy(function () { return true; });
 
         Y.each(nodes, function (node) {
             var table = self._getTableElement(node);
@@ -169,15 +182,17 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
     },
 
     /**
-     * Render the icons in the treeview.
+     * Add the tooltips and render the icons in the treeview.
      */
-    _renderIcons: function () {
+    _enhanceCells: function () {
         var self        = this,
             boundingBox = this.get('boundingBox');
 
         boundingBox.all('.ygtvlabel').each(function (node) {
-            var model   = self._getModelFromLabelNode(node),
-                content = node.getContent(),
+            var model         = self._getModelFromLabelNode(node),
+                content       = node.getContent(),
+                collapsedNode = node.ancestor('tr').one('.ygtvtp, .ygtvtph, .ygtvlp, .ygtvtlh'),
+                expandedNode  = node.ancestor('tr').one('.ygtvtm, .ygtvtmh, .ygtvlm, .ygtvlmh'),
                 contentNode,
                 icon;
 
@@ -189,8 +204,19 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
             }
 
             if (icon) {
-                contentNode = Y.Node.create('<span style="white-space: nowrap;"><i class="' + icon + '"></i><span> ' + content + '</span></div>');
+                contentNode = Y.Node.create('<span class="label-container"><i class="' + icon + '"></i><span> ' + content + '</span></div>');
                 node.setContent(contentNode);
+            }
+
+            node.ancestor('.ygtvtable').set('title', content);
+
+            // Set the expand/colllapse items if necessary.
+            if (collapsedNode) {
+                self._setCollapsedIcon(collapsedNode);
+            }
+
+            if (expandedNode) {
+                self._setExpandedIcon(expandedNode);
             }
         });
     },
@@ -210,7 +236,36 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
             id          = node.labelElId;
 
         return boundingBox.one('#' + id).ancestor('table');
+    },
+
+    /**
+     * Add an icon node or update an existing one.
+     */
+    _setCollapsedIcon: function (el) {
+        var a = el.one('a');
+
+        if (a.one('i')) {
+            a.one('i').removeClass('icon-chevron-down');
+            a.one('i').addClass('icon-chevron-right');
+        } else {
+            a.setContent(Y.Node.create('<i class="icon-toggle icon-chevron-right"></i>'));
+        }
+    },
+
+    /**
+     * Add an icon node or update an existing one.
+     */
+    _setExpandedIcon: function (el) {
+        var a = el.one('a');
+
+        if (a.one('i')) {
+            a.one('i').removeClass('icon-chevron-right');
+            a.one('i').addClass('icon-chevron-down');
+        } else {
+            a.setContent(Y.Node.create('<i class="icon-toggle icon-chevron-down"></i>'));
+        }
     }
+
 }, {
     ATTRS: {
         // The data object containing the models.
@@ -219,6 +274,12 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
         },
         // The original tree object.
         tree : {
+            value: null
+        },
+        width : {
+            value: null
+        },
+        height : {
             value: null
         },
         // State attribute.

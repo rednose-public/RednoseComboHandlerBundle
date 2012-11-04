@@ -9,37 +9,24 @@
 .ygtvtable tr td span {
     background-color: transparent !important;
 }
+
 .ygtvtn,
 .ygtvln,
 .ygtvdepthcell {
     background: transparent !important;
 }
 
-.ygtvcell {
-    cursor: pointer !important;
-}
 .treeview-highlight,
 .ygtvchildren table.treeview-highlight:hover {
+    color: #ffffff !important;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-    background-color: #08c; !important;
+    background-color: #0088cc !important;
 }
 
 .ygtvchildren table:hover {
     text-decoration: none !important;
     background-color: #eeeeee !important;
-}
-/* TODO: Hover and selected icons */
-.ygtvtp,
-.ygtvtph,
-.ygtvlp,
-.ygtvlph {
-    background: url("tree-collapsed.gif") no-repeat !important;
-}
-.ygtvtm,
-.ygtvtmh,
-.ygtvlm,
-.ygtvlmh {
-    background: url("tree-expanded.gif") no-repeat !important;
+    color: #005580 !important;
 }
 
 /* Custom drag highlight */
