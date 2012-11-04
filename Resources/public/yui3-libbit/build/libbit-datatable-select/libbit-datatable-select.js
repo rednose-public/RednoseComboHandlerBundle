@@ -31,17 +31,18 @@ DataTableSelectPlugin.ATTRS = {
     }
 };
 
+// TODO: Persist selection after sorting.
 Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
 
     /**
      * Bind the click events and set up a listener for the selectedRow attribute.
      */
-    initializer: function (config) {
-        var table = this.get('host');
+    initializer: function () {
+        var table      = this.get('host'),
+            contentBox = table.get('contentBox');
 
-        // Handle the click event
-        table.get('contentBox').delegate('click', this._handleClick, '.yui3-datatable-data tr', this);
         this.after('selectedRowChange', this._afterSelectedRowChange, this);
+        contentBox.on('click', this._handleClick, this);
     },
 
     /**
@@ -49,7 +50,20 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
      * which fires an event on change.
      */
     _handleClick: function (e) {
-        this.set('selectedRow', e.currentTarget);
+        var target = e.target;
+
+        if (e.target.ancestor('.yui3-datatable-data tr')) {
+            // This is a table row, update the selection.
+            this.set('selectedRow', target.ancestor('.yui3-datatable-data tr'));
+        } else if (e.target.ancestor('.yui3-datatable-columns')) {
+            // This is a table column, ignore.
+            return false;
+        } else {
+            // Clicked outside the rows, reset the selection.
+            this.set('selectedRow', null);
+        }
+
+        return true;
     },
 
     /**
@@ -58,10 +72,10 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
      */
     _afterSelectedRowChange: function (e) {
         // TODO: Keep selection after sorting
-        var table = this.get('host'),
+        var table   = this.get('host'),
             node    = e.newVal,
             oldNode = e.prevVal,
-            model;
+            model   = null;
 
         // Cancel if the selection did not change.
         if (node === oldNode) {
@@ -85,14 +99,14 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
 
             // Inverse the icon color if there is one.
             if (node.one('i')) {
-                node.one('i').removeClass('icon-white');
+                node.one('i').addClass('icon-white');
             }
 
             model = this._getModelFromTableRow(node);
-
-            // Fires the select event from the host passes along the needed information.
-            table.fire('select', { model: model });
         }
+
+        // Fires the select event from the host passes along the needed information.
+        table.fire('select', { model: model });
 
         return true;
     },
