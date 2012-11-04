@@ -295,7 +295,7 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
 Y.namespace('Libbit').TreeView = TreeView;
 
 
-}, '@VERSION@', {
+}, '1.0.0', {
     "requires": [
         "anim",
         "libbit-treeview-anim",

@@ -52,7 +52,6 @@ Nav.prototype = {
             body.append(c);
         });
 
-        container.addClass('lol');
         panel = new Y.Libbit.NavContainer({
             headerContent: header,
             bodyContent  : body,
@@ -68,4 +67,4 @@ Nav.prototype = {
 Y.namespace('Libbit.View').Nav = Nav;
 
 
-}, '@VERSION@', {"requires": ["event-custom", "libbit-nav-container", "view"]});
+}, '1.0.0', {"requires": ["event-custom", "libbit-nav-container", "view"]});

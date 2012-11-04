@@ -9442,4 +9442,4 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 })( window );
 
 
-}, '@VERSION@', {"requires": []});
+}, '1.0.0', {"requires": []});

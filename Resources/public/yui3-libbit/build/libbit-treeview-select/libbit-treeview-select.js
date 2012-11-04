@@ -102,7 +102,7 @@ Selectable = Y.Base.create('selectable', Y.Base, [], {
             model = node.getData().model;
         }
 
-        // Fires the select event from the host passes along the needed information.
+        // Fires the select event and passes along the needed information.
         this.fire('select', { model: model });
 
         return true;
@@ -131,4 +131,4 @@ Selectable = Y.Base.create('selectable', Y.Base, [], {
 Y.namespace('Libbit.TreeView').Selectable = Selectable;
 
 
-}, '@VERSION@');
+}, '1.0.0');

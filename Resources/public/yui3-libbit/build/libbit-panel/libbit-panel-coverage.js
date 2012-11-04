@@ -26,7 +26,7 @@ _yuitest_coverage["build/libbit-panel/libbit-panel.js"] = {
     path: "build/libbit-panel/libbit-panel.js",
     code: []
 };
-_yuitest_coverage["build/libbit-panel/libbit-panel.js"].code=["YUI.add('libbit-panel', function (Y, NAME) {","","var Panel;","","Panel = Y.Base.create('panel', Y.Widget, [","    Y.WidgetPosition,","","    Y.WidgetAutohide,","    Y.WidgetModality,","    Y.WidgetPositionAlign,","    Y.WidgetPositionConstrain,","    Y.WidgetStack","]);","","// -- Namespace ----------------------------------------------------------------","Y.namespace('Libbit').Panel = Panel;","","","}, '@VERSION@', {","    \"requires\": [","        \"panel\",","        \"widget\",","        \"widget-autohide\",","        \"widget-modality\",","        \"widget-position\",","        \"widget-position-align\",","        \"widget-position-constrain\",","        \"widget-stack\"","    ]","});"];
+_yuitest_coverage["build/libbit-panel/libbit-panel.js"].code=["YUI.add('libbit-panel', function (Y, NAME) {","","var Panel;","","Panel = Y.Base.create('panel', Y.Widget, [","    Y.WidgetPosition,","","    Y.WidgetAutohide,","    Y.WidgetModality,","    Y.WidgetPositionAlign,","    Y.WidgetPositionConstrain,","    Y.WidgetStack","]);","","// -- Namespace ----------------------------------------------------------------","Y.namespace('Libbit').Panel = Panel;","","","}, '1.0.0', {","    \"requires\": [","        \"panel\",","        \"widget\",","        \"widget-autohide\",","        \"widget-modality\",","        \"widget-position\",","        \"widget-position-align\",","        \"widget-position-constrain\",","        \"widget-stack\"","    ]","});"];
 _yuitest_coverage["build/libbit-panel/libbit-panel.js"].lines = {"1":0,"3":0,"5":0,"16":0};
 _yuitest_coverage["build/libbit-panel/libbit-panel.js"].functions = {"(anonymous 1):1":0};
 _yuitest_coverage["build/libbit-panel/libbit-panel.js"].coveredLines = 4;
@@ -54,7 +54,7 @@ _yuitest_coverline("build/libbit-panel/libbit-panel.js", 16);
 Y.namespace('Libbit').Panel = Panel;
 
 
-}, '@VERSION@', {
+}, '1.0.0', {
     "requires": [
         "panel",
         "widget",

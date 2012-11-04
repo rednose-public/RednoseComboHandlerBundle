@@ -130,4 +130,4 @@ Y.extend(DataTableSelectPlugin, Y.Plugin.Base, {
 Y.namespace('Libbit').DataTableSelectPlugin = DataTableSelectPlugin;
 
 
-}, '@VERSION@', {"requires": ["libbit-datatable", "plugin"]});
+}, '1.0.0', {"requires": ["libbit-datatable", "plugin"]});

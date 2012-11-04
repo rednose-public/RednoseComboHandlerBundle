@@ -8,4 +8,4 @@ DataTable = Y.Base.create('dataTable', Y.DataTable.Base, [ Y.DataTable.Scrollabl
 Y.namespace('Libbit').DataTable = DataTable;
 
 
-}, '@VERSION@', {"requires": ["datatable-base", "datatable-scroll", "datatable-sort"], "skinnable": true});
+}, '1.0.0', {"requires": ["datatable-base", "datatable-scroll", "datatable-sort"], "skinnable": true});

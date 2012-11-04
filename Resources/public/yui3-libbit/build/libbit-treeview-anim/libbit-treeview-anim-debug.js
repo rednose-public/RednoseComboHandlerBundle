@@ -104,4 +104,4 @@ Anim.prototype = {
 Y.namespace('Libbit.TreeView').Anim = Anim;
 
 
-}, '@VERSION@');
+}, '1.0.0');

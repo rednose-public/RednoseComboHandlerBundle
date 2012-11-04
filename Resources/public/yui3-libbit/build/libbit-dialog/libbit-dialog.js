@@ -336,7 +336,7 @@ Y.extend(Dialog, Y.Widget, {
 Y.namespace('Libbit').Dialog = Dialog;
 
 
-}, '@VERSION@', {
+}, '1.0.0', {
     "requires": [
         "dd",
         "dd-plugin",

@@ -63,4 +63,4 @@ ControlForm = Y.Base.create('controlForm', Y.Base, [], {
 Y.namespace('Libbit').ControlForm = ControlForm;
 
 
-}, '@VERSION@', {"requires": ["node", "model-list", "model", "base"]});
+}, '1.0.0', {"requires": ["node", "model-list", "model", "base"]});

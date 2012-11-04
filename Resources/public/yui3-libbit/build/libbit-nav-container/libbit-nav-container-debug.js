@@ -8,4 +8,4 @@ NavContainer = Y.Base.create('nav', Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons])
 Y.namespace('Libbit').NavContainer = NavContainer;
 
 
-}, '@VERSION@', {"requires": ["widget", "widget-buttons", "widget-stdmod"]});
+}, '1.0.0', {"requires": ["widget", "widget-buttons", "widget-stdmod"]});

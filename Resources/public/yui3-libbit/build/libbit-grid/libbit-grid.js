@@ -3,6 +3,7 @@ YUI.add('libbit-grid', function (Y, NAME) {
 var Grid,
     TemplateView;
 
+// TODO: Abstract to separate view file
 TemplateView = Y.Base.create('templateView', Y.View, [], {
 
     // Compile our template using Handlebars.
@@ -133,6 +134,7 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
     }
 });
 
+// TODO: Y.Libbit.Grid.Message
 Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
     initializer: function (config) {
         var data = config.data;
@@ -171,4 +173,4 @@ Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
 Y.namespace('Libbit').Grid = Grid;
 
 
-}, '@VERSION@', {"requires": ["handlebars", "libbit-grid-select", "model-list", "view"], "skinnable": true});
+}, '1.0.0', {"requires": ["handlebars", "libbit-grid-select", "model-list", "view"], "skinnable": true});

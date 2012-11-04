@@ -155,4 +155,4 @@ App = Y.Base.create('libbit-app', Y.App, [], {
 Y.namespace('Libbit').App = App;
 
 
-}, '@VERSION@', {"requires": ["app-base", "libbit-panel"]});
+}, '1.0.0', {"requires": ["app-base", "libbit-panel"]});

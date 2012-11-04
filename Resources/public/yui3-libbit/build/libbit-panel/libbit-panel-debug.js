@@ -16,7 +16,7 @@ Panel = Y.Base.create('panel', Y.Widget, [
 Y.namespace('Libbit').Panel = Panel;
 
 
-}, '@VERSION@', {
+}, '1.0.0', {
     "requires": [
         "panel",
         "widget",

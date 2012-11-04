@@ -26,7 +26,7 @@ _yuitest_coverage["build/libbit-nav-container/libbit-nav-container.js"] = {
     path: "build/libbit-nav-container/libbit-nav-container.js",
     code: []
 };
-_yuitest_coverage["build/libbit-nav-container/libbit-nav-container.js"].code=["YUI.add('libbit-nav-container', function (Y, NAME) {","","var NavContainer;","","NavContainer = Y.Base.create('nav', Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons]);","","// -- Namespace ----------------------------------------------------------------","Y.namespace('Libbit').NavContainer = NavContainer;","","","}, '@VERSION@', {\"requires\": [\"widget\", \"widget-buttons\", \"widget-stdmod\"]});"];
+_yuitest_coverage["build/libbit-nav-container/libbit-nav-container.js"].code=["YUI.add('libbit-nav-container', function (Y, NAME) {","","var NavContainer;","","NavContainer = Y.Base.create('nav', Y.Widget, [Y.WidgetStdMod, Y.WidgetButtons]);","","// -- Namespace ----------------------------------------------------------------","Y.namespace('Libbit').NavContainer = NavContainer;","","","}, '1.0.0', {\"requires\": [\"widget\", \"widget-buttons\", \"widget-stdmod\"]});"];
 _yuitest_coverage["build/libbit-nav-container/libbit-nav-container.js"].lines = {"1":0,"3":0,"5":0,"8":0};
 _yuitest_coverage["build/libbit-nav-container/libbit-nav-container.js"].functions = {"(anonymous 1):1":0};
 _yuitest_coverage["build/libbit-nav-container/libbit-nav-container.js"].coveredLines = 4;
@@ -46,4 +46,4 @@ _yuitest_coverline("build/libbit-nav-container/libbit-nav-container.js", 8);
 Y.namespace('Libbit').NavContainer = NavContainer;
 
 
-}, '@VERSION@', {"requires": ["widget", "widget-buttons", "widget-stdmod"]});
+}, '1.0.0', {"requires": ["widget", "widget-buttons", "widget-stdmod"]});

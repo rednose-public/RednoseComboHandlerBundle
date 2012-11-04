@@ -107,4 +107,4 @@ Selectable.prototype = {
 Y.namespace('Libbit.Grid').Selectable = Selectable;
 
 
-}, '@VERSION@');
+}, '1.0.0');
