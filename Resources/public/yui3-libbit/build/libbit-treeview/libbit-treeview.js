@@ -159,15 +159,11 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
 
         Y.each(nodes, function (node) {
             var table = self._getTableElement(node);
-                obj   = Y.JSON.parse(node.data);
+                model = node.data;
 
-            // TODO: Query modellist to get model objects and assign a clientId handle
-            if (obj.type === 'FieldGroup') {
-                // This is a category object (category type is FieldGroup)
-                table.setData({ model: obj });
-            } else {
-                // This is a fieldGroup.
-                table.setData({ model: new Y.TB.FieldGroup(obj) });
+            if (model) {
+                table.setAttribute('data-yui3-record', model.get('clientId'));
+                table.setData({ model: model });
             }
         });
 
