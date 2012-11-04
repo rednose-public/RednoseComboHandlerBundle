@@ -1,7 +1,4 @@
 {
     "libbit-treeview-anim" : {
-        "requires": [
-            "libbit-treeview"
-        ]
     }
 }

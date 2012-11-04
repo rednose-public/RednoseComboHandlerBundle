@@ -159,7 +159,7 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
             var table = self._getTableElement(node);
                 model = node.data;
 
-            if (model) {
+            if (Y.instanceOf(model, Y.Model)) {
                 table.setAttribute('data-yui3-record', model.get('clientId'));
                 table.setData({ model: model });
             }
@@ -182,15 +182,16 @@ TreeView = Y.Base.create('treeview', Y.Widget, [ Y.Libbit.TreeView.Anim ], {
                 icon;
 
             // TODO: Retrieve icon from model mapping, allowHTML and formatter config like Y.DataTable.
-            if (Y.instanceOf(model, Y.TB.FieldGroup)) {
-                icon = 'icon-align-left';
-            } else {
+            if (Y.instanceOf(model, Y.TB.Category)) {
                 icon = 'icon-folder-close';
+            } else if (Y.instanceOf(model, Y.TB.FieldGroup)) {
+                icon = 'icon-align-left';
             }
 
-            contentNode = Y.Node.create('<span style="white-space: nowrap;"><i class="' + icon + '"></i><span> ' + content + '</span></div>');
-
-            node.setContent(contentNode);
+            if (icon) {
+                contentNode = Y.Node.create('<span style="white-space: nowrap;"><i class="' + icon + '"></i><span> ' + content + '</span></div>');
+                node.setContent(contentNode);
+            }
         });
     },
 

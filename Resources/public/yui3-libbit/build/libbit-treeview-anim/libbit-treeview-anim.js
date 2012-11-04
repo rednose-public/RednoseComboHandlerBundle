@@ -7,6 +7,7 @@ var Anim;
  */
 Anim = function () {};
 
+// TODO: Prevent animation stacking.
 Anim.prototype = {
 
     /**
@@ -80,6 +81,11 @@ Anim.prototype = {
             duration: '.25'
         });
 
+        // Remove the 'height' style attribute, so it doesn't constrain expanding child objects.
+        anim.on('end', function () {
+            el.setStyle('height', null);
+        });
+
         anim.run();
     },
 
@@ -98,4 +104,4 @@ Anim.prototype = {
 Y.namespace('Libbit.TreeView').Anim = Anim;
 
 
-}, '@VERSION@', {"requires": ["libbit-treeview"]});
+}, '@VERSION@');

@@ -132,6 +132,7 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
     }
 });
 
+// TODO: Y.Libbit.Grid.Message
 Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
     initializer: function (config) {
         var data = config.data;

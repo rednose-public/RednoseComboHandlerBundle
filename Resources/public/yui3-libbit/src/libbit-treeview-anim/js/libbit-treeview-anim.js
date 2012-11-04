@@ -5,6 +5,7 @@ var Anim;
  */
 Anim = function () {};
 
+// TODO: Prevent animation stacking.
 Anim.prototype = {
 
     /**
@@ -76,6 +77,11 @@ Anim.prototype = {
             node     : el,
             to       : { height: height },
             duration: '.25'
+        });
+
+        // Remove the 'height' style attribute, so it doesn't constrain expanding child objects.
+        anim.on('end', function () {
+            el.setStyle('height', null);
         });
 
         anim.run();
