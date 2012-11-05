@@ -1,7 +1,4 @@
 {
     "libbit-treeview-select" : {
-        "requires": [
-            "base"
-        ]
     }
 }
