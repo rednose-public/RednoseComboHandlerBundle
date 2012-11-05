@@ -50,3 +50,11 @@ div.template_list_item_selected > span {
     font-size: 16px;
     line-height: 19px;
 }
+
+.template_thumb {
+  position: relative;
+  -moz-box-shadow: 4px 4px 8px #888888;
+  -webkit-box-shadow: 4px 4px 8px #888888;
+  -o-box-shadow: 4px 4px 8px #888888;
+  box-shadow: 4px 4px 8px #888888;
+}

@@ -79,23 +79,23 @@ Selectable = Y.Base.create('selectable', Y.Base, [], {
 
         // Remove all selection CSS on the previous selection
         if (oldNode) {
-            oldNode.removeClass('treeview-highlight');
-
             // Inverse the icon color if there is one.
             if (oldNode.all('i')) {
                 oldNode.all('i').removeClass('icon-white');
             }
+
+            oldNode.removeClass('treeview-highlight');
         }
 
         // Apply the CSS to the new selection and fire an event.
         if (Y.Lang.isNull(node) === false) {
-            // After unhighlighting, now highlight the current row.
-            node.addClass('treeview-highlight');
-
             // Inverse the icon color if there is one.
             if (node.all('i')) {
                 node.all('i').addClass('icon-white');
             }
+
+            // After unhighlighting, now highlight the current row.
+            node.addClass('treeview-highlight');
 
             model = node.getData().model;
         }
