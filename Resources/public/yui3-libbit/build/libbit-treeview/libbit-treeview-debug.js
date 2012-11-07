@@ -9,18 +9,21 @@ var TreeView;
 // TODO: Document data input
 // TODO: Add scrollable
 // TODO: Disable text selection within treenodes
-TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbit.TreeView.Selectable ], {
+TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbit.TreeView.Selectable, Y.Libbit.TreeView.DD ], {
+
+    initializer: function () {
+        var model = this.get('data');
+
+        model.after('load', this._refresh, this);
+    },
 
     renderUI: function () {
-        var self       = this,
-            contentBox = this.get('contentBox'),
-            data       = this.get('data'),
+        var contentBox = this.get('contentBox'),
             src        = this.get('srcNode'),
             width      = this.get('width'),
             height     = this.get('height'),
             container  = Y.Node.create('<div class="libbit-treeview-content"></div>'),
-            sID        = Y.stamp(container),
-            nodes;
+            sID        = Y.stamp(container);
 
         contentBox.setStyle('width', width);
         contentBox.setStyle('height', height);
@@ -28,7 +31,22 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         container.set('id', sID);
         src.append(container);
 
-        tree = new YAHOO.widget.TreeView(container.get('id'), data);
+        this.set('treeContainer', container);
+
+        this._renderTree();
+    },
+
+    _renderTree: function () {
+        var model         = this.get('data'),
+            treeContainer = this.get('treeContainer'),
+            tree;
+
+        if (this.get('tree')) {
+            this.get('tree').destroy();
+        }
+
+        tree = new YAHOO.widget.TreeView(treeContainer.get('id'), model.get('data'));
+
         tree.render();
 
         this.set('tree', tree);
@@ -41,8 +59,6 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
     bindUI: function () {
         var self        = this,
             tree        = this.get('tree'),
-            boundingBox = this.get('boundingBox'),
-            dd,
             nodes;
 
         // Forward tree events so extensions and plugins can subscribe to them.
@@ -66,14 +82,14 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
 
         // Disable the default expand/collapse behaviour, only allow
         // expanding and collapsing when clicking the icon.
-        tree.subscribe('expand',   function (node) { return self.get('iconClicked'); });
-        tree.subscribe('collapse', function (node) { return self.get('iconClicked'); });
+        tree.subscribe('expand',   function () { return self.get('iconClicked'); });
+        tree.subscribe('collapse', function () { return self.get('iconClicked'); });
 
         tree.expandAll();
 
         nodes = tree.getNodesBy(function () { return true; });
 
-        Y.each(nodes, function (node, index) {
+        Y.each(nodes, function (node) {
             var table = self._getTableElement(node);
 
             // Rebind the click event.
@@ -157,6 +173,11 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         });
 
         tree.collapseAll();
+    },
+
+    _refresh: function () {
+        this._renderTree();
+        this.bindUI();
     },
 
     /**
@@ -300,6 +321,7 @@ Y.namespace('Libbit').TreeView = TreeView;
         "anim",
         "libbit-treeview-anim",
         "libbit-treeview-select",
+        "libbit-treeview-dd",
         "model",
         "widget",
         "yui2-treeview"

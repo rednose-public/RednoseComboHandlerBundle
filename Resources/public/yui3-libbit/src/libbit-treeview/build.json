@@ -1,9 +1,24 @@
 {
     "name": "libbit-treeview",
     "builds": {
+        "libbit-treeview-anim": {
+            "jsfiles": [
+                "treeview-extensions/treeview-anim.js"
+            ]
+        },
+        "libbit-treeview-select": {
+            "jsfiles": [
+                "treeview-extensions/treeview-select.js"
+            ]
+        },
+        "libbit-treeview-dd": {
+            "jsfiles": [
+                "treeview-extensions/treeview-dd.js"
+            ]
+        },
         "libbit-treeview": {
             "jsfiles": [
-                "libbit-treeview.js"
+                "treeview.js"
             ]
         }
     }

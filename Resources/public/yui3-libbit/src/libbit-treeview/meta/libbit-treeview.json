@@ -4,6 +4,7 @@
             "anim",
             "libbit-treeview-anim",
             "libbit-treeview-select",
+            "libbit-treeview-dd",
             "model",
             "widget",
             "yui2-treeview"
