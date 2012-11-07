@@ -11,14 +11,15 @@ DD = Y.Base.create('dd', Y.Base, [], {
      * Subscribe to the render event and set up DD listeners.
      */
     initializer: function () {
-        Y.Do.after(this._bindDD, this, 'bindUI', this);
-        //Y.Do.after(this._bindDD, this, 'refresh', this);
+        if (this.get('dragdrop')) {
+            Y.Do.after(this._bindDD, this, 'bindUI', this);
 
-        this.on('drag:start', this._handleStart, this);
-        this.on('drop:hit', this._handleDrop, this);
-        this.on('drop:over', this._handleOver, this);
+            this.on('drag:start', this._handleStart, this);
+            this.on('drop:hit', this._handleDrop, this);
+            this.on('drop:over', this._handleOver, this);
 
-        this.on('drop:enter', this._dropEnterGlobal, this);
+            this.on('drop:enter', this._dropEnterGlobal, this);
+        }
     },
 
     /**
@@ -224,6 +225,12 @@ DD = Y.Base.create('dd', Y.Base, [], {
 
                 anim.run();
            }
+        }
+    }
+}, {
+    ATTRS: {
+        dragdrop: {
+            value : false
         }
     }
 });
