@@ -29,6 +29,7 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         contentBox.setStyle('height', height);
 
         container.set('id', sID);
+        src.empty();
         src.append(container);
 
         this.set('treeContainer', container);

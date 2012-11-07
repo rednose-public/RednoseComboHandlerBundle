@@ -43,12 +43,12 @@ App = Y.Base.create('libbit-app', Y.App, [], {
 
         // Set the active view to this view's parent, and trigger an activeViewChange.
         this._set('activeView', this.createView(viewInfo.parent));*/
-    },
+    }//,
 
     /**
      * Hook into the view change, to handle modal views.
      */
-    _afterActiveViewChange: function (e) {
+    /*_afterActiveViewChange: function (e) {
         var newView      = e.newVal,
             oldView      = e.prevVal,
             // If oldView doesn't exist, always consider it to be a child
@@ -148,7 +148,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
             // No modal views involved, process as usual
             this._uiSetActiveView(newView, oldView, e.options);
         }
-    }
+    }*/
 });
 
 // -- Namespace ----------------------------------------------------------------

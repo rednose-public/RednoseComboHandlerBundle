@@ -1,33 +1,9 @@
 var Nav;
 
 /**
- * Y.View extension to wrap the container into a panel with a header and footer navigation bar
+ * Y.View extension to wrap the container into a panel with a header and footer navigation bar.
  */
-Nav = function () {};
-
-/**
- * New attributes that will be accessible within the Y.View instance.
- */
-Nav.ATTRS = {
-    /**
-     * Header attribute, sets the panel's header content.
-     */
-    header : {
-        value: Y.Node.create('<div></div>')
-    },
-
-    /**
-     * Header attribute, sets the panel's footer content (usually a set of buttons.
-     */
-    footer : {
-        value: Y.Node.create('<div></div>')
-    }
-};
-
-/**
- * Decorate the original Y.View instance with new methods.
- */
-Nav.prototype = {
+Nav = Y.Base.create('nav', Y.View, [], {
     /**
      * Initializer, gets called upon instance initiation.
      */
@@ -59,7 +35,28 @@ Nav.prototype = {
         // Render the panel within the view container.
         panel.render(container);
     }
-};
+
+}, {
+    /**
+     * New attributes that will be accessible within the Y.View instance.
+     */
+    ATTRS: {
+        /**
+         * Header attribute, sets the panel's header content.
+         */
+        header : {
+            value: Y.Node.create('<div></div>')
+        },
+
+        /**
+         * Header attribute, sets the panel's footer content (usually a set of buttons.
+         */
+        footer : {
+            value: Y.Node.create('<div></div>')
+        }
+    }
+});
 
 // -- Namespace ----------------------------------------------------------------
 Y.namespace('Libbit.View').Nav = Nav;
+
