@@ -3,7 +3,7 @@
     "builds": {
         "libbit-app-base": {
             "jsfiles": [
-                "libbit-app-base.js"
+                "js/app-base.js"
             ]
         }
     }

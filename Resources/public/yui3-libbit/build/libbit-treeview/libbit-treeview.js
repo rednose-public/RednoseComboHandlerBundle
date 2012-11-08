@@ -29,7 +29,6 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         contentBox.setStyle('height', height);
 
         container.set('id', sID);
-        src.empty();
         src.append(container);
 
         this.set('treeContainer', container);
@@ -46,8 +45,10 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
             this.get('tree').destroy();
         }
 
-        tree = new YAHOO.widget.TreeView(treeContainer.get('id'), model.get('data'));
+        // Clone the data object as the TreeView messes with it's internal structure.
+        items = this.get('renderLeaves') ? Y.clone(model.get('items')) : Y.clone(model.getBranches());
 
+        tree = new YAHOO.widget.TreeView(treeContainer.get('id'), items);
         tree.render();
 
         this.set('tree', tree);
@@ -305,6 +306,10 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         },
         height : {
             value: null
+        },
+        // Wether to render all nodes or just branches.
+        renderLeaves: {
+            value: true
         },
         // State attribute.
         iconClicked : {

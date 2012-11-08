@@ -15,7 +15,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
      */
     showView: function (view, config, options, callback) {
         var self     = this,
-            args     = arguments,
+            args     = [ view, config, options, callback ],
             viewInfo = this.getViewInfo(view);
 
         if (viewInfo.lazyload) {
@@ -26,22 +26,7 @@ App = Y.Base.create('libbit-app', Y.App, [], {
         } else {
             App.superclass.showView.apply(self, args);
         }
-    },
-
-    /**
-     * Dismisses the currently active modal view and returns to it's parent view.
-     */
-    dismissModalView: function () {
-        /*var view     = this.get('activeView'),
-            viewInfo = this.getViewInfo(view);
-
-        if (!viewInfo.parent || !viewInfo.modal) {
-            return;
-        }
-
-        // Set the active view to this view's parent, and trigger an activeViewChange.
-        this._set('activeView', this.createView(viewInfo.parent));*/
-    }//,
+    }
 
     /**
      * Hook into the view change, to handle modal views.

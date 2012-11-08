@@ -72,7 +72,10 @@ Selectable = Y.Base.create('selectable', Y.Base, [], {
         // TODO: Keep selection after sorting
         var node    = e.newVal,
             oldNode = e.prevVal,
-            model   = null;
+            data    = this.get('data'),
+            model   = null,
+            leaves  = null,
+            id;
 
         // Cancel if the selection did not change.
         if (node === oldNode) {
@@ -91,6 +94,8 @@ Selectable = Y.Base.create('selectable', Y.Base, [], {
 
         // Apply the CSS to the new selection and fire an event.
         if (Y.Lang.isNull(node) === false) {
+            id = node.getAttribute('data-yui3-record');
+
             // Inverse the icon color if there is one.
             if (node.all('i')) {
                 node.all('i').addClass('icon-white');
@@ -99,11 +104,12 @@ Selectable = Y.Base.create('selectable', Y.Base, [], {
             // After unhighlighting, now highlight the current row.
             node.addClass('treeview-highlight');
 
-            model = node.getData().model;
+            model  = data.getByClientId(id);
+            leaves = data.getLeavesByClientId(id);
         }
 
         // Fires the select event and passes along the needed information.
-        this.fire('select', { model: model });
+        this.fire('select', { model : model, leaves: leaves });
 
         return true;
     }

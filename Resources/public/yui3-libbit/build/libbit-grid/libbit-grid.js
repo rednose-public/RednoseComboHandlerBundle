@@ -58,14 +58,14 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
     },
 
     // Turn on editing mode for the Template name by exposing the input field.
-    edit: function (e) {
+    edit: function () {
         this.get('footerNode').addClass('editing');
         this.get('inputNode').focus();
     },
 
     // Get the value from our input field while hiding it, and
     // save it to our Template when focus is lost from the field.
-    close: function (e) {
+    close: function () {
         var value       = this.get('inputNode').get('value'),
             editedValue = Y.Escape.html(Y.Lang.trim(value)),
             template    = this.get('model');
@@ -136,9 +136,6 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
 
 // TODO: Y.Libbit.Grid.Message
 Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
-    initializer: function (config) {
-        var data = config.data;
-    },
 
     renderUI : function () {
         this._renderGridItems();
@@ -151,7 +148,7 @@ Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
         var contentBox = this.get("contentBox"),
             list       = this.get('data');
 
-        list.each(function (model) {
+        Y.each(list, function (model) {
             var view = new TemplateView({model: model}),
                 node = view.render().get('container');
 
@@ -161,10 +158,10 @@ Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
 }, {
     ATTRS: {
         /**
-         * The Modellist containing the models to be rendered
+         * The array containing the models to be rendered
          */
         data: {
-            value: new Y.ModelList()
+            value: []
         }
     }
 });
