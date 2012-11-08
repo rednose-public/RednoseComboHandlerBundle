@@ -9,6 +9,11 @@ var TreeView;
 // TODO: Disable text selection within treenodes
 TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbit.TreeView.Selectable, Y.Libbit.TreeView.DD ], {
 
+    /**
+     * Stores the state of expanded nodes.
+     */
+    _stateMap: [],
+
     initializer: function () {
         var model = this.get('data');
 
@@ -54,11 +59,14 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         // XXX: Hide the tree while postprocessing?
         this._attachData();
         this._enhanceCells();
+
+        // TODO: Persist selection
+        this._restoreState();
     },
 
     bindUI: function () {
-        var self        = this,
-            tree        = this.get('tree'),
+        var self = this,
+            tree = this.get('tree'),
             nodes;
 
         // Forward tree events so extensions and plugins can subscribe to them.
@@ -84,8 +92,6 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
         // expanding and collapsing when clicking the icon.
         tree.subscribe('expand',   function () { return self.get('iconClicked'); });
         tree.subscribe('collapse', function () { return self.get('iconClicked'); });
-
-        tree.expandAll();
 
         nodes = tree.getNodesBy(function () { return true; });
 
@@ -171,11 +177,18 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
                 }
             }*/
         });
-
-        tree.collapseAll();
     },
 
     _refresh: function () {
+        var self  = this,
+            tree  = this.get('tree'),
+            nodes = tree.getNodesBy(function (node) { return node.expanded; });
+
+        // Store the state. Store by label for now, clientID seems bugged.
+        Y.Array.each(nodes, function (node) {
+            self._stateMap.push(node.label);
+        });
+
         this._renderTree();
         this.bindUI();
     },
@@ -242,6 +255,27 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
                 self._setExpandedIcon(expandedNode);
             }
         });
+    },
+
+    /**
+     * Restores the current tree state if it's set.
+     */
+     _restoreState: function () {
+        var self = this,
+            tree = this.get('tree'),
+            nodes;
+
+        if (this._stateMap.length > 0) {
+            nodes = tree.getNodesBy(function (node) {
+                return self._stateMap.indexOf(node.label) > -1;
+            });
+
+            Y.Array.each(nodes, function (node) {
+                node.expand();
+            });
+
+            this._stateMap = [];
+        }
     },
 
     /**
