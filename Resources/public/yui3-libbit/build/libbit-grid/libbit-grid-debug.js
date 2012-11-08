@@ -8,7 +8,7 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
 
     // Compile our template using Handlebars.
     template: Y.Handlebars.compile(
-        '<div class="template-grid-container" data-yui3-record="{{ clientId }}">' +
+        '<div class="template-grid-container" title="{{ name }}" data-yui3-record="{{ clientId }}">' +
         '    <div class="template-grid-icon-container">' +
         '        <div class="template-grid-icon-wrapper">' +
         '            <img class="template-grid-icon" height="100%" width="100%"></img>' +
@@ -33,11 +33,6 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
         '.template-grid-container': {
             contextmenu: 'contextMenu'
         }
-    },
-
-    // Initialize this view by setting event handlers when the Model
-    // is updated or destroyed.
-    initializer: function () {
     },
 
     // Render this view in our <li> container, and fill it with the
@@ -139,9 +134,6 @@ Grid = Y.Base.create('grid', Y.Widget,  [ Y.Libbit.Grid.Selectable ], {
 
     renderUI : function () {
         this._renderGridItems();
-    },
-
-    bindUI: function () {
     },
 
     _renderGridItems : function() {

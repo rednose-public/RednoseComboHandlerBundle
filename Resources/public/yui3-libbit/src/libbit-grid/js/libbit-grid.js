@@ -6,7 +6,7 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
 
     // Compile our template using Handlebars.
     template: Y.Handlebars.compile(
-        '<div class="template-grid-container" data-yui3-record="{{ clientId }}">' +
+        '<div class="template-grid-container" title="{{ name }}" data-yui3-record="{{ clientId }}">' +
         '    <div class="template-grid-icon-container">' +
         '        <div class="template-grid-icon-wrapper">' +
         '            <img class="template-grid-icon" height="100%" width="100%"></img>' +
