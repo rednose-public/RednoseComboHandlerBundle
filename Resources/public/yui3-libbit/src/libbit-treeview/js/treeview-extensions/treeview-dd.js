@@ -45,9 +45,8 @@ DD = Y.Base.create('dd', Y.Base, [], {
 
             if (Y.instanceOf(model, Y.TB.Category)) {
                 // This is a category model.
-                self._createDD(node, model);
+                self._createDD(node, model.get('clientId'));
                 // Categories allow dropping
-                node.setData({ model: model});
                 new Y.DD.Drop({
                     node         : node,
                     groups       : ['one'],
@@ -55,7 +54,7 @@ DD = Y.Base.create('dd', Y.Base, [], {
                 });
             } else {
                 // This is a fieldGroup.
-                self._createDD(node, model);
+                self._createDD(node, model.get('clientId'));
             }
 
         });
@@ -155,15 +154,17 @@ DD = Y.Base.create('dd', Y.Base, [], {
 
     _handleDrop: function (e) {
         // TODO: Allow dropping outside of a category.
-        var model  = this.get('data'),
-            obj    = e.drag.get('data'),
-            newCat = e.drop.get('node').getData().model;
+        var model    = this.get('data'),
+            objID    = e.drag.get('data'),
+            newCatID = e.drop.get('node').getAttribute('data-yui3-record'),
+            obj      =  model.getByClientId(objID);
+            newCat   = model.getByClientId(newCatID);
 
         if (newCat) {
-            if (Y.instanceOf(obj, Y.TB.FieldGroup)) {
-                obj.set('category', newCat);
-            } else {
+            if (Y.instanceOf(obj, Y.TB.Category)) {
                 obj.set('parent', newCat);
+            } else {
+                obj.set('category', newCat);
             }
 
             obj.save(function () {
