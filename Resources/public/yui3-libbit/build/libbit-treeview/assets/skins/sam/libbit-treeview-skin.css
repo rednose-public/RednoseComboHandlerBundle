@@ -39,3 +39,11 @@
      -moz-border-radius: 5px !important;
           border-radius: 5px !important;
 }
+
+.libbit-content {
+    border: 2px solid white;
+}
+
+.libbit-content-drop-over {
+    border: 2px solid #0088cc !important;
+}

@@ -16,7 +16,9 @@ DD = Y.Base.create('dd', Y.Base, [], {
             this.on('drop:hit', this._handleDrop, this);
             this.on('drop:over', this._handleOver, this);
 
-            this.on('drop:enter', this._dropEnterGlobal, this);
+            this.on('drop:enter', this._handleEnter, this);
+            this.on('drop:exit', this._handleExit, this);
+            this.on('drag:end', this._handleEnd, this);
         }
     },
 
@@ -24,13 +26,24 @@ DD = Y.Base.create('dd', Y.Base, [], {
      * Bind all DD instance after the parent view has been rendered.
      */
     _bindDD: function () {
-        var self      = this,
-            tree      = this.get('tree'),
+        var self       = this,
+            contentBox = this.get('contentBox').get('parentNode').get('parentNode').get('parentNode'),
+            tree       = this.get('tree'),
             nodes;
 
+        // XXX
+        contentBox.addClass('libbit-content');
+
+        // Setup a container drop target.
+        new Y.DD.Drop({
+             node         : contentBox,
+             groups       : ['libbit-treeview'],
+             bubbleTargets: this
+        });
+
+        // Setup Tree DD.
         tree.expandAll();
 
-        // Setup DD.
         nodes = tree.getNodesBy(function () { return true; });
 
         Y.each(nodes, function (value) {
@@ -45,16 +58,16 @@ DD = Y.Base.create('dd', Y.Base, [], {
 
             if (Y.instanceOf(model, Y.TB.Category)) {
                 // This is a category model.
-                self._createDD(node, model.get('clientId'));
+                self._createDD(node, model);
                 // Categories allow dropping
                 new Y.DD.Drop({
                     node         : node,
-                    groups       : ['one'],
+                    groups       : ['libbit-treeview'],
                     bubbleTargets: self
                 });
             } else {
                 // This is a fieldGroup.
-                self._createDD(node, model.get('clientId'));
+                self._createDD(node, model);
             }
 
         });
@@ -66,17 +79,26 @@ DD = Y.Base.create('dd', Y.Base, [], {
      * Scroll the view up or down when a drag reaches the boundaries on the Y axis
      */
     _handleOver: function (e) {
-        var dropNode = e.drop.get('node'),
-            dragY = Y.DD.DDM.activeDrag.get('dragNode').getY(),
+        var dropNode    = e.drop.get('node'),
+            dragY       = Y.DD.DDM.activeDrag.get('dragNode').getY(),
             nodeOffsetY = dropNode.get('offsetTop'),
-            nodeHeight = dropNode.get('offsetHeight'),
+            nodeHeight  = dropNode.get('offsetHeight'),
             relativeY,
             node,
             anim;
 
         if (dropNode.hasClass('yui3-widget-bd')) {
-            relativeY = dragY - nodeOffsetY - 20; /* Margin top */
+            // Handle dropping on empty parts
+            if (dropNode.all('.yui3-dd-drop-over').isEmpty()) {
+                dropNode.addClass('libbit-content-drop-over');
+            } else {
+                if (dropNode.hasClass('libbit-content-drop-over')) {
+                    dropNode.removeClass('libbit-content-drop-over');
+                }
+            }
 
+            // Handle scrolling
+            relativeY = dragY - nodeOffsetY - 20; /* Margin top */
             if (relativeY > nodeHeight) {
                 // Scroll down
                 node = Y.one('.libbit-tabview .yui3-widget-bd');
@@ -116,7 +138,7 @@ DD = Y.Base.create('dd', Y.Base, [], {
         dd = new Y.DD.Drag({
             node   : node,
             data   : data,
-            groups : ['one'],
+            groups : ['libbit-treeview'],
             bubbleTargets: self
         }).plug(Y.Plugin.DDProxy, {
             moveOnEnd  : false,
@@ -138,7 +160,6 @@ DD = Y.Base.create('dd', Y.Base, [], {
 
         origin = drag.get('node');
 
-        drag.set('groups', ['one']);
         drag._prep();
 
         drag.detachAll('drag:start');
@@ -153,14 +174,15 @@ DD = Y.Base.create('dd', Y.Base, [], {
     },
 
     _handleDrop: function (e) {
-        // TODO: Allow dropping outside of a category.
-        var model    = this.get('data'),
-            objID    = e.drag.get('data'),
-            newCatID = e.drop.get('node').getAttribute('data-yui3-record'),
-            obj      =  model.getByClientId(objID);
-            newCat   = model.getByClientId(newCatID);
+        var treeModel = this.get('data'),
+            objID     = e.drag.get('data').get('clientId'),
+            newCatID  = e.drop.get('node').getAttribute('data-yui3-record'),
+            // The model that was moved.
+            obj       = treeModel.getByClientId(objID);
+            // The category model it was dropped on, or null if it was dropped outside the tree.
+            newCat    = treeModel.getByClientId(newCatID);
 
-        if (newCat) {
+        if (obj) {
             if (Y.instanceOf(obj, Y.TB.Category)) {
                 obj.set('parent', newCat);
             } else {
@@ -168,25 +190,39 @@ DD = Y.Base.create('dd', Y.Base, [], {
             }
 
             obj.save(function () {
-                model.load();
+                treeModel.load();
             });
         }
     },
 
-    // TODO
-    _dropEnterGlobal: function () {
+    _handleExit: function (e) {
+        var dropNode = e.drop.get('node');
+
+        if (dropNode.hasClass('libbit-content-drop-over')) {
+            dropNode.removeClass('libbit-content-drop-over');
+        }
+    },
+
+    _handleEnd: function (e) {
+        var contentBox = this.get('contentBox').get('parentNode').get('parentNode').get('parentNode');
+
+        if (contentBox.hasClass('libbit-content-drop-over')) {
+            contentBox.removeClass('libbit-content-drop-over');
+        }
+    },
+
+    // TODO: Abstract
+    _handleEnter: function (e) {
         if (Y.DD.DDM.activeDrag) {
             var drag = Y.DD.DDM.activeDrag,
                 node = drag.get('dragNode'),
-                fieldGroup,
-                templateItem,
+                obj  = drag.get('data'),
                 n,
+                fieldGroup,
                 anim;
 
-            if (drag.get('data').name === 'templateItem') {
-                templateItem = drag.get('data');
-
-                fieldGroup = templateItem.get('fieldGroup');
+            if (Y.instanceOf(obj, Y.TB.TemplateItem)) {
+                fieldGroup = obj.get('fieldGroup');
                 drag.set('data', fieldGroup);
 
                 // Clone the node, position it on top of the original for secondary animation.
