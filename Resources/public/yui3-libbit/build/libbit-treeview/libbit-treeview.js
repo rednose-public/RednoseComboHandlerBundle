@@ -60,10 +60,11 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
 
         // XXX: Hide the tree while postprocessing?
         this._attachData();
-        this._enhanceCells();
 
         // TODO: Persist selection
         this._restoreState();
+
+        this._enhanceCells();
     },
 
     bindUI: function () {
