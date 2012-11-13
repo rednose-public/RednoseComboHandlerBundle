@@ -29,29 +29,20 @@ class LibbitYuiExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $configuration->setContainer($container);
+        // $configuration = new Configuration();
+        // $configuration->setContainer($container);
 
-        $processor = new Processor();
-        $config = $processor->process($configuration->getConfigTree(), $configs);
+        // $processor = new Processor();
+        // $config = $processor->process($configuration->getConfigTree(), $configs);
 
-        // Make the configuration parameters available to the container.
-        foreach ($config as $k => $v) {
-            $container->setParameter($this->getAlias().'.'.$k, $v);
-        }
-
-        $version = (string) $container->getParameter('libbit_yui.version');
-
-        // FIXME: YUI versions are deprecated (this means fixing the unit tests as well).
-        /*if (file_exists(__DIR__.'/../Resources/public/yui'.$version) === false) {
-            throw new InvalidConfigurationException(
-                sprintf('Configured libbit_yui version %s is not available.', $version)
-            );
-        }*/
+        // // Make the configuration parameters available to the container.
+        // foreach ($config as $k => $v) {
+        //     $container->setParameter($this->getAlias().'.'.$k, $v);
+        // }
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        $serviceFiles = array('services', 'templating', 'twig');
+        $serviceFiles = array('templating', 'twig');
 
         foreach ($serviceFiles as $basename) {
             $loader->load(sprintf('%s.xml', $basename));

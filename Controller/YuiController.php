@@ -27,22 +27,11 @@ class YuiController extends Controller
      */
     public function configAction()
     {
-        $configuration = $this->get('libbit_yui.config');
-        $yuiConfig = $configuration->getConfig($this);
-
         $response = new Response(null, 200, array(
             'Content-type' => 'application/x-javascript',
         ));
 
-        $baseUrl = $yuiConfig['template']['base'];
-        // FIXME: Temporary testing
-        $baseUrlTest = str_replace('libbityui', 'docgenadmin/js', $baseUrl);
-
-        return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
-            'base_url' => $baseUrl,
-            // FIXME: Temporary testing
-            'base_url_test' => $baseUrlTest
-        ), $response);
+        return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(), $response);
     }
 
     /**

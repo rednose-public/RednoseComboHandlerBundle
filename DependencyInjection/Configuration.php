@@ -26,13 +26,6 @@ class Configuration extends ContainerAware implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('libbit_yui', 'array');
-
-        // The application bundle tree. These are the default values.
-        $rootNode
-            ->children()
-                ->scalarNode('version')->isRequired()->end()
-            ->end();
 
         return $treeBuilder;
     }

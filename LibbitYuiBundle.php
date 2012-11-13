@@ -13,17 +13,4 @@ use Libbit\YuiBundle\DependencyInjection\Compiler\ConfigCompilerPass;
  */
 class LibbitYuiBundle extends Bundle
 {
-    /**
-     * Current Bundle and YUI version.
-     *
-     * @var string
-     */
-    const VERSION = '1.1.x-dev';
-
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
- 
-        $container->addCompilerPass(new ConfigCompilerPass);
-    }
 }

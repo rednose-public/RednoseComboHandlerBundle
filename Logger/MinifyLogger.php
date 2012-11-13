@@ -14,5 +14,3 @@ class MinifyLogger
         throw new \Exception('Minify says:' . $msg);
     }
 }
-
-?>
