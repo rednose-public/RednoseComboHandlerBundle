@@ -1,4 +1,4 @@
-YUI.add('event-simulate', function(Y) {
+YUI.add('event-simulate', function (Y, NAME) {
 
 (function() {
 /**
@@ -913,7 +913,7 @@ Y.Event.simulate = function(target, type, options){
             
     // touch low-level event simulation        
     } else if (touchEvents[type]) {
-        if((Y.config.win && ("ontouchstart" in Y.config.win)) && !(Y.UA.chrome && Y.UA.chrome < 6)) {
+        if((Y.config.win && ("ontouchstart" in Y.config.win)) && !(Y.UA.phantomjs) && !(Y.UA.chrome && Y.UA.chrome < 6)) {
             simulateTouchEvent(target, type, 
                 options.bubbles, options.cancelable, options.view, options.detail, 
                 options.screenX, options.screenY, options.clientX, options.clientY, 
@@ -943,4 +943,4 @@ Y.Event.simulate = function(target, type, options){
 
 
 
-}, '@VERSION@' ,{requires:['event-base']});
+}, '@VERSION@', {"requires": ["event-base"]});

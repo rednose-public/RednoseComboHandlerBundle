@@ -1,4 +1,4 @@
-YUI.add('test', function(Y) {
+YUI.add('test', function (Y, NAME) {
 
 
 
@@ -19,7 +19,10 @@ if (YUI.YUITest) {
 
     //Make this global for back compat
     YUITest = {
-        version: "@VERSION@"
+        version: "@VERSION@",
+        guid: function(pre) {
+            return Y.guid(pre);
+        }
     };
 
 Y.namespace('Test');
@@ -188,8 +191,8 @@ YUITest.TestSuite = function (data) {
     }
 
     //double-check name
-    if (this.name === ""){
-        this.name = "testSuite" + (+new Date());
+    if (this.name === "" || !this.name) {
+        this.name = YUITest.guid("testSuite_");
     }
 
 };
@@ -242,6 +245,9 @@ YUITest.TestSuite.prototype = {
  * @namespace Test
  * @constructor
  */
+
+
+
 YUITest.TestCase = function (template) {
     
     /*
@@ -257,11 +263,12 @@ YUITest.TestCase = function (template) {
     }    
     
     //check for a valid name
-    if (typeof this.name != "string"){
-        this.name = "testCase" + (+new Date());
+    if (typeof this.name != "string") {
+        this.name = YUITest.guid("testCase_");
     }
 
 };
+
         
 YUITest.TestCase.prototype = {  
 
@@ -930,7 +937,7 @@ YUITest.TestFormat = function(){
              * @static
              * @private
              */
-            this.masterSuite = new YUITest.TestSuite("yuitests" + (new Date()).getTime());        
+            this.masterSuite = new YUITest.TestSuite(YUITest.guid('testSuite_'));
     
             /**
              * Pointer to the current node in the test tree.
@@ -1660,7 +1667,7 @@ YUITest.TestFormat = function(){
              * @static
              */
             clear : function () {
-                this.masterSuite = new YUITest.TestSuite("yuitests" + (new Date()).getTime());
+                this.masterSuite = new YUITest.TestSuite(YUITest.guid('testSuite_'));
             },
             
             /**
@@ -1714,12 +1721,19 @@ YUITest.TestFormat = function(){
              *      format is specified, a string representing the results in that format.
              * @method getCoverage
              */
-            getCoverage: function(format){
-                if (!this._running && typeof _yuitest_coverage == "object"){
-                    if (typeof format == "function"){
-                        return format(_yuitest_coverage);                    
+            getCoverage: function(format) {
+                var covObject = null;
+                if (typeof _yuitest_coverage === "object") {
+                    covObject = _yuitest_coverage;
+                }
+                if (typeof __coverage__ === "object") {
+                    covObject = __coverage__;
+                }
+                if (!this._running && typeof covObject == "object"){
+                    if (typeof format == "function") {
+                        return format(covObject);                    
                     } else {
-                        return _yuitest_coverage;
+                        return covObject;
                     }
                 } else {
                     return null;
@@ -2719,8 +2733,7 @@ YUITest.AssertionError.prototype = {
         return this.name + ": " + this.getMessage();
     }
 
-};
-/**
+};/**
  * ComparisonFailure is subclass of Error that is thrown whenever
  * a comparison between two values fails. It provides mechanisms to retrieve
  * both the expected and actual value.
@@ -2823,7 +2836,6 @@ YUITest.CoverageFormat = {
 
 };
 
-
 /**
  * The DateAssert object provides functions to test JavaScript Date objects
  * for a variety of cases.
@@ -2907,8 +2919,7 @@ YUITest.DateAssert = {
         }
     }
     
-};
-/**
+};/**
  * Creates a new mock object.
  * @namespace Test
  * @module test
@@ -3389,7 +3400,7 @@ YUITest.Results = function(name){
      * @property duration
      */
     this.duration = 0;
-}
+};
 
 /**
  * Includes results from another results object into this one.
@@ -3680,7 +3691,7 @@ if (!YUI.YUITest) {
                 break;
                 
             case this.COMPLETE_EVENT:
-                message = Y.substitute("Testing completed at " +
+                message = Y.Lang.sub("Testing completed at " +
                     (new Date()).toString() + ".\n" +
                     "Passed:{passed} Failed:{failed} " +
                     "Total:{total} ({ignored} ignored)",
@@ -3709,7 +3720,7 @@ if (!YUI.YUITest) {
                 break;
                 
             case this.TEST_SUITE_COMPLETE_EVENT:
-                message = Y.substitute("Test suite \"" +
+                message = Y.Lang.sub("Test suite \"" +
                     event.testSuite.name + "\" completed" + ".\n" +
                     "Passed:{passed} Failed:{failed} " +
                     "Total:{total} ({ignored} ignored)",
@@ -3723,7 +3734,7 @@ if (!YUI.YUITest) {
                 break;
                 
             case this.TEST_CASE_COMPLETE_EVENT:
-                message = Y.substitute("Test case \"" +
+                message = Y.Lang.sub("Test case \"" +
                     event.testCase.name + "\" completed.\n" +
                     "Passed:{passed} Failed:{failed} " +
                     "Total:{total} ({ignored} ignored)",
@@ -3732,13 +3743,13 @@ if (!YUI.YUITest) {
                 break;
             default:
                 message = "Unexpected event " + event.type;
-                message = "info";
+                messageType = "info";
         }
         
         if (Y.Test.Runner._log) {
             Y.log(message, messageType, "TestRunner");
         }
-    }
+    };
 
     var i, name;
 
@@ -3752,4 +3763,4 @@ if (!YUI.YUITest) {
 } //End if for YUI.YUITest
 
 
-}, '@VERSION@' ,{requires:['event-simulate','event-custom','substitute','json-stringify']});
+}, '@VERSION@', {"requires": ["event-simulate", "event-custom", "json-stringify"]});
