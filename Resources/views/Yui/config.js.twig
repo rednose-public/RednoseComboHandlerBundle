@@ -1,6 +1,6 @@
 YUI_config = {
     combine: true,
-    comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url }}&f=',
+    comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}&f=',
     root: 'yui3/build/',
     lang: '{{ app.request.locale }}',
     filter : {
@@ -56,28 +56,27 @@ YUI_config = {
                     {% endif %}
                 }
             }
-        },
+        }
+    }
+}
 
-        // TODO: Specify this mapping dynamically somehow
-        docgenadmin: {
-            filter: 'debug',
-            combine: true,
-            comboBase : '{{ path('libbit_yui_minify') }}?b={{ base_url_test }}&f=',
-            root: 'docgenadmin/build/',
-            patterns: {
-                'docgenadmin': {
-                    {% if app.environment == 'dev' %}
-                    configFn: function(me) {
-                        me.path = me.path.replace('-min', '-debug');
-                    }
-                    {% endif %}
-                }
+YUI_config.groups.docgenadmin = {
+    combine: true,
+    comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/docgenadmin/js')|trim('/') }}&f=',
+    root: 'docgenadmin/build/',
+    patterns: {
+        'docgenadmin': {
+            {% if app.environment == 'dev' %}
+            configFn: function(me) {
+                me.path = me.path.replace('-min', '-debug');
             }
+            {% endif %}
         }
     }
 }
 
 {# Global YAHOO object, fixes multiple instances of YAHOO treeview #}
 var YAHOO; YUI().use('yui2-treeview', function(Y) { YAHOO = Y.YUI2; });
+
 {# Global YUI object, to allow lazyloading #}
 var Y = YUI();
