@@ -14,6 +14,7 @@ YUI_config = {
     groups: {
         yui2: {
             comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/2in3/dist&f=',
+            root: 'build/',
             combine: true,
             patterns: {
                 'yui2-': {
@@ -33,6 +34,7 @@ YUI_config = {
 
         gallery: {
             comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/yui3-gallery&f=',
+            root: 'build/',
             combine: true,
             patterns: {
                 'gallery-': {
@@ -49,6 +51,7 @@ YUI_config = {
 
         libbit: {
             comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/yui3-libbit&f=',
+            root: 'build/',
             combine: true,
             patterns: {
                 'libbit-': {
