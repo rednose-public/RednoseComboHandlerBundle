@@ -1,17 +1,21 @@
+{# Set up the global YUI config object #}
 YUI_config = {
+    comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/yui3&f=',
+    root: 'build/',
     combine: true,
-    comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}&f=',
-    root: 'yui3/build/',
     lang: '{{ app.request.locale }}',
     filter : {
+        {# Reformat the comboloader URL to a Minify URL , ie: #}
+        {# combo?file1.js&file2.js -> combo?f=file1.js,file2.js #}
         'searchExp': '(^(?:[^&]+&[^&]+)|[^&]+)&(?!f=)',
         'replaceStr': '$1,'
     },
 
     groups: {
         yui2: {
+            comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/2in3/dist&f=',
+            root: 'build/',
             combine: true,
-            root: '2in3/dist/build/',
             patterns: {
                 'yui2-': {
                     configFn: function(me) {
@@ -29,8 +33,9 @@ YUI_config = {
         },
 
         gallery: {
+            comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/yui3-gallery&f=',
+            root: 'build/',
             combine: true,
-            root: 'yui3-gallery/build/',
             patterns: {
                 'gallery-': {
                     {% if app.environment == 'dev' %}
@@ -45,8 +50,9 @@ YUI_config = {
         },
 
         libbit: {
+            comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/libbityui')|trim('/') }}/yui3-libbit&f=',
+            root: 'build/',
             combine: true,
-            root: 'yui3-libbit/build/',
             patterns: {
                 'libbit-': {
                     {% if app.environment == 'dev' %}
@@ -59,24 +65,3 @@ YUI_config = {
         }
     }
 }
-
-YUI_config.groups.docgenadmin = {
-    combine: true,
-    comboBase : '{{ path('libbit_yui_minify') }}?b={{ asset('bundles/docgenadmin/js')|trim('/') }}&f=',
-    root: 'docgenadmin/build/',
-    patterns: {
-        'docgenadmin': {
-            {% if app.environment == 'dev' %}
-            configFn: function(me) {
-                me.path = me.path.replace('-min', '-debug');
-            }
-            {% endif %}
-        }
-    }
-}
-
-{# Global YAHOO object, fixes multiple instances of YAHOO treeview #}
-var YAHOO; YUI().use('yui2-treeview', function(Y) { YAHOO = Y.YUI2; });
-
-{# Global YUI object, to allow lazyloading #}
-var Y = YUI();
