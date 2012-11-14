@@ -55,15 +55,16 @@ Nav = Y.Base.create('nav', Y.View, [], {
             footer  = Y.Node.create('<div></div>');
 
         Y.Object.each(buttons, function (button, key) {
-            var value    = button.value,
-                primary  = button.primary,
-                position = button.position ? button.position : 'left',
-                title    = button.title ? button.title : value,
-                disabled = button.disabled,
+            var value     = button.value,
+                primary   = button.primary,
+                position  = button.position ? button.position : 'left',
+                title     = button.title ? button.title : value,
+                disabled  = button.disabled,
+                className = button.className,
                 // Format the action event by prepending 'button', for example the event
                 // fired for 'cancel' will be 'buttonCancel'
-                action   = 'button' + self._capitalizeFirstLetter(key),
-                node     = Y.Node.create('<button class="btn"></button>');
+                action    = 'button' + self._capitalizeFirstLetter(key),
+                node      = Y.Node.create('<button class="btn"></button>');
 
             if (value) {
                 node.set('text', value);
@@ -76,6 +77,10 @@ Nav = Y.Base.create('nav', Y.View, [], {
 
             if (disabled) {
                 node.addClass('disabled');
+            }
+
+            if (className) {
+                node.addClass(className);
             }
 
             node.addClass('float-' + position);
@@ -135,4 +140,3 @@ Nav = Y.Base.create('nav', Y.View, [], {
 
 // -- Namespace ----------------------------------------------------------------
 Y.namespace('Libbit.View').Nav = Nav;
-
