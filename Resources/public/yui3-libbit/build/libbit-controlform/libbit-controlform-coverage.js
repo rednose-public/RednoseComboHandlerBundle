@@ -26,11 +26,11 @@ _yuitest_coverage["build/libbit-controlform/libbit-controlform.js"] = {
     path: "build/libbit-controlform/libbit-controlform.js",
     code: []
 };
-_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].code=["YUI.add('libbit-controlform', function (Y, NAME) {","","var ControlForm;","","ControlForm = Y.Base.create('controlForm', Y.Base, [], {","    render: function(formsModel)","    {","        var self = this;","","        formsModel.each(function(formItem) {","            self.renderForm(formItem);","        });","    },","","    renderForm: function(formItem)","    {","        var container = this.get('formContainer');","        var form = formItem.get('controlForm');","        var controls = form.get('controlCollection');","","        var formElement = Y.Node.create('<fieldset>');","        var legend = Y.Node.create('<legend>');","        var list = Y.Node.create('<ol>');","","        legend.set('innerHTML', form.get('caption'));","","        formElement.append(legend);","        formElement.append(list);","","        Y.Array.each(controls, function(control) {","            var label = Y.Node.create('<label>');","            var controlContainer = Y.Node.create('<li>');","            var controlElement = null;","","            switch (control.type) {","                case 'text':","                    controlElement = Y.Node.create('<input />');","            }","","            label.set('innerHTML', control.caption);","","            controlContainer.append(label);","            controlContainer.append(controlElement);","","            list.append(controlContainer);","        });","","        var directionClassName = container.getAttribute('class') + '_' + formItem.get('direction');","","        if (container.one('.' + directionClassName) != null) {","            container.one('.' + directionClassName).append(formElement);","        } else {","            container.append(formElement);","        }","    }","}, {","    ATTRS: {","        formContainer: { value: '' }","    }","});","","","Y.namespace('Libbit').ControlForm = ControlForm;","","","}, '1.0.0', {\"requires\": [\"node\", \"model-list\", \"model\", \"base\"]});"];
-_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].lines = {"1":0,"3":0,"5":0,"8":0,"10":0,"11":0,"17":0,"18":0,"19":0,"21":0,"22":0,"23":0,"25":0,"27":0,"28":0,"30":0,"31":0,"32":0,"33":0,"35":0,"37":0,"40":0,"42":0,"43":0,"45":0,"48":0,"50":0,"51":0,"53":0,"63":0};
-_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].functions = {"(anonymous 2):10":0,"render:6":0,"(anonymous 3):30":0,"renderForm:15":0,"(anonymous 1):1":0};
+_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].code=["YUI.add('libbit-controlform', function (Y, NAME) {","","var ControlForm;","","ControlForm = Y.Base.create('controlForm', Y.Base, [], {","    render: function(formsModel)","    {","        var self = this;","","        formsModel.each(function(formItem) {","            self.renderForm(formItem);","        });","    },","","    renderForm: function(formItem)","    {","        var container = this.get('formContainer');","        var form = formItem.get('controlForm');","        var fieldGroups = form.get('fieldGroups');","","        var formElement = Y.Node.create('<fieldset>');","        var legend = Y.Node.create('<legend>');","        var list = Y.Node.create('<ol>');","","        legend.set('innerHTML', form.get('caption'));","","        formElement.append(legend);","        formElement.append(list);","","        Y.Array.each(fieldGroups, function(group) {","            Y.Array.each(group['fieldGroupItems'], function(control) {","                var label = Y.Node.create('<label>');","                var controlContainer = Y.Node.create('<li>');","                var controlElement = null;","","                controlElement = Y.Node.create('<input />');","","                label.set('innerHTML', control.field.name);","","                controlContainer.append(label);","                controlContainer.append(controlElement);","","                list.append(controlContainer);","            });","        });","","        var directionClassName = container.getAttribute('class') + '_' + formItem.get('direction');","","        if (container.one('.' + directionClassName) != null) {","            container.one('.' + directionClassName).append(formElement);","        } else {","            container.append(formElement);","        }","    }","}, {","    ATTRS: {","        formContainer: { value: '' }","    }","});","","","Y.namespace('Libbit').ControlForm = ControlForm;","","","}, '1.0.0', {\"requires\": [\"node\", \"model-list\", \"model\", \"base\"]});"];
+_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].lines = {"1":0,"3":0,"5":0,"8":0,"10":0,"11":0,"17":0,"18":0,"19":0,"21":0,"22":0,"23":0,"25":0,"27":0,"28":0,"30":0,"31":0,"32":0,"33":0,"34":0,"36":0,"38":0,"40":0,"41":0,"43":0,"47":0,"49":0,"50":0,"52":0,"62":0};
+_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].functions = {"(anonymous 2):10":0,"render:6":0,"(anonymous 4):31":0,"(anonymous 3):30":0,"renderForm:15":0,"(anonymous 1):1":0};
 _yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].coveredLines = 30;
-_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].coveredFunctions = 5;
+_yuitest_coverage["build/libbit-controlform/libbit-controlform.js"].coveredFunctions = 6;
 _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 1);
 YUI.add('libbit-controlform', function (Y, NAME) {
 
@@ -62,7 +62,7 @@ var container = this.get('formContainer');
         _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 18);
 var form = formItem.get('controlForm');
         _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 19);
-var controls = form.get('controlCollection');
+var fieldGroups = form.get('fieldGroups');
 
         _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 21);
 var formElement = Y.Node.create('<fieldset>');
@@ -80,43 +80,43 @@ formElement.append(legend);
 formElement.append(list);
 
         _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 30);
-Y.Array.each(controls, function(control) {
+Y.Array.each(fieldGroups, function(group) {
             _yuitest_coverfunc("build/libbit-controlform/libbit-controlform.js", "(anonymous 3)", 30);
 _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 31);
+Y.Array.each(group['fieldGroupItems'], function(control) {
+                _yuitest_coverfunc("build/libbit-controlform/libbit-controlform.js", "(anonymous 4)", 31);
+_yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 32);
 var label = Y.Node.create('<label>');
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 32);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 33);
 var controlContainer = Y.Node.create('<li>');
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 33);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 34);
 var controlElement = null;
 
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 35);
-switch (control.type) {
-                case 'text':
-                    _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 37);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 36);
 controlElement = Y.Node.create('<input />');
-            }
 
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 40);
-label.set('innerHTML', control.caption);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 38);
+label.set('innerHTML', control.field.name);
 
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 42);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 40);
 controlContainer.append(label);
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 43);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 41);
 controlContainer.append(controlElement);
 
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 45);
+                _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 43);
 list.append(controlContainer);
+            });
         });
 
-        _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 48);
+        _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 47);
 var directionClassName = container.getAttribute('class') + '_' + formItem.get('direction');
 
-        _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 50);
+        _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 49);
 if (container.one('.' + directionClassName) != null) {
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 51);
+            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 50);
 container.one('.' + directionClassName).append(formElement);
         } else {
-            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 53);
+            _yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 52);
 container.append(formElement);
         }
     }
@@ -127,7 +127,7 @@ container.append(formElement);
 });
 
 
-_yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 63);
+_yuitest_coverline("build/libbit-controlform/libbit-controlform.js", 62);
 Y.namespace('Libbit').ControlForm = ControlForm;
 
 

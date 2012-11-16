@@ -16,7 +16,7 @@ ControlForm = Y.Base.create('controlForm', Y.Base, [], {
     {
         var container = this.get('formContainer');
         var form = formItem.get('controlForm');
-        var controls = form.get('controlCollection');
+        var fieldGroups = form.get('fieldGroups');
 
         var formElement = Y.Node.create('<fieldset>');
         var legend = Y.Node.create('<legend>');
@@ -27,22 +27,21 @@ ControlForm = Y.Base.create('controlForm', Y.Base, [], {
         formElement.append(legend);
         formElement.append(list);
 
-        Y.Array.each(controls, function(control) {
-            var label = Y.Node.create('<label>');
-            var controlContainer = Y.Node.create('<li>');
-            var controlElement = null;
+        Y.Array.each(fieldGroups, function(group) {
+            Y.Array.each(group['fieldGroupItems'], function(control) {
+                var label = Y.Node.create('<label>');
+                var controlContainer = Y.Node.create('<li>');
+                var controlElement = null;
 
-            switch (control.type) {
-                case 'text':
-                    controlElement = Y.Node.create('<input />');
-            }
+                controlElement = Y.Node.create('<input />');
 
-            label.set('innerHTML', control.caption);
+                label.set('innerHTML', control.field.name);
 
-            controlContainer.append(label);
-            controlContainer.append(controlElement);
+                controlContainer.append(label);
+                controlContainer.append(controlElement);
 
-            list.append(controlContainer);
+                list.append(controlContainer);
+            });
         });
 
         var directionClassName = container.getAttribute('class') + '_' + formItem.get('direction');
