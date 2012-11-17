@@ -82,14 +82,12 @@ class MinifyController extends Controller
         $options = array(
             // Output an array of data instead returning headers/content
             'quiet' => true,
-            'rewriteCssUris' => false,
             'debug' => $env === 'dev',
         );
 
         if ($env === 'prod') {
             // Don't minify in prod, the script is already minified.
             $options['minifiers'] = array(
-                \Minify::TYPE_CSS => '',
                 \Minify::TYPE_JS  => '',
             );
         }

@@ -11,7 +11,7 @@ TemplateView = Y.Base.create('templateView', Y.View, [], {
         '<div class="template-grid-container" title="{{ name }}" data-yui3-record="{{ clientId }}">' +
         '    <div class="template-grid-icon-container">' +
         '        <div class="template-grid-icon-wrapper">' +
-        '            <img class="template-grid-icon" height="100%" width="100%"></img>' +
+        '            <img class="template-grid-icon"></img>' +
         '       </div>' +
         '    </div>' +
         '    <div class="template-grid-footer">' +
