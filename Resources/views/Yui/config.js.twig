@@ -54,9 +54,3 @@ YUI_config.groups.docgenadmin = {
         'docgenadmin-': {}
     }
 }
-
-{# Global YAHOO object, fixes multiple instances of YAHOO treeview #}
-var YAHOO; YUI().use('yui2-treeview', function(Y) { YAHOO = Y.YUI2; });
-
-{# Global YUI object, to allow lazyloading #}
-var Y = YUI();

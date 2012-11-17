@@ -44,47 +44,21 @@ class MinifyController extends Controller
             \Minify_Logger::setLogger($errorLogger);
         }
 
-        $request = $this->get('request');
-        $files = array_keys($request->query->all());
+        $config = $this->get('libbit_yui.config');
+        $files = array_keys($this->get('request')->query->all());
 
         // asset('bundles/libbityui')|trim('/')
-        array_walk($files, function (&$file) {
-            $groups = array(
-                'libbit' => array(
-                    'filter' => 'DEBUG',
-                    'pattern' => 'libbit-',
-                    'base' => '/libbityui/',
-                    'root' => 'yui3-libbit/build/'
-                ),
-                'docgenadmin' => array(
-                    'filter' => 'DEBUG',
-                    'pattern' => 'docgenadmin-',
-                    'base' => '/docgenadmin/js/',
-                    'root' => 'docgenadmin/build/'
-                ),
-            );
-
+        foreach ($files as $file) {
             $base = 'docgen-standard/web/bundles';
-
             $file = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
-
-            $group = null;
-
-            foreach ($groups as $g) {
-                $pattern = $g['pattern'];
-                $root = $g['root'];
-
-                if (substr($file, strlen($root), strlen($pattern)) === $pattern) {
-                    $group = $g;
-                }
-            }
+            $group = $config->getByPath($file);
 
             if ($group !== null) {
                 $file = $base.$group['base'].$file;
             } else {
                 $file = $base.'/libbityui/'.$file;
             }
-        });
+        }
 
         $_GET = array();
         $_GET['f'] = implode(',', $files);

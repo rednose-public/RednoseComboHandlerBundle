@@ -5,7 +5,7 @@ namespace Libbit\YuiBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Libbit\YuiBundle\DependencyInjection\Compiler\ConfigCompilerPass;
+use Libbit\YuiBundle\DependencyInjection\Compiler\GroupPass;
 
 /**
  * @author Marc Bontje <marc@rednose.nl>
@@ -13,4 +13,11 @@ use Libbit\YuiBundle\DependencyInjection\Compiler\ConfigCompilerPass;
  */
 class LibbitYuiBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new GroupPass());
+    }
 }
