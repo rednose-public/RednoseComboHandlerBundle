@@ -4,8 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="libbit_yui_minify" pattern="/minify">
-        <default key="_controller">LibbitYuiBundle:Minify:serve</default>
+    <route id="libbit_yui_combo" pattern="/combo">
+        <default key="_controller">LibbitYuiBundle:Minify:combo</default>
     </route>
 
     <route id="libbit_yui_config" pattern="/yui-config.js">

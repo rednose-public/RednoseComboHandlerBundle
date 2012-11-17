@@ -27,11 +27,15 @@ class YuiController extends Controller
      */
     public function configAction()
     {
+        $groups = $this->get('libbit_yui.config')->getGroups();
+
         $response = new Response(null, 200, array(
             'Content-type' => 'application/x-javascript',
         ));
 
-        return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(), $response);
+        return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
+            'groups' => $groups,
+        ), $response);
     }
 
     /**

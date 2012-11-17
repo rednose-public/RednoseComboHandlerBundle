@@ -22,54 +22,57 @@ use Libbit\YuiBundle\Exception\Exception;
  */
 class MinifyController extends Controller
 {
+    protected $errorLogger = true;
+
+    protected $cacheFileLocking = true;
+
+    protected $uploaderHoursBehind = 0;
+
     /**
      * Minify a request of JavaScript/CSS files
      *
      * @return Response
      */
-    public function serveAction()
+    public function comboAction()
     {
-        $errorLogger = true;
-        $cacheFileLocking = true;
-        $uploaderHoursBehind = 0;
+        $errorLogger = $this->errorLogger;
+        $cacheFileLocking = $this->cacheFileLocking;
+        $uploaderHoursBehind = $this->uploaderHoursBehind;
 
         \Minify::$uploaderHoursBehind = $uploaderHoursBehind;
         \Minify::setCache('', $cacheFileLocking);
 
         if ($errorLogger) {
-            if (true === $errorLogger) {
-                $errorLogger = MinifyLogger::getInstance(true);
-            }
-
+            $errorLogger = MinifyLogger::getInstance(true);
             \Minify_Logger::setLogger($errorLogger);
         }
-
-        $config = $this->get('libbit_yui.config');
-        $files = array_keys($this->get('request')->query->all());
-
-        // asset('bundles/libbityui')|trim('/')
-        foreach ($files as $file) {
-            $base = 'docgen-standard/web/bundles';
-            $file = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
-            $group = $config->getByPath($file);
-
-            if ($group !== null) {
-                $file = $base.$group['base'].$file;
-            } else {
-                $file = $base.'/libbityui/'.$file;
-            }
-        }
-
-        $_GET = array();
-        $_GET['f'] = implode(',', $files);
 
         ini_set('zlib.output_compression', '0');
 
         $serveController = new \Minify_Controller_MinApp();
 
+        $this->rewriteRequest();
         $response = \Minify::serve($serveController, $this->getOptions());
 
         return new Response($response['content'], $response['statusCode'], $response['headers']);
+    }
+
+    protected function rewriteRequest()
+    {
+        $config = $this->get('libbit_yui.config');
+        $files = array_keys($this->get('request')->query->all());
+
+        foreach ($files as &$file) {
+            $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
+            $group = $config->getByPath($file);
+            $base  = $group ? $group->base : 'bundles/libbityui';
+
+            $file = $base.'/'.$file;
+        }
+
+        $_GET = array();
+        $_GET['b'] = trim($this->get('templating.helper.assets')->getUrl(''), '/');
+        $_GET['f'] = implode(',', $files);
     }
 
     protected function getOptions()
