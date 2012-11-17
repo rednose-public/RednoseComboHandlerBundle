@@ -1,3 +1,4 @@
+{% autoescape %}
 {# Set up the global YUI config object #}
 YUI_config = {
     comboBase : '{{ path('libbit_yui_combo') }}?',
@@ -6,6 +7,20 @@ YUI_config = {
     combine: true,
 
     groups: {
+        {# Set up the configured module groups #}
+        {% for group in groups %}
+        {{ group.name }}: {
+            combine: true,
+            {% if app.environment == 'dev' %}
+            filter: 'DEBUG',
+            {% endif %}
+            root: '{{ group.root }}',
+            patterns: {
+                '{{ group.pattern }}': {}
+            }
+        },
+        {% endfor %}
+
         yui2: {
             root: '2in3/dist/build/',
             combine: true,
@@ -33,24 +48,7 @@ YUI_config = {
                 'lang/gallery-': {},
                 'gallerycss-': { type: 'css' }
             }
-        },
-
-        libbit: {
-            root: 'yui3-libbit/build/',
-            filter: 'DEBUG',
-            combine: true,
-            patterns: {
-                'libbit-': {}
-            }
         }
     }
 }
-
-YUI_config.groups.docgenadmin = {
-    filter: 'DEBUG',
-    combine: true,
-    root: 'docgenadmin/build/',
-    patterns: {
-        'docgenadmin-': {}
-    }
-}
+{% endautoescape %}

@@ -4,7 +4,7 @@ namespace Libbit\YuiBundle\Group;
 
 class Group
 {
-    public $filter;
+    public $name;
 
     public $pattern;
 
@@ -12,9 +12,9 @@ class Group
 
     public $root;
 
-    public function __construct($filter = null, $pattern = null, $base = null, $root = null)
+    public function __construct($name = null, $pattern = null, $base = null, $root = null)
     {
-        $this->filter  = $filter;
+        $this->name    = $name;
         $this->pattern = $pattern;
         $this->base    = $base;
         $this->root    = $root;

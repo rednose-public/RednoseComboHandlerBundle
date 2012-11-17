@@ -14,6 +14,7 @@ namespace Libbit\YuiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Assetic\Asset\FileAsset;
+use \JSMin;
 
 /**
  * Controller for the YUI seed and config
@@ -29,13 +30,13 @@ class YuiController extends Controller
     {
         $groups = $this->get('libbit_yui.config')->getGroups();
 
-        $response = new Response(null, 200, array(
-            'Content-type' => 'application/x-javascript',
+        $content = $this->renderView('LibbitYuiBundle:Yui:config.js.twig', array(
+            'groups' => $groups,
         ));
 
-        return $this->render('LibbitYuiBundle:Yui:config.js.twig', array(
-            'groups' => $groups,
-        ), $response);
+        return new Response(JSMin::minify($content), 200, array(
+            'Content-type' => 'application/x-javascript',
+        ));
     }
 
     /**
