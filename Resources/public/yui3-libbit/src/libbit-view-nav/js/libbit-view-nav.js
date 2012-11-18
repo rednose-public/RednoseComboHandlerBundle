@@ -15,10 +15,28 @@ Nav = Y.Base.create('nav', Y.View, [], {
     buttons : null,
 
     /**
+     * Contains the footer DOM node.
+     */
+    _footer: null,
+
+    /**
+     * Stores references to the created nodes
+     */
+    _buttonMap: {},
+
+    /**
      * Initializer, gets called upon instance initiation.
      */
     initializer: function () {
         Y.Do.after(this._afterRender, this, 'render', this);
+        this._buildFooter();
+    },
+
+    /**
+     * Get a button node by name.
+     */
+    getButton: function (name) {
+        return this._buttonMap[name];
     },
 
     /**
@@ -28,7 +46,7 @@ Nav = Y.Base.create('nav', Y.View, [], {
         var container = this.get('container'),
             header    = this.title,
             body      = Y.Node.create('<div></div>'),
-            footer    = this._buildFooter(),
+            footer    = this._footer,
             panel;
 
         // Transfer the child nodes from the view container to the new body container.
@@ -61,6 +79,7 @@ Nav = Y.Base.create('nav', Y.View, [], {
                 title     = button.title ? button.title : value,
                 disabled  = button.disabled,
                 className = button.className,
+                icon      = button.icon,
                 // Format the action event by prepending 'button', for example the event
                 // fired for 'cancel' will be 'buttonCancel'
                 action    = 'button' + self._capitalizeFirstLetter(key),
@@ -69,6 +88,10 @@ Nav = Y.Base.create('nav', Y.View, [], {
             if (value) {
                 node.set('text', value);
                 node.set('title', title);
+            }
+
+            if (icon) {
+                node.append(Y.Node.create('<i class="' + icon + '"></i>'));
             }
 
             if (primary) {
@@ -94,9 +117,11 @@ Nav = Y.Base.create('nav', Y.View, [], {
             });
 
             footer.append(node);
+
+            self._buttonMap[key] = node;
         });
 
-        return footer;
+        this._footer = footer;
     },
 
     /**
