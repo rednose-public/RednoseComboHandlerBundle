@@ -192,6 +192,8 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
 
         this._renderTree();
         this.bindUI();
+
+        this.fire('refresh');
     },
 
     /**
