@@ -1,6 +1,11 @@
 {
     "name": "libbit-treeview",
     "builds": {
+        "libbit-model-tree": {
+            "jsfiles": [
+                "model-tree.js"
+            ]
+        },
         "libbit-treeview-anim": {
             "jsfiles": [
                 "treeview-extensions/treeview-anim.js"

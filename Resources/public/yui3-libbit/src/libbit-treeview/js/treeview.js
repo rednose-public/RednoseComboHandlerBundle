@@ -1,3 +1,6 @@
+// Global YAHOO object, fixes multiple instances of YAHOO treeview
+YAHOO = Y.YUI2;
+
 var TreeView;
 
 // TODO: Bind model events
@@ -15,21 +18,24 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
     _stateMap: [],
 
     initializer: function () {
-        var model = this.get('data');
-
-        model.after('load', this._refresh, this);
-    },
-
-    renderUI: function () {
         var contentBox = this.get('contentBox'),
-            src        = this.get('srcNode'),
             width      = this.get('width'),
             height     = this.get('height'),
-            container  = Y.Node.create('<div class="libbit-treeview-content"></div>'),
-            sID        = Y.stamp(container);
+            model      = this.get('data');
 
         contentBox.setStyle('width', width);
         contentBox.setStyle('height', height);
+        contentBox.setStyle('overflow', 'auto');
+
+        if (model) {
+            model.after('load', this._refresh, this);
+        }
+    },
+
+    renderUI: function () {
+        var src        = this.get('srcNode'),
+            container  = Y.Node.create('<div class="libbit-treeview-content"></div>'),
+            sID        = Y.stamp(container);
 
         container.set('id', sID);
         src.append(container);
@@ -123,60 +129,6 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
                     self.set('iconClicked', false);
                 }
             });
-
-            /*var tableWidth = 200;
-
-            // TODO: Modify nodes before entering the DOM
-            mainTable.setStyle('width', tableWidth + 'px');
-            node = Y.one('#' + value.labelElId).ancestor('tr');
-
-            var wrapper = Y.Node.create('<td><table><tbody><tr></tr></tbody></table></td>');
-
-            var width = 150;
-            wrapper.setStyle('width', width + 'px');
-
-            width = width + 22;
-            node.get('children').each(function (c) {
-                width = width - 22;
-                wrapper.one('tr').append(c);
-            });
-
-            var contentEl = wrapper.one('.ygtvcontent');
-            contentEl.setStyle('max-width', width + 'px');
-            contentEl.setStyle('overflow', 'hidden');
-            contentEl.setStyle('text-overflow', 'ellipsis');
-
-
-            node.append(wrapper);
-            node.append(Y.Node.create('<td style="width: 50px;">Test!</td>'));*/
-
-            /*var fieldGroup = null,
-                target,
-                node;
-
-            // Bind the DD to the parent table, for a wider drop range.
-            node = Y.one('#' + value.labelElId).ancestor('table');
-
-            // TODO: Query modellist to get fieldGroup model objects
-            if (Y.Lang.isString(value.data)) {
-                var obj = Y.JSON.parse(value.data);
-
-                if (obj.type === 'FieldGroup') {
-                    // This is a category object (category type is FieldGroup)
-                    self._createDD(node, obj);
-                    // Categories allow dropping
-                    node.setData({ model: obj});
-                    new Y.DD.Drop({
-                        node         : node,
-                        groups       : ['one'],
-                        bubbleTargets: self
-                    });
-                } else {
-                    // This is a fieldGroup.
-                    fieldGroup = new Y.TB.FieldGroup(obj);
-                    self._createDD(node, fieldGroup);
-                }
-            }*/
         });
     },
 
@@ -236,10 +188,12 @@ TreeView = Y.Base.create('treeView', Y.Widget, [ Y.Libbit.TreeView.Anim, Y.Libbi
                 icon;
 
             // TODO: Retrieve icon from model mapping, allowHTML and formatter config like Y.DataTable.
-            if (Y.instanceOf(model, Y.TB.Category)) {
-                icon = 'icon-folder-close';
-            } else if (Y.instanceOf(model, Y.TB.FieldGroup)) {
-                icon = 'icon-align-left';
+            if (Y.TB) {
+                if (Y.instanceOf(model, Y.TB.Category)) {
+                    icon = 'icon-folder-close';
+                } else if (Y.instanceOf(model, Y.TB.FieldGroup)) {
+                    icon = 'icon-align-left';
+                }
             }
 
             if (icon) {
