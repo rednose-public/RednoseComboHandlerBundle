@@ -29,7 +29,6 @@
         <exclude name="vendor/**/*.php" />
     </fileset>
 
-
     <!-- BUILD TASKS -->
 
     <!-- Main (default) task -->
