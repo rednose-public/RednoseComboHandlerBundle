@@ -1,4 +1,4 @@
-YUI.add('libbit-treeview-test', function (Y) {
+YUI.add('libbit-treeview-base-test', function (Y) {
 
 var Assert = Y.Assert,
     suite;
@@ -116,5 +116,5 @@ suite.add(new Y.Test.Case({
 Y.Test.Runner.add(suite);
 
 }, '@VERSION@', {
-    requires: ['button', 'test', 'node-event-simulate']
+    requires: ['test', 'node-event-simulate']
 });

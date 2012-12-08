@@ -17,6 +17,13 @@
                 coverage: ['libbit-treeview'],
                 filter: (window.location.search.match(/[?&]filter=([^&]+)/) || [])[1] || 'raw',
                 modules: {
+                    'libbit-treeview-test': {
+                        use: [
+                            'libbit-treeview-base-test',
+                            'libbit-model-tree-test'
+                        ]
+                    },
+
                     'libbit-model-tree': {
                         fullpath: '../../../../../yui3-libbit/build/libbit-model-tree/libbit-model-tree.js'
                     },
@@ -33,11 +40,15 @@
                     },
                     'libbit-treeview': {
                         fullpath: '../../../../../yui3-libbit/build/libbit-treeview/libbit-treeview.js',
-                        requires: ['libbit-treeview', 'button', 'test', 'node-event-simulate']
+                        requires: ['libbit-treeview', 'test', 'node-event-simulate']
                     },
-                    'libbit-treeview-test': {
-                        fullpath: './assets/treeview-test.js',
-                        requires: ['libbit-treeview', 'button', 'test', 'node-event-simulate']
+                    'libbit-treeview-base-test': {
+                        fullpath: './assets/treeview-base-test.js',
+                        requires: ['libbit-treeview', 'test', 'node-event-simulate']
+                    },
+                    'libbit-model-tree-test': {
+                        fullpath: './assets/model-tree-test.js',
+                        requires: ['libbit-treeview', 'test', 'node-event-simulate']
                     }
                 }
             }).use('libbit-treeview-test', 'test-console', function (Y) {
