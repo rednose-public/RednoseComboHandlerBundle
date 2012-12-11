@@ -17,10 +17,9 @@ Dropdown = Y.Base.create('dropdown', Y.Bootstrap.Dropdown, [], {
 
         node.get('parentNode').append(Y.Node.create(content));
 
-        // Close the dropdown on click.
         node.get('parentNode').all('a').on('click', function (e) {
-             e.preventDefault();
-             node.dropdown.toggle();
+            e.preventDefault();
+            node.dropdown.toggle();
         });
     }
 }, {
