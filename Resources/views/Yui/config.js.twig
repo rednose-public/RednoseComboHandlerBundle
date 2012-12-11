@@ -16,7 +16,15 @@ YUI_config = {
             {% endif %}
             root: '{{ group.root }}',
             patterns: {
-                '{{ group.pattern }}': {}
+                '{{ group.pattern }}': {
+                    configFn: function(me) {
+                        if (/-css/.test(me.name)) {
+                            me.type = 'css';
+                            me.path = me.path.replace(/\.js/, '.css');
+                            console.log(me);
+                        }
+                    }
+                }
             }
         },
         {% endfor %}

@@ -5,6 +5,11 @@
             "jsfiles": [
                 "contextmenu.js"
             ]
+        },
+        "libbit-contextmenu-css": {
+            "cssfiles": [
+                "contextmenu.css"
+            ]
         }
     }
 }

@@ -104,4 +104,4 @@ ContextMenu = Y.Base.create('contextMenu', Y.Plugin.Base, [], {
 Y.namespace('Libbit').ContextMenu = ContextMenu;
 
 
-}, '1.0.0', {"requires": ["base", "panel", "plugin", "widget"]});
+}, '1.0.0', {"requires": ["base", "libbit-contextmenu-css", "overlay", "panel", "plugin", "widget"]});

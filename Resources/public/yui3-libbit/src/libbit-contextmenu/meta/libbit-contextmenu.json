@@ -2,9 +2,14 @@
     "libbit-contextmenu" : {
         "requires": [
             "base",
+            "libbit-contextmenu-css",
+            "overlay",
             "panel",
             "plugin",
             "widget"
         ]
+    },
+    "libbit-contextmenu-css" : {
+        "type": "css"
     }
 }
