@@ -104,7 +104,7 @@
             description="Perform unit tests and code coverage"
             depends="test:prepare, test:unit:prepare">
 
-            <exec command="yogi test" dir="Resources/public/yui3-libbit/src/libbit-treeview" logoutput="true">
+            <exec command="grover -t 180 -c 5  -i src/common/node/batch.js" dir="Resources/public/yui3-libbit" logoutput="true">
         </exec>
 
     </target>
