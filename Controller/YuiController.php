@@ -46,7 +46,7 @@ class YuiController extends Controller
      */
     public function seedAction()
     {
-        $seedAsset = new FileAsset('bundles/libbityui/yui3/build/yui/yui-min.js');
+        $seedAsset = new FileAsset('components/yui3/build/yui/yui-min.js');
 
         return new Response($seedAsset->dump(), 200, array(
             'Content-type' => 'application/x-javascript',

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <services>
-	    <service id="libbit_yui.config" class="Libbit\YuiBundle\Group\Config">
-		    <argument type="service" id="service_container"/>
-		    <argument type="collection"/>
-        </service>
-        <service id="libbit_yui.group.libbit" class="Libbit\YuiBundle\Group\Group">
-            <tag name="libbit_yui.group" alias="libbit"/>
-            <argument key="name">libbit</argument>
-            <argument key="pattern">libbit-</argument>
-            <argument key="base">bundles/libbityui</argument>
-            <argument key="root">yui3-libbit/build/</argument>
-        </service>
-    </services>
+  <services>
+    <service id="libbit_yui.config" class="Libbit\YuiBundle\Group\Config">
+      <argument type="service" id="service_container"/>
+      <argument type="collection"/>
+    </service>
+    <service id="libbit_yui.group.libbit" class="Libbit\YuiBundle\Group\Group">
+      <tag name="libbit_yui.group" alias="libbit"/>
+      <argument key="name">libbit</argument>
+      <argument key="pattern">libbit-</argument>
+      <argument key="base">components</argument>
+      <argument key="root">yui3-libbit/build/</argument>
+    </service>
+  </services>
 </container>

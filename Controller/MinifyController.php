@@ -65,7 +65,7 @@ class MinifyController extends Controller
         foreach ($files as &$file) {
             $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
             $group = $config->getByPath($file);
-            $base  = $group ? $group->base : 'bundles/libbityui';
+            $base  = $group ? $group->base : 'components';
 
             $file = $base.'/'.$file;
         }
