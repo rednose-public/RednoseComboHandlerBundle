@@ -22,7 +22,7 @@ suite.add(new Y.Test.Case({
                  data    : new Y.Model(),
                  children: [
                      {
-                         label   : "Field group 2",
+                         label   : "Field group 1",
                          data    : new Y.Model(),
                          children: []
                      }
