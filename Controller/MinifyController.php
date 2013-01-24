@@ -70,8 +70,14 @@ class MinifyController extends Controller
             $file = $base.'/'.$file;
         }
 
+        $baseUrl = $this->get('templating.helper.assets')->getUrl('');
+
         $_GET = array();
-        $_GET['b'] = trim($this->get('templating.helper.assets')->getUrl(''), '/');
+
+        if ($baseUrl !== '/') {
+            $_GET['b'] = trim($baseUrl, '/');
+        }
+
         $_GET['f'] = implode(',', $files);
     }
 
