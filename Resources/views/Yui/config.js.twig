@@ -28,25 +28,6 @@ YUI_config = {
         },
         {% endfor %}
 
-        yui2: {
-            root: '2in3/dist/build/',
-            combine: true,
-            patterns: {
-                'yui2-': {
-                    configFn: function(me) {
-                        if (/-skin|reset|fonts|grids|base/.test(me.name)) {
-                            me.type = 'css';
-                            me.path = me.path.replace(/\.js/, '.css');
-                            // this makes skins in builds earlier than
-                            // 2.6.0 work as long as combine is false
-                            me.path = me.path.replace(/\/yui2-skin/,
-                                             '/assets/skins/sam/yui2-skin');
-                        }
-                    }
-                }
-            }
-        },
-
         gallery: {
             root: 'yui3-gallery/build/',
             combine: true,
