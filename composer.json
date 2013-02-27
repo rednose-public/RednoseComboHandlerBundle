@@ -26,7 +26,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/symfony": "2.1.2",
+        "symfony/symfony": "2.1.*",
         "friendsofsymfony/jsrouting-bundle": "dev-master",
         "oyatel/minify": "dev-master"
     },
