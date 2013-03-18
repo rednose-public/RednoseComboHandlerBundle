@@ -1,6 +1,7 @@
 {% autoescape %}
 {# Set up the global YUI config object #}
 YUI_config = {
+    debug: false,
     comboBase : '{{ path('libbit_yui_combo') }}?',
     root: 'yui3/build/',
     lang: '{{ app.request.locale }}',
