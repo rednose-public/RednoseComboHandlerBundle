@@ -1,37 +1,48 @@
 {% autoescape %}
 {# Set up the global YUI config object #}
 YUI_config = {
-    debug: false,
-    comboBase : '{{ path('libbit_yui_combo') }}?',
+    base: '{{ asset(null) }}components/yui3/build/',
+    comboBase: '{{ path('libbit_yui_combo') }}?',
     root: 'yui3/build/',
+
+    combine  : true,
+
     lang: '{{ app.request.locale }}',
-    combine: true,
+
+    {# Don't log any messages from these modules #}
+    debug: false,
 
     groups: {
         {# Set up the configured module groups #}
         {% for group in groups %}
-        {{ group.name }}: {
-            combine: true,
-            {% if app.environment == 'dev' %}
-            filter: 'DEBUG',
-            {% endif %}
-            root: '{{ group.root }}',
-            patterns: {
-                '{{ group.pattern }}': {
-                    configFn: function(me) {
-                        if (/-css/.test(me.name)) {
-                            me.type = 'css';
-                            me.path = me.path.replace(/\.js/, '.css');
+            {{ group.name }}: {
+                base: '{{ asset(null) }}components/{{ group.root }}',
+                root: '{{ group.root }}',
+
+                {% if app.environment == 'dev' %}
+                    {# Show debug messages in the dev environment #}
+                    debug : true,
+                    combine: false,
+                    filter: 'debug',
+                {% endif %}
+
+                patterns: {
+                    '{{ group.pattern }}': {
+                        configFn: function(me) {
+                            if (/-css/.test(me.name)) {
+                                me.type = 'css';
+                                me.path = me.path.replace(/\.js/, '.css');
+                            }
                         }
                     }
                 }
-            }
-        },
+            },
         {% endfor %}
 
         gallery: {
+            base: '{{ asset(null) }}components/yui3-gallery/build/',
             root: 'yui3-gallery/build/',
-            combine: true,
+
             patterns: {
                 'gallery-': {},
                 'lang/gallery-': {},
