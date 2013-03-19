@@ -83,21 +83,15 @@ class MinifyController extends Controller
 
     protected function getOptions()
     {
-        $env = $this->get('kernel')->getEnvironment();
-
-        $options = array(
+        return array(
             // Output an array of data instead returning headers/content
             'quiet' => true,
-            'debug' => $env === 'dev',
-        );
 
-        if ($env === 'prod') {
-            // Don't minify in prod, the script is already minified.
-            $options['minifiers'] = array(
+            // Don't minify, the script is already minified.
+            'minifiers' => array(
+                \Minify::TYPE_CSS => '',
                 \Minify::TYPE_JS  => '',
-            );
-        }
-
-        return $options;
+            ),
+        );
     }
 }

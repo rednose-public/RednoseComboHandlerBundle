@@ -12,7 +12,7 @@
         <default key="_controller">LibbitYuiBundle:Yui:config</default>
     </route>
 
-    <route id="libbit_yui_seed" pattern="/yui-min.js">
+    <route id="libbit_yui_seed" pattern="/yui-seed.js">
         <default key="_controller">LibbitYuiBundle:Yui:seed</default>
     </route>
 </routes>

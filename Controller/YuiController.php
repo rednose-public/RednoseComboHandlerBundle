@@ -34,7 +34,8 @@ class YuiController extends Controller
             'groups' => $groups,
         ));
 
-        return new Response(JSMin::minify($content), 200, array(
+
+        return new Response($this->get('kernel')->getEnvironment() === 'dev' ? $content : JSMin::minify($content), 200, array(
             'Content-type' => 'application/x-javascript',
         ));
     }
@@ -46,7 +47,7 @@ class YuiController extends Controller
      */
     public function seedAction()
     {
-        $seedAsset = new FileAsset('components/yui3/build/yui/yui-min.js');
+        $seedAsset = new FileAsset('components/yui3/build/yui/'.($this->get('kernel')->getEnvironment() === 'dev' ? 'yui.js' : 'yui-min.js'));
 
         return new Response($seedAsset->dump(), 200, array(
             'Content-type' => 'application/x-javascript',

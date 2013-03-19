@@ -6,11 +6,16 @@ YUI_config = {
     root: 'yui3/build/',
 
     combine  : true,
+    {# Don't log any messages from these modules #}
+    debug: false,
 
     lang: '{{ app.request.locale }}',
 
-    {# Don't log any messages from these modules #}
-    debug: false,
+    {% if app.environment == 'dev' %}
+        {# Show debug messages in the dev environment #}
+        combine: false,
+        filter: 'raw',
+    {% endif %}
 
     groups: {
         {# Set up the configured module groups #}
@@ -22,7 +27,6 @@ YUI_config = {
                 {% if app.environment == 'dev' %}
                     {# Show debug messages in the dev environment #}
                     debug : true,
-                    combine: false,
                     filter: 'debug',
                 {% endif %}
 
