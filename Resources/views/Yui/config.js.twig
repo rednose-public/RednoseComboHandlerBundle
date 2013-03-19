@@ -12,7 +12,6 @@ YUI_config = {
     lang: '{{ app.request.locale }}',
 
     {% if app.environment == 'dev' %}
-        {# Show debug messages in the dev environment #}
         combine: false,
         filter: 'raw',
     {% endif %}
@@ -43,6 +42,7 @@ YUI_config = {
             },
         {% endfor %}
 
+        {# Patterns for the YUI gallery #}
         gallery: {
             base: '{{ asset(null) }}components/yui3-gallery/build/',
             root: 'yui3-gallery/build/',
