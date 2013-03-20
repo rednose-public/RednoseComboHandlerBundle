@@ -18,6 +18,5 @@ class LibbitYuiBundle extends Bundle
      */
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new GroupPass());
     }
 }

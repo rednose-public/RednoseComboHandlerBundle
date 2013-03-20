@@ -59,15 +59,13 @@ class MinifyController extends Controller
 
     protected function rewriteRequest()
     {
-        $config = $this->get('libbit_yui.config');
         $files = array_keys($this->get('request')->query->all());
 
         foreach ($files as &$file) {
             $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
-            $group = $config->getByPath($file);
-            $base  = $group ? $group->base : 'components';
 
-            $file = $base.'/'.$file;
+            // TODO: Allow the path to be configured.
+            $file = 'components'.'/'.$file;
         }
 
         $baseUrl = $this->get('templating.helper.assets')->getUrl('');
@@ -84,7 +82,7 @@ class MinifyController extends Controller
     protected function getOptions()
     {
         return array(
-            // Output an array of data instead returning headers/content
+            // Output an array of data instead of returning headers/content
             'quiet' => true,
 
             // Don't minify, the script is already minified.

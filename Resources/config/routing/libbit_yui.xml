@@ -7,12 +7,4 @@
     <route id="libbit_yui_combo" pattern="/combo">
         <default key="_controller">LibbitYuiBundle:Minify:combo</default>
     </route>
-
-    <route id="libbit_yui_config" pattern="/yui-config.js">
-        <default key="_controller">LibbitYuiBundle:Yui:config</default>
-    </route>
-
-    <route id="libbit_yui_seed" pattern="/yui-seed.js">
-        <default key="_controller">LibbitYuiBundle:Yui:seed</default>
-    </route>
 </routes>
