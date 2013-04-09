@@ -50,7 +50,6 @@ class MinifyController extends Controller
         ini_set('zlib.output_compression', '0');
 
         $serveController = new \Minify_Controller_MinApp();
-
         $this->rewriteRequest();
         $response = \Minify::serve($serveController, $this->getOptions());
 
@@ -64,8 +63,9 @@ class MinifyController extends Controller
         foreach ($files as &$file) {
             $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
 
-            // TODO: Allow the path to be configured.
-            $file = 'components'.'/'.$file;
+            if (strpos($file, 'bundles/') === false) {
+                $file = 'components'.'/'.$file;
+            }
         }
 
         $baseUrl = $this->get('templating.helper.assets')->getUrl('');
@@ -73,7 +73,11 @@ class MinifyController extends Controller
         $_GET = array();
 
         if ($baseUrl !== '/') {
-            $_GET['b'] = trim($baseUrl, '/');
+            if (isset($_GET['b'])) {
+                $_GET['b'] .= trim($baseUrl, '/');
+            } else {
+                $_GET['b'] = trim($baseUrl, '/');
+            }
         }
 
         $_GET['f'] = implode(',', $files);

@@ -47,21 +47,19 @@ class MinifyHelper extends Helper
             $paths = array($paths);
         }
 
-        $minUrl = $this->container->get('router')->generate('libbit_yui_minify');
+        $minUrl = $this->container->get('router')->generate('libbit_yui_combo');
 
-        if ($basePath !== null) {
-            $parameters[] = 'b='.$this->getFullUrl($basePath);
-        } else {
-            foreach ($paths as &$path) {
-                $path = $this->getFullUrl($path);
+        foreach ($paths as &$path) {
+            if ($basePath !== null) {
+                $path = $basePath . '/' . $path;
             }
+
+            $files[] = $path;
         }
 
-        $parameters[] = 'f='.implode(',', $paths);
+        $files = implode(',', $paths);
 
-        $url = $minUrl.'?'.implode('&', $parameters);
-
-        return $url;
+        return $minUrl . '?' . $files;
     }
 
     /**
