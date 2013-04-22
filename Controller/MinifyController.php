@@ -68,7 +68,7 @@ class MinifyController extends Controller
             }
         }
 
-        $baseUrl = $this->get('templating.helper.assets')->getUrl('');
+        $baseUrl = urldecode($this->get('templating.helper.assets')->getUrl(''));
 
         $_GET = array();
 
