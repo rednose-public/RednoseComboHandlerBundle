@@ -89,6 +89,12 @@ class MinifyController extends Controller
             // Output an array of data instead of returning headers/content
             'quiet' => true,
 
+            // Allow all files inside the symfony2 root folder to be accessed
+            'minApp' => array('allowDirs' => array(
+                __DIR__ . '/../../../../../../',
+                $_SERVER['DOCUMENT_ROOT']
+            ));
+
             // Don't minify, the script is already minified.
             'minifiers' => array(
                 \Minify::TYPE_CSS => '',
