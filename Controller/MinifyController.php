@@ -93,7 +93,7 @@ class MinifyController extends Controller
             'minApp' => array('allowDirs' => array(
                 __DIR__ . '/../../../../../../',
                 $_SERVER['DOCUMENT_ROOT']
-            ));
+            )),
 
             // Don't minify, the script is already minified.
             'minifiers' => array(
