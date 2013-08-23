@@ -1,6 +1,6 @@
 <?php
 
-namespace Libbit\YuiBundle\Exception;
+namespace Rednose\CdnBundle\Exception;
 
 /**
  * Basic exception.

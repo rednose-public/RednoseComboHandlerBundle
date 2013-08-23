@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the LibbitYuiBundle package.
+ * This file is part of the RednoseCdnBundle package.
  *
  * (c) RedNose <info@rednose.nl>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Libbit\YuiBundle\DependencyInjection;
+namespace Rednose\CdnBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * Creates the bundle-specific service container.
  */
-class LibbitYuiExtension extends Extension
+class RednoseCdnExtension extends Extension
 {
     /**
      * {@inheritdoc}

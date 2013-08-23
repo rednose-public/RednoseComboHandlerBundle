@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the LibbitYuiBundle package.
+ * This file is part of the RednoseCdnBundle package.
  *
  * (c) RedNose <info@rednose.nl>
  *
@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Libbit\YuiBundle\Controller;
+namespace Rednose\CdnBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-use Libbit\YuiBundle\Logger\MinifyLogger;
-use Libbit\YuiBundle\Exception\Exception;
+use Rednose\CdnBundle\Logger\MinifyLogger;
+use Rednose\CdnBundle\Exception\Exception;
 
 /**
  * Controller for the Minifier

@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="libbit_yui_combo" pattern="/combo">
-        <default key="_controller">LibbitYuiBundle:Minify:combo</default>
+    <route id="rednose_cdn_combo" pattern="/combo">
+        <default key="_controller">RednoseCdnBundle:Minify:combo</default>
     </route>
 </routes>

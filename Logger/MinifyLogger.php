@@ -1,6 +1,6 @@
 <?php
 
-namespace Libbit\YuiBundle\Logger;
+namespace Rednose\CdnBundle\Logger;
 
 class MinifyLogger
 {

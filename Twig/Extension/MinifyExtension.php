@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the LibbitYuiBundle package.
+ * This file is part of the RednoseCdnBundle package.
  *
  * (c) RedNose <info@rednose.nl>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Libbit\YuiBundle\Twig\Extension;
+namespace Rednose\CdnBundle\Twig\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -50,7 +50,7 @@ class MinifyExtension extends \Twig_Extension
      */
     public function getMinifyUrl($paths, $basePath = null)
     {
-        return $this->container->get('libbit_yui.templating.helper.minify')->getUrl($paths, $basePath);
+        return $this->container->get('rednose_cdn.templating.helper.minify')->getUrl($paths, $basePath);
     }
 
     /**

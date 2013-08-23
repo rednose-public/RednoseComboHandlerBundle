@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the LibbitYuiBundle package.
+ * This file is part of the RednoseCdnBundle package.
  *
  * (c) RedNose <info@rednose.nl>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Libbit\YuiBundle\Templating\Helper;
+namespace Rednose\CdnBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,7 +47,7 @@ class MinifyHelper extends Helper
             $paths = array($paths);
         }
 
-        $minUrl = $this->container->get('router')->generate('libbit_yui_combo');
+        $minUrl = $this->container->get('router')->generate('rednose_cdn_combo');
 
         foreach ($paths as &$path) {
             if ($basePath !== null) {

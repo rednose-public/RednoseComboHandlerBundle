@@ -1,10 +1,10 @@
 {
-    "name": "libbit/yui-bundle",
+    "name": "rednose/cdn-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony LibbitYuiBundle",
-    "keywords": ["yui"],
-    "homepage": "http://www.libbit.eu",
-    "license": "EUPL-1.1",
+    "description": "Symfony RednoseCdnBundle",
+    "keywords": ["cdn"],
+    "homepage": "http://www.rednose.nl",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Marc Bontje",
@@ -31,7 +31,7 @@
         "oyatel/minify": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Libbit\\YuiBundle": "" }
+        "psr-0": { "Rednose\\CdnBundle": "" }
     },
-    "target-dir": "Libbit/YuiBundle"
+    "target-dir": "Rednose/CdnBundle"
 }
