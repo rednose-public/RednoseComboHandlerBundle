@@ -64,7 +64,7 @@ class MinifyController extends Controller
             $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
 
             if (strpos($file, 'bundles/') === false) {
-                $file = 'components'.'/'.$file;
+                $file = 'cdn'.'/'.$file;
             }
         }
 

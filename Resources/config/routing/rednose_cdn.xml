@@ -7,4 +7,5 @@
     <route id="rednose_cdn_combo" pattern="/combo">
         <default key="_controller">RednoseCdnBundle:Minify:combo</default>
     </route>
+
 </routes>
