@@ -36,6 +36,5 @@ class RednoseCdnExtension extends Extension
         foreach ($serviceFiles as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
-
     }
 }

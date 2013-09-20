@@ -62,10 +62,6 @@ class MinifyController extends Controller
 
         foreach ($files as &$file) {
             $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
-
-            if (strpos($file, 'bundles/') === false) {
-                $file = 'cdn'.'/'.$file;
-            }
         }
 
         $baseUrl = urldecode($this->get('templating.helper.assets')->getUrl(''));
