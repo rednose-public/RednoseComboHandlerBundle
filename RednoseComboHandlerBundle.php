@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the RednoseCdnBundle package.
+ * This file is part of the RednoseComboHandlerBundle package.
  *
  * (c) RedNose <http://www.rednose.nl>
  *
@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Rednose\CdnBundle;
+namespace Rednose\ComboHandlerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Rednose\CdnBundle\DependencyInjection\Compiler\GroupPass;
+use Rednose\ComboHandlerBundle\DependencyInjection\Compiler\GroupPass;
 
 /**
  * @author Marc Bontje <marc@rednose.nl>
  * @author Sven Hagemann <sven@rednose.nl>
  */
-class RednoseCdnBundle extends Bundle
+class RednoseComboHandlerBundle extends Bundle
 {
     /**
      * {@inheritdoc}

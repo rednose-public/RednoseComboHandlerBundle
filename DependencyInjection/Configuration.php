@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the RednoseCdnBundle package.
+ * This file is part of the RednoseComboHandlerBundle package.
  *
  * (c) RedNose <http://www.rednose.nl>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rednose\CdnBundle\DependencyInjection;
+namespace Rednose\ComboHandlerBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;

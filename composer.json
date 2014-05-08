@@ -1,8 +1,8 @@
 {
-    "name": "rednose/cdn-bundle",
+    "name": "rednose/combo-handler-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony RednoseCdnBundle",
-    "keywords": ["cdn"],
+    "description": "Symfony RednoseComboHandlerBundle",
+    "keywords": ["combo_handler"],
     "homepage": "http://www.rednose.nl",
     "license": "MIT",
     "authors": [
@@ -30,7 +30,7 @@
         "oyatel/minify": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Rednose\\CdnBundle": "" }
+        "psr-0": { "Rednose\\ComboHandlerBundle": "" }
     },
-    "target-dir": "Rednose/CdnBundle"
+    "target-dir": "Rednose/ComboHandlerBundle"
 }

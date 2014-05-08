@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="rednose_cdn.twig.extension.minify" class="Rednose\CdnBundle\Twig\Extension\MinifyExtension" public="false">
+        <service id="rednose_combo_handler.twig.extension.minify" class="Rednose\ComboHandlerBundle\Twig\Extension\MinifyExtension" public="false">
             <tag name="twig.extension"/>
             <argument type="service" id="service_container"/>
         </service>

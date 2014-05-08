@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the RednoseCdnBundle package.
+ * This file is part of the RednoseComboHandlerBundle package.
  *
  * (c) RedNose <http://www.rednose.nl>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Rednose\CdnBundle\Templating\Helper;
+namespace Rednose\ComboHandlerBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,7 +47,7 @@ class MinifyHelper extends Helper
             $paths = array($paths);
         }
 
-        $minUrl = $this->container->get('router')->generate('rednose_cdn_combo');
+        $minUrl = $this->container->get('router')->generate('rednose_combo_handler_combo');
 
         foreach ($paths as &$path) {
             if ($basePath !== null) {

@@ -2,7 +2,7 @@
 
 
 /*
- * This file is part of the RednoseCdnBundle package.
+ * This file is part of the RednoseComboHandlerBundle package.
  *
  * (c) RedNose <http://www.rednose.nl>
  *
@@ -10,13 +10,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Rednose\CdnBundle\Controller;
+namespace Rednose\ComboHandlerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-use Rednose\CdnBundle\Logger\MinifyLogger;
-use Rednose\CdnBundle\Exception\Exception;
+use Rednose\ComboHandlerBundle\Logger\MinifyLogger;
+use Rednose\ComboHandlerBundle\Exception\Exception;
 
 /**
  * Controller for the Minifier
