@@ -50,6 +50,8 @@ class Configuration extends ContainerAware implements ConfigurationInterface
         $node
             ->children()
                 ->arrayNode('roots')
+                    // Don't normalize keys as Symfony (incorrectly) converts hyphens to underscores by default.
+                    ->normalizeKeys(false)
                     ->useAttributeAsKey('name')
                     ->prototype('scalar')->end()
                 ->end()
