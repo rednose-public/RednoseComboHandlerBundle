@@ -14,21 +14,14 @@ namespace Rednose\ComboHandlerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-
 use Rednose\ComboHandlerBundle\Logger\MinifyLogger;
-use Rednose\ComboHandlerBundle\Exception\Exception;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Controller for the Minifier
  */
 class MinifyController extends Controller
 {
-    protected $errorLogger = true;
-
-    protected $cacheFileLocking = true;
-
-    protected $uploaderHoursBehind = 0;
-
     /**
      * Minify a request of JavaScript/CSS files
      *
@@ -36,19 +29,14 @@ class MinifyController extends Controller
      */
     public function comboAction()
     {
-        $errorLogger = $this->errorLogger;
-        $cacheFileLocking = $this->cacheFileLocking;
-        $uploaderHoursBehind = $this->uploaderHoursBehind;
-
-        \Minify::$uploaderHoursBehind = $uploaderHoursBehind;
-        \Minify::setCache('', $cacheFileLocking);
-
-        if ($errorLogger) {
-            $errorLogger = MinifyLogger::getInstance(true);
-            \Minify_Logger::setLogger($errorLogger);
-        }
-
         ini_set('zlib.output_compression', '0');
+
+        \Minify::$uploaderHoursBehind = 0;
+        \Minify::setCache('', true);
+
+        if ($this->getKernel()->isDebug()) {
+            \Minify_Logger::setLogger(new MinifyLogger());
+        }
 
         $serveController = new \Minify_Controller_MinApp();
         $this->rewriteRequest();
@@ -80,13 +68,16 @@ class MinifyController extends Controller
         $_GET['f'] = implode(',', $files);
     }
 
+    /**
+     * @return array
+     */
     protected function getOptions()
     {
         return array(
             // Output an array of data instead of returning headers/content
             'quiet' => true,
 
-            // Allow all files inside the symfony2 root folder to be accessed
+            // Allow all files inside the Symfony2 root folder to be accessed
             'minApp' => array('allowDirs' => array(
                 __DIR__ . '/../../../../../../',
                 $_SERVER['DOCUMENT_ROOT']
@@ -98,5 +89,13 @@ class MinifyController extends Controller
                 \Minify::TYPE_JS  => '',
             ),
         );
+    }
+
+    /**
+     * @return Kernel
+     */
+    protected function getKernel()
+    {
+        return $this->get('kernel');
     }
 }

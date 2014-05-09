@@ -13,13 +13,15 @@ namespace Rednose\ComboHandlerBundle\Logger;
 
 class MinifyLogger
 {
-    static function getInstance($bool)
-    {
-        return new MinifyLogger;
-    }
-
+    /**
+     * @param string $msg
+     *
+     * @return MinifyLogger
+     *
+     * @throws \Exception when the request is invalid
+     */
     public function log($msg)
     {
-        throw new \Exception('Minify says:' . $msg);
+        throw new \Exception($msg);
     }
 }
