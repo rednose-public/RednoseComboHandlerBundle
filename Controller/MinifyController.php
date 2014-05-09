@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Rednose\ComboHandlerBundle\Logger\MinifyLogger;
 use Symfony\Component\HttpKernel\Kernel;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * Controller for the Minifier
@@ -25,10 +27,21 @@ class MinifyController extends Controller
     /**
      * Minify a request of JavaScript/CSS files
      *
+     * @param string $root
+     *
      * @return Response
+     *
+     * @Route("/combo/{root}", name="rednose_combo_handler_combo", defaults={"root" = null})
+     * @Method({"GET"})
      */
-    public function comboAction()
+    public function comboAction($root = null)
     {
+        $roots = $this->getRoots();
+
+        if ($root && !array_key_exists($root, $roots)) {
+            return new Response('', 400);
+        }
+
         ini_set('zlib.output_compression', '0');
 
         \Minify::$uploaderHoursBehind = 0;
@@ -38,13 +51,19 @@ class MinifyController extends Controller
             \Minify_Logger::setLogger(new MinifyLogger());
         }
 
-        $serveController = new \Minify_Controller_MinApp();
         $this->rewriteRequest();
-        $response = \Minify::serve($serveController, $this->getOptions());
+
+        $response = \Minify::serve(
+            new \Minify_Controller_MinApp(),
+            $this->getOptions($root && isset($roots[$root]) ? $roots[$root] : null)
+        );
 
         return new Response($response['content'], $response['statusCode'], $response['headers']);
     }
 
+    /**
+     * Hook into the GET request and format it according to Minify standards.
+     */
     protected function rewriteRequest()
     {
         $files = array_keys($this->get('request')->query->all());
@@ -69,21 +88,27 @@ class MinifyController extends Controller
     }
 
     /**
+     * @param string $root
+     *
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions($root = null)
     {
+        if ($root) {
+            $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'].'/'.$root;
+        }
+
         return array(
-            // Output an array of data instead of returning headers/content
+            // Output an array of data instead of returning headers/content.
             'quiet' => true,
 
-            // Allow all files inside the Symfony2 root folder to be accessed
+            // Allow all files inside the Symfony root folder to be accessed.
             'minApp' => array('allowDirs' => array(
                 __DIR__ . '/../../../../../../',
                 $_SERVER['DOCUMENT_ROOT']
             )),
 
-            // Don't minify, the script is already minified.
+            // Don't minify, we're just providing a combo service.
             'minifiers' => array(
                 \Minify::TYPE_CSS => '',
                 \Minify::TYPE_JS  => '',
@@ -97,5 +122,13 @@ class MinifyController extends Controller
     protected function getKernel()
     {
         return $this->get('kernel');
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRoots()
+    {
+        return $this->container->getParameter('rednose_combo_handler.roots');
     }
 }

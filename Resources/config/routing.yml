@@ -1,0 +1,4 @@
+rednose_combo_handler:
+    resource: "@RednoseComboHandlerBundle/Controller/"
+    type:     annotation
+    prefix:   /

@@ -14,6 +14,7 @@ namespace Rednose\ComboHandlerBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 /**
  * This class contains the configuration information for the bundle.
@@ -26,6 +27,9 @@ class Configuration extends ContainerAware implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
+        $rootNode    = $treeBuilder->root('rednose_combo_handler', 'array');
+
+        $this->addRootsSection($rootNode);
 
         return $treeBuilder;
     }
@@ -36,5 +40,19 @@ class Configuration extends ContainerAware implements ConfigurationInterface
     public function getConfigTree()
     {
         return $this->getConfigTreeBuilder()->buildTree();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $node
+     */
+    private function addRootsSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('roots')
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')->end()
+                ->end()
+            ->end();
     }
 }
