@@ -75,7 +75,7 @@ class MinifyController extends Controller
      */
     public static function rewriteUris($css, $options = array())
     {
-        // Prepend the base URL and symlink schema so the proper root path gets appended.
+        // Prepend the base URL and symlink schema so the proper root path gets prepended.
         $symlinks = array();
 
         if (is_link($_SERVER['DOCUMENT_ROOT'])) {
