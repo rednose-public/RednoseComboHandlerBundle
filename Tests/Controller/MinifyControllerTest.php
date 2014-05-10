@@ -14,7 +14,6 @@ namespace Rednose\ComboHandlerBundle\Tests\Controller;
 
 use Rednose\ComboHandlerBundle\Controller\MinifyController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RequestContext;
 
@@ -30,21 +29,12 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected $container;
 
-    /**
-     * @var Request
-     */
-    protected $request;
-
     public function setUp()
     {
         $this->setDocumentRoot(__DIR__.'/web/');
         $this->setQuery('');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
-        $request = new Request();
-
-        $this->request = $request;
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\Kernel', array(), array(), '', false, false);
 
