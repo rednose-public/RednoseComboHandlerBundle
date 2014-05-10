@@ -38,6 +38,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->setDocumentRoot(__DIR__.'/web/');
+        $this->setQuery('');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
@@ -67,10 +68,8 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function ($id) use ($request, $kernel, $router) {
+            ->will($this->returnCallback(function ($id) use ($kernel, $router) {
                 switch ($id) {
-                    case 'request':
-                        return $request;
                     case 'kernel':
                         return $kernel;
                     case 'router':
@@ -111,7 +110,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNonExistingFileReturnsBadRequest()
     {
-        $this->request->query->set('css/non-existent.css', null);
+        $this->setQuery('css/non-existent.css');
 
         $response = $this->controller->comboAction();
 
@@ -123,7 +122,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCssFile()
     {
-        $this->request->query->set('css/blue.css', null);
+        $this->setQuery('css/blue.css');
 
         $response = $this->controller->comboAction();
 
@@ -136,9 +135,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCssFiles()
     {
-        $this->request->query->set('css/blue.css', null);
-        $this->request->query->set('css/red.css', null);
-        $this->request->query->set('css/yellow.css', null);
+        $this->setQuery('css/blue.css&css/red.css&css/yellow.css');
 
         $expected = $this->getContent('blue', 'css').$this->getContent('red', 'css').$this->getContent('yellow', 'css');
 
@@ -153,7 +150,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJsFile()
     {
-        $this->request->query->set('js/console.js', null);
+        $this->setQuery('js/console.js');
 
         $response = $this->controller->comboAction();
 
@@ -166,9 +163,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJsFiles()
     {
-        $this->request->query->set('js/console.js', null);
-        $this->request->query->set('js/debug.js', null);
-        $this->request->query->set('js/info.js', null);
+        $this->setQuery('js/console.js&js/debug.js&js/info.js');
 
         $separator = "\n;";
 
@@ -185,7 +180,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCssFileFromCustomRoot()
     {
-        $this->request->query->set('blue.css', null);
+        $this->setQuery('blue.css');
 
         $response = $this->controller->comboAction('css');
 
@@ -198,7 +193,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJsFileFromCustomRoot()
     {
-        $this->request->query->set('console.js', null);
+        $this->setQuery('console.js');
 
         $response = $this->controller->comboAction('js');
 
@@ -211,7 +206,7 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidRootReturnsBadRequest()
     {
-        $this->request->query->set('console.js', null);
+        $this->setQuery('blue.css');
 
         $response = $this->controller->comboAction('invalid');
 
@@ -241,5 +236,13 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
     protected function setDocumentRoot($root)
     {
         $_SERVER['DOCUMENT_ROOT'] = $root;
+    }
+
+    /**
+     * @param string $query
+     */
+    protected function setQuery($query)
+    {
+        $_SERVER['QUERY_STRING'] = $query;
     }
 }

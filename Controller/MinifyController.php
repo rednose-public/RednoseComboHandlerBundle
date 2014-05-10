@@ -53,13 +53,10 @@ class MinifyController extends Controller
         }
 
         // Hook into the GET request and format it according to Minify standards.
-        $files = array_keys($this->getRequest()->query->all());
 
-        foreach ($files as &$file) {
-            $file = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
-        }
-
-        $_GET['f'] = implode(',', $files);
+        // We can't use the PHP $_GET variable as PHP parses GET keys to PHP variables,
+        // meaning characters like dots are replaced by underscores.
+        $_GET['f'] = implode(',', $this->tokenizeQuery($_SERVER['QUERY_STRING']));
 
         $response = \Minify::serve(
             new \Minify_Controller_MinApp(),
@@ -116,5 +113,17 @@ class MinifyController extends Controller
     protected function getRoots()
     {
         return $this->container->getParameter('rednose_combo_handler.roots');
+    }
+
+    /**
+     * Returns the keys within a query string.
+     *
+     * @param string $query
+     *
+     * @return array
+     */
+    protected function tokenizeQuery($query)
+    {
+        return explode('&', $query);
     }
 }
