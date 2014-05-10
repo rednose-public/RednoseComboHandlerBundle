@@ -1,7 +1,7 @@
 RednoseComboHandlerBundle
 =========================
 
-**Caution:** For Symfony 2.1.x or higher.
+**Caution:** This bundle requires Symfony 2.3.x.
 
 License
 -------
