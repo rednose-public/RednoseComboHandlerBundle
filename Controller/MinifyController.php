@@ -89,9 +89,9 @@ class MinifyController extends Controller
                 $_SERVER['DOCUMENT_ROOT']
             )),
 
-            // Don't minify, we're just providing a combo service.
+            // CSS needs to be minified so CSS URIs are rewritten. Don't minify JavaScript, we're just providing a combo service.
             'minifiers' => array(
-                \Minify::TYPE_CSS => '',
+                \Minify::TYPE_CSS => array('Minify_CSS', 'minify'),
                 \Minify::TYPE_JS  => '',
             ),
         );
