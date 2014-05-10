@@ -37,13 +37,13 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $self = $this;
-
         $this->setDocumentRoot(__DIR__.'/web/');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $this->request = new Request();
+        $request = new Request();
+
+        $this->request = $request;
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\Kernel', array(), array(), '', false, false);
 
@@ -67,10 +67,10 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function ($id) use ($self, $kernel, $router) {
+            ->will($this->returnCallback(function ($id) use ($request, $kernel, $router) {
                 switch ($id) {
                     case 'request':
-                        return $self->request;
+                        return $request;
                     case 'kernel':
                         return $kernel;
                     case 'router':
