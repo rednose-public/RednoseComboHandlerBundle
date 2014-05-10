@@ -18,6 +18,7 @@ use Rednose\ComboHandlerBundle\Logger\MinifyLogger;
 use Symfony\Component\HttpKernel\Kernel;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Router;
 
 /**
  * Controller for the Minifier
@@ -47,11 +48,18 @@ class MinifyController extends Controller
         \Minify::$uploaderHoursBehind = 0;
         \Minify::setCache('', true);
 
-        if ($this->getKernel()->isDebug()) {
+        if ($this->get('kernel')->isDebug()) {
             \Minify_Logger::setLogger(new MinifyLogger());
         }
 
-        $this->rewriteRequest();
+        // Hook into the GET request and format it according to Minify standards.
+        $files = array_keys($this->getRequest()->query->all());
+
+        foreach ($files as &$file) {
+            $file = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
+        }
+
+        $_GET['f'] = implode(',', $files);
 
         $response = \Minify::serve(
             new \Minify_Controller_MinApp(),
@@ -62,40 +70,16 @@ class MinifyController extends Controller
     }
 
     /**
-     * Hook into the GET request and format it according to Minify standards.
-     */
-    protected function rewriteRequest()
-    {
-        $files = array_keys($this->get('request')->query->all());
-
-        foreach ($files as &$file) {
-            $file  = str_replace(array('_js', '_css'), array('.js', '.css'), $file);
-        }
-
-        $baseUrl = urldecode($this->get('templating.helper.assets')->getUrl(''));
-
-        $_GET = array();
-
-        if ($baseUrl !== '/') {
-            if (isset($_GET['b'])) {
-                $_GET['b'] .= trim($baseUrl, '/');
-            } else {
-                $_GET['b'] = trim($baseUrl, '/');
-            }
-        }
-
-        $_GET['f'] = implode(',', $files);
-    }
-
-    /**
      * @param string $root
      *
      * @return array
      */
     protected function getOptions($root = null)
     {
+        $_SERVER['DOCUMENT_ROOT'] .= $this->getBaseUrl();
+
         if ($root) {
-            $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'].'/'.$root;
+            $_SERVER['DOCUMENT_ROOT'] .= '/'.$root;
         }
 
         return array(
@@ -117,11 +101,13 @@ class MinifyController extends Controller
     }
 
     /**
-     * @return Kernel
+     * Returns the normalized base URL.
+     *
+     * @return string
      */
-    protected function getKernel()
+    protected function getBaseUrl()
     {
-        return $this->get('kernel');
+        return str_replace('app_dev.php', '', $this->container->get('router')->getContext()->getBaseUrl());
     }
 
     /**

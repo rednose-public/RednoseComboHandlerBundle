@@ -41,8 +41,6 @@ class MinifyHelper extends Helper
      */
     public function getUrl($paths, $basePath = null)
     {
-        $parameters = array();
-
         if (is_array($paths) === false) {
             $paths = array($paths);
         }
