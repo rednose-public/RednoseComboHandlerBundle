@@ -95,9 +95,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->setContainer($this->container);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testNoFilesReturnsBadRequest()
     {
         $response = $this->controller->comboAction();
@@ -105,9 +102,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(400, $response->getStatusCode());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testNonExistingFileReturnsBadRequest()
     {
         $this->setQuery('css/non-existent.css');
@@ -117,9 +111,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(400, $response->getStatusCode());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetCssFile()
     {
         $this->setQuery('css/blue.css');
@@ -130,9 +121,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->getContent('blue', 'css'), $response->getContent());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetCssFiles()
     {
         $this->setQuery('css/blue.css&css/red.css&css/yellow.css');
@@ -145,9 +133,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $response->getContent());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetJsFile()
     {
         $this->setQuery('js/console.js');
@@ -158,9 +143,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->getContent('console', 'js'), $response->getContent());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetJsFiles()
     {
         $this->setQuery('js/console.js&js/debug.js&js/info.js');
@@ -175,9 +157,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $response->getContent());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetCssFileFromCustomRoot()
     {
         $this->setQuery('blue.css');
@@ -188,9 +167,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->getContent('blue', 'css'), $response->getContent());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetJsFileFromCustomRoot()
     {
         $this->setQuery('console.js');
@@ -201,9 +177,6 @@ class MinifyControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->getContent('console', 'js'), $response->getContent());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testInvalidRootReturnsBadRequest()
     {
         $this->setQuery('blue.css');

@@ -43,8 +43,6 @@ class MinifyController extends Controller
             return new Response('', 400);
         }
 
-        ini_set('zlib.output_compression', '0');
-
         \Minify::$uploaderHoursBehind = 0;
         \Minify::setCache('', true);
 
