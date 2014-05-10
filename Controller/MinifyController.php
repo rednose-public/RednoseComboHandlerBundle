@@ -44,10 +44,11 @@ class MinifyController extends Controller
         }
 
         \Minify::$uploaderHoursBehind = 0;
-        \Minify::setCache('', true);
 
         if ($this->get('kernel')->isDebug()) {
             \Minify_Logger::setLogger(new MinifyLogger());
+        } else {
+            \Minify::setCache('', true);
         }
 
         // Hook into the GET request and format it according to Minify standards.
@@ -65,6 +66,28 @@ class MinifyController extends Controller
     }
 
     /**
+     * Rewrite CSS URIs.
+     *
+     * @param string $css
+     * @param array  $options
+     *
+     * @return string
+     */
+    public static function rewriteUris($css, $options = array())
+    {
+        // Prepend the base URL and symlink schema so the proper root path gets appended.
+        $symlinks = array();
+
+        if (is_link($_SERVER['DOCUMENT_ROOT'])) {
+            $symlinks = array(
+                '/'.$options['baseUrl'] => readlink($_SERVER['DOCUMENT_ROOT'])
+            );
+        }
+
+        return \Minify_CSS_UriRewriter::rewrite($css, $options['currentDir'], $_SERVER['DOCUMENT_ROOT'], $symlinks);
+    }
+
+    /**
      * @param string $root
      *
      * @return array
@@ -74,7 +97,7 @@ class MinifyController extends Controller
         $_SERVER['DOCUMENT_ROOT'] .= $this->getBaseUrl();
 
         if ($root) {
-            $_SERVER['DOCUMENT_ROOT'] .= '/'.$root;
+            $_SERVER['DOCUMENT_ROOT'] .= $root;
         }
 
         return array(
@@ -87,11 +110,15 @@ class MinifyController extends Controller
                 $_SERVER['DOCUMENT_ROOT']
             )),
 
-            // CSS needs to be minified so CSS URIs are rewritten. Don't minify JavaScript, we're just providing a combo service.
+            // CSS URIs are rewritten. Don't minify JavaScript, we're just providing a combo service.
             'minifiers' => array(
-                \Minify::TYPE_CSS => array('Minify_CSS', 'minify'),
+                \Minify::TYPE_CSS => array('Rednose\ComboHandlerBundle\Controller\MinifyController', 'rewriteUris'),
                 \Minify::TYPE_JS  => '',
             ),
+
+            'minifierOptions' => array(
+                \Minify::TYPE_CSS => array('baseUrl' => $this->getBaseUrl().$root)
+            )
         );
     }
 
@@ -102,7 +129,13 @@ class MinifyController extends Controller
      */
     protected function getBaseUrl()
     {
-        return str_replace('app_dev.php', '', $this->container->get('router')->getContext()->getBaseUrl());
+        $baseUrl = $this->container->get('router')->getContext()->getBaseUrl();
+
+        if ($baseUrl === '/') {
+            return '';
+        }
+
+        return rtrim(str_replace('app_dev.php', '', $this->container->get('router')->getContext()->getBaseUrl()), '/').'/';
     }
 
     /**
