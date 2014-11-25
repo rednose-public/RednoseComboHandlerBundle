@@ -104,9 +104,14 @@ class MinifyController extends Controller
             // Output an array of data instead of returning headers/content.
             'quiet' => true,
 
-            // Allow all files inside the Symfony root folder to be accessed.
             'minApp' => array('allowDirs' => array(
+                // FIXME: Temp hotfix, to allow Bower repos to be linked one level below the project root-dir.
+                __DIR__ . '/../../../../../../../',
+
+                // FIXME: Allow all files inside the Symfony root folder to be accessed, in case files are symlinked to it.
                 __DIR__ . '/../../../../../../',
+
+                // Allow files in the configured combo-root to be accessed.
                 $_SERVER['DOCUMENT_ROOT']
             )),
 
