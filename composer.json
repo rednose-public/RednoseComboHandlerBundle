@@ -26,5 +26,10 @@
     "autoload": {
         "psr-0": { "Rednose\\ComboHandlerBundle": "" }
     },
-    "target-dir": "Rednose/ComboHandlerBundle"
+    "target-dir": "Rednose/ComboHandlerBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
 }

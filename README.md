@@ -1,4 +1,4 @@
-RednoseComboHandlerBundle
+RednoseComboHandlerBundle [![Build status...](https://secure.travis-ci.org/rednose-public/RednoseComboHandlerBundle.png?branch=master)](http://travis-ci.org/rednose-public/RednoseComboHandlerBundle)
 =========================
 
 **Caution:** This bundle requires Symfony 2.3.x.
