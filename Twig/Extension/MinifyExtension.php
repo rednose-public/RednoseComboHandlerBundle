@@ -35,9 +35,9 @@ class MinifyExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            'minify' => new \Twig_Function_Method($this, 'getMinifyUrl'),
-        );
+        return [
+            new \Twig_SimpleFunction('minify', array($this, 'getMinifyUrl'))
+        ];
     }
 
     /**
